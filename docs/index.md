@@ -1,0 +1,212 @@
+---
+hide:
+- navigation
+---
+# Home
+<div align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/logo_dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/logo_light.svg">
+  <img width="400" height="400" src="assets/logo_dark.svg">
+</picture>
+</div>
+<p align="center">
+  <img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/EMalagoli92/3f159a4246243b883a5c817ca2d34baa/raw/unit_test.json?kill_cache=1" />
+  <img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/EMalagoli92/d23fd688b541d4b303d2baa6ee87e51a/raw/mypy.json?kill_cache=1" />
+  <img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/EMalagoli92/3ab4a977b9a0e4ccb7178dd1fa51e1b0/raw/pylint.json?kill_cache=1" />
+  <img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/EMalagoli92/331395960725a4b47d4ca4977a24e949/raw/version.json?kill_cache=1" />
+  <a href="https://github.com/EMalagoli92/OD-Metrics/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT">
+  </a>  
+</p>
+
+<p align="center">
+  <strong>
+    A metrics package for Object Detection.
+  </strong>
+</p>
+
+## Why OD-Metrics?
+- User-friendly
+- Customizable
+- Fast
+- Complete compatibility with [COCOAPI](https://github.com/cocodataset/cocoapi) results
+
+Supported metrics are:
+
+- Mean Average Precision `mAP`
+- Mean Average Recall `mAR`
+- Intersection over Union`IoU`.
+
+
+## Installation
+Install from PyPI
+```
+pip install od-metrics
+```
+Install from Github
+```
+pip install git+https://github.com/EMalagoli92/OD-Metrics
+```
+
+
+## Usage
+### Simple example.
+Suppose to have `2` images with:
+
+- `image1`:
+    - `2` ground truth bounding boxes, each belonging to `0` class;
+    - `3` predictions bounding boxes, each labelled as `0` class, with scores `[.88, .70, .80]`;
+- `image2`:
+    - `2` ground truth bounding boxes, each belonging to `0` class;
+    - `3` predictions bounding boxes, each labelled as `0` class, with scores `[.71, .54, .74]`.
+
+``` py title="simple_example"
+from od_metrics import ODMetrics
+
+# Ground truths
+y_true = [
+    { # image 1
+     "boxes": [[25, 16, 38, 56], [129, 123, 41, 62]],
+     "labels": [0, 0]
+     },
+    { # image 2
+     "boxes": [[123, 11, 43, 55], [38, 132, 59, 45]],
+     "labels": [0, 0]
+     }
+    ]
+
+# Predictions
+y_pred = [
+    { # image 1
+     "boxes": [[25, 17, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
+     "labels": [0, 0, 0],
+     "scores": [.88, .70, .80]
+     },
+    { # image 2
+     "boxes": [[64, 111, 64, 58], [26, 140, 60, 47], [19, 18, 43, 35]],
+     "labels": [0, 0, 0],
+     "scores": [.71, .54, .74]
+     }
+    ]
+
+metrics = ODMetrics()
+output = metrics.compute(y_true, y_pred)
+print(output)
+"""
+{'mAP@[.5 | all | 100]': 0.2574257425742574,
+ 'mAP@[.5:.95 | all | 100]': 0.23168316831683164,
+ 'mAP@[.5:.95 | large | 100]': -1.0,
+ 'mAP@[.5:.95 | medium | 100]': 0.23168316831683164,
+ 'mAP@[.5:.95 | small | 100]': -1.0,
+ 'mAP@[.75 | all | 100]': 0.2574257425742574,
+ 'mAR@[.5 | all | 100]': 0.25,
+ 'mAR@[.5:.95 | all | 100]': 0.225,
+ 'mAR@[.5:.95 | all | 10]': 0.225,
+ 'mAR@[.5:.95 | all | 1]': 0.225,
+ 'mAR@[.5:.95 | large | 100]': -1.0,
+ 'mAR@[.5:.95 | medium | 100]': 0.225,
+ 'mAR@[.5:.95 | small | 100]': -1.0,
+ 'mAR@[.75 | all | 100]': 0.25,
+ 'classes': [0],
+ 'n_images': 2}
+"""
+```
+Using standard `COCO` settings
+(see [__init__][src.od_metrics.od_metrics.ODMetrics.__init__] method),
+the `output` will be a `dict` with the above keys.<br>
+For the required format that `y_true` and `y_pred` must take please refers to
+[compute][src.od_metrics.od_metrics.ODMetrics.compute] method.
+
+### Custom settings
+Instead of the default `COCO` settings, custom settings can be specified.
+
+``` py title="custom_settings"
+from od_metrics import ODMetrics
+
+# Ground truths
+y_true = [
+    { # image 1
+     "boxes": [[25, 16, 38, 56], [129, 123, 41, 62]],
+     "labels": [0, 0]
+     },
+    { # image 2
+     "boxes": [[123, 11, 43, 55], [38, 132, 59, 45]],
+     "labels": [0, 0]
+     }
+    ]
+
+# Predictions
+y_pred = [
+    { # image 1
+     "boxes": [[25, 17, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
+     "labels": [0, 0, 0],
+     "scores": [.88, .70, .80]
+     },
+    { # image 2
+     "boxes": [[64, 111, 64, 58], [26, 140, 60, 47], [19, 18, 43, 35]],
+     "labels": [0, 0, 0],
+     "scores": [.71, .54, .74]
+     }
+    ]
+
+metrics = ODMetrics(iou_thresholds=.4)
+output = metrics.compute(y_true, y_pred)
+print(output)
+"""
+{'mAP@[.4 | all | 100]': 0.5049504950495048,
+ 'mAP@[.4 | large | 100]': -1.0,
+ 'mAP@[.4 | medium | 100]': 0.5049504950495048,
+ 'mAP@[.4 | small | 100]': -1.0,
+ 'mAR@[.4 | all | 100]': 0.75,
+ 'mAR@[.4 | all | 10]': 0.75,
+ 'mAR@[.4 | all | 1]': 0.25,
+ 'mAR@[.4 | large | 100]': -1.0,
+ 'mAR@[.4 | medium | 100]': 0.75,
+ 'mAR@[.4 | small | 100]': -1.0,
+ 'classes': [0],
+ 'n_images': 2}
+"""
+```
+
+``` py
+from od_metrics import ODMetrics
+
+# Ground truths
+y_true = [
+    { # image 1
+     "boxes": [[25, 16, 38, 56], [129, 123, 41, 62]],
+     "labels": [0, 0]
+     },
+    { # image 2
+     "boxes": [[123, 11, 43, 55], [38, 132, 59, 45]],
+     "labels": [0, 0]
+     }
+    ]
+
+# Predictions
+y_pred = [
+    { # image 1
+     "boxes": [[25, 17, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
+     "labels": [0, 0, 0],
+     "scores": [.88, .70, .80]
+     },
+    { # image 2
+     "boxes": [[64, 111, 64, 58], [26, 140, 60, 47], [19, 18, 43, 35]],
+     "labels": [0, 0, 0],
+     "scores": [.71, .54, .74]
+     }
+    ]
+
+metrics = ODMetrics()
+output = metrics.compute(y_true, y_pred, extended_summary=True)
+```
+
+## API Reference
+::: src.od_metrics.od_metrics
+    selection:
+      docstring_style: numpy
+
+## License
+
+This work is made available under the [MIT License](https://github.com/EMalagoli92/OD-Metrics/blob/main/LICENSE)

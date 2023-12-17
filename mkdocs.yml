@@ -1,0 +1,36 @@
+site_name: Od-Metrics
+
+theme:
+  name: "material"
+  palette:
+    scheme: slate
+    primary: amber
+  logo: assets/logo_small.svg
+  features:
+    - content.code.copy
+    - content.code.select
+ 
+plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: numpy
+  - search
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+markdown_extensions:
+  - mdx_math
+  - toc:
+      toc_depth: 2
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+extra_css:
+  - assets/custom.css
+repo_name: OD-Metrics
+repo_url: https://github.com/EMalagoli92/OD-metrics  

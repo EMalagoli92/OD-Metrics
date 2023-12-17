@@ -1,0 +1,3 @@
+numpy==1.24.3
+parameterized==0.9.0
+pydantic==2.5.2

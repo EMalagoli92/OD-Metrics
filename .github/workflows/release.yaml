@@ -1,0 +1,138 @@
+name: "Release"
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  test:
+    name: "Test"
+    runs-on: "ubuntu-latest"
+    permissions: write-all
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Set up venv
+        run: |
+          sudo apt install python3-venv
+          sudo python -m venv venv
+      - name: Unit test
+        run: |
+          sudo venv/bin/python -m pip install -r requirements.txt
+          sudo venv/bin/python -m pip install pycocotools==2.0.7
+          sudo venv/bin/python -m unittest discover tests
+      - name: Mypy
+        run: |
+          sudo venv/bin/python -m pip install mypy
+          sudo venv/bin/python -m mypy src
+      - name: Pylint
+        run: |
+          sudo venv/bin/python -m pip install pylint
+          sudo venv/bin/python -m pylint src
+  update-badge-success:
+    name: "Update badge success"
+    runs-on: "ubuntu-latest"
+    permissions: write-all
+    needs: test
+    if: success()
+    steps:
+      - name: Unit test badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 3f159a4246243b883a5c817ca2d34baa
+          filename: unit_test.json
+          label: unit test
+          message: passed
+          color: brightgreen
+          style: flat-square
+          forceUpdate: true
+      - name: Mypy badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: d23fd688b541d4b303d2baa6ee87e51a
+          filename: mypy.json
+          label: mypy
+          message: passed
+          color: brightgreen
+          style: flat-square
+          forceUpdate: true
+      - name: Pylint badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 3ab4a977b9a0e4ccb7178dd1fa51e1b0
+          filename: pylint.json
+          label: pylint
+          message: passed
+          color: brightgreen
+          style: flat-square
+          forceUpdate: true
+  update-badge-failure:
+    name: "Update badge failure"
+    runs-on: "ubuntu-latest"
+    permissions: write-all
+    needs: test
+    if: failure()
+    steps:
+      - name: Unit test badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 3f159a4246243b883a5c817ca2d34baa
+          filename: unit_test.json
+          label: unit test
+          message: not-passed
+          color: red
+          style: flat-square
+          forceUpdate: true
+      - name: Mypy badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: d23fd688b541d4b303d2baa6ee87e51a
+          filename: mypy.json
+          label: mypy
+          message: not-passed
+          color: red
+          style: flat-square
+          forceUpdate: true
+      - name: Pylint badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 3ab4a977b9a0e4ccb7178dd1fa51e1b0
+          filename: pylint.json
+          label: pylint
+          message: not-passed
+          color: red
+          style: flat-square
+          forceUpdate: true
+  release:
+    name: "Tagged Release"
+    runs-on: "ubuntu-latest"
+    permissions: write-all
+    needs: test
+    steps:
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        id: create_release
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+      - name: Versione badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 331395960725a4b47d4ca4977a24e949
+          filename: version.json
+          label: release
+          message: ${{ steps.create_release.outputs.automatic_releases_tag }}
+          color: orange
+          style: flat-square
+          forceUpdate: true

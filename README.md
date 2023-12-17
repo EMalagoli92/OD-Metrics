@@ -1,0 +1,80 @@
+<div align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/EMalagoli92/Od-metrics/blob/main/docs/assets/logo_dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/EMalagoli92/Od-metrics/blob/main/docs/assets/logo_light.svg">
+  <img width="400" height="400" src="https://github.com/EMalagoli92/Od-metrics/blob/main/docs/assets/logo_dark.svg">
+</picture>
+</div>
+<p align="center">
+  <img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/EMalagoli92/3f159a4246243b883a5c817ca2d34baa/raw/unit_test.json?kill_cache=1" />
+  <img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/EMalagoli92/d23fd688b541d4b303d2baa6ee87e51a/raw/mypy.json?kill_cache=1" />
+  <img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/EMalagoli92/3ab4a977b9a0e4ccb7178dd1fa51e1b0/raw/pylint.json?kill_cache=1" />
+  <img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/EMalagoli92/331395960725a4b47d4ca4977a24e949/raw/version.json?kill_cache=1" />
+  <a href="https://github.com/EMalagoli92/OD-Metrics/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT">
+  </a>
+</p>
+
+<p align="center">
+  <strong>
+    A metrics package for Object Detection.
+  </strong>
+</p>
+
+## Installation
+Install from PyPI
+```
+pip install od-metrics
+```
+Install from Github
+```
+pip install git+https://github.com/EMalagoli92/OD-Metrics
+```
+
+## Documentation
+For help, usage and API reference, please refer to [Documentation](https://emalagoli92.github.io/OD-Metrics/)
+
+
+## Simple Example
+
+```python
+from od_metrics import ODMetrics
+
+# Ground truths
+y_true = [
+    { # image 1
+     "boxes": [[25, 16, 38, 56], [129, 123, 41, 62]],
+     "labels": [0, 0]
+     },
+    { # image 2
+     "boxes": [[123, 11, 43, 55], [38, 132, 59, 45]],
+     "labels": [0, 0]
+     }
+    ]
+
+# Predictions
+y_pred = [
+    { # image 1
+     "boxes": [[5, 67, 31, 48], [119, 111, 40, 67], [124, 9, 49, 67]],
+     "labels": [0, 0, 0],
+     "scores": [.88, .70, .80]
+     },
+    { # image 2
+     "boxes": [[64, 111, 64, 58], [26, 140, 60, 47], [19, 18, 43, 35]],
+     "labels": [0, 0, 0],
+     "scores": [.71, .54, .74]
+     }
+    ]
+
+metrics = ODMetrics()
+output = metrics.compute(y_true, y_pred)
+```
+
+
+## Aknowledgment
+- [TorchMetrics](https://github.com/Lightning-AI/torchmetrics)
+- [COCO API](https://github.com/cocodataset/cocoapi)
+- [Object-Detection-Metrics](https://github.com/rafaelpadilla/Object-Detection-Metrics)
+
+## License
+This work is made available under the [MIT License](https://github.com/EMalagoli92/OD-Metrics/blob/main/LICENSE)
