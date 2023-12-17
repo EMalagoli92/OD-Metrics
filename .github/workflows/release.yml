@@ -156,10 +156,10 @@ jobs:
       - name: Set up venv
         run: |
           sudo apt install python3-venv
-          sudo python -m venv venv
-          sudo python -m pip install build
+          sudo venv/bin/python -m venv venv
+          sudo venv/bin/python -m pip install build
       - name: Build
         run: |
-          python -m build
+          sudo venv/bin/python -m build
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
