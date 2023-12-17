@@ -136,14 +136,30 @@ jobs:
           color: orange
           style: flat-square
           forceUpdate: true
-  pypi-publish:
+  build-publish:
     name: Upload release to PyPI
     runs-on: ubuntu-latest
+    needs: release
+    if: success()
     environment:
       name: pypi
       url: https://pypi.org/p/od-metrics
     permissions:
       id-token: write
     steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Set up venv
+        run: |
+          sudo apt install python3-venv
+          sudo python -m venv venv
+          sudo python -m pip install build
+      - name: Build
+        run: |
+          python -m build
     - name: Publish package distributions to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
