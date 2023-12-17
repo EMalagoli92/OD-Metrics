@@ -156,6 +156,7 @@ jobs:
       - name: Set up venv
         run: |
           sudo apt install python3-venv
+          sudo python -m venv venv
           sudo venv/bin/python -m venv venv
           sudo venv/bin/python -m pip install build
       - name: Build
