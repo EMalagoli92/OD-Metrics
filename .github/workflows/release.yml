@@ -141,11 +141,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: release
     if: success()
-    environment:
-      name: pypi
-      url: https://pypi.org/p/od-metrics
-    permissions:
-      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@master
@@ -162,5 +157,7 @@ jobs:
       - name: Build
         run: |
           sudo venv/bin/python -m build
-      - name: Publish package distributions to PyPI
+      - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
