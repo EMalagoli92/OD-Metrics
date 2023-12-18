@@ -52,15 +52,17 @@ pip install git+https://github.com/EMalagoli92/OD-Metrics
 
 ## Usage
 ### Simple example.
-Suppose to have `2` images with:
+Suppose to be in the following situation. You have `2` images with:
 
 - `image1`:
-    - `2` ground truth bounding boxes, each belonging to `0` class;
-    - `3` predictions bounding boxes, each labelled as `0` class, with scores `[.88, .70, .80]`;
+    - `2` ground truth bounding boxes, one belonging to `0` class and one to `1` class;
+    - `3` predictions bounding boxes, with `labels` `[0, 1, 1]` and `scores` `[.88, .70, .80]`;
 - `image2`:
     - `2` ground truth bounding boxes, each belonging to `0` class;
-    - `3` predictions bounding boxes, each labelled as `0` class, with scores `[.71, .54, .74]`.
+    - `3` predictions bounding boxes, with `labels` `[0, 1, 0]`, with `scores` `[.71, .54, .74]`.
 
+The `mAP` (Mean Average Precision) and `mAR` (Mean Average Recall)
+for the previous situation can be calculated as follows:
 ``` py title="simple_example"
 from od_metrics import ODMetrics
 
@@ -112,9 +114,7 @@ print(output)
  'n_images': 2}
 """
 ```
-Using standard `COCO` settings
-(see [__init__][src.od_metrics.od_metrics.ODMetrics.__init__] method),
-the `output` will be a `dict` with the above keys.<br>
+By default, `ODMetrics` uses `COCO` settings (see [__init__][src.od_metrics.od_metrics.ODMetrics.__init__] method).
 For the required format that `y_true` and `y_pred` must take please refers to
 [compute][src.od_metrics.od_metrics.ODMetrics.compute] method.
 
