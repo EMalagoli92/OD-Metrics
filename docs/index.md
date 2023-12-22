@@ -52,14 +52,16 @@ pip install git+https://github.com/EMalagoli92/OD-Metrics
 
 ## Usage
 ### Simple example.
-Suppose to be in the following situation. You have `2` images with:
+Suppose to be in the following situation. 
+!!! Example
+    You have `2` images with:
 
-- `image1`:
-    - `2` ground truth bounding boxes, one belonging to `0` class and one to `1` class;
-    - `3` predictions bounding boxes, with `labels` `[0, 1, 1]` and `scores` `[.88, .70, .80]`;
-- `image2`:
-    - `2` ground truth bounding boxes, each belonging to `0` class;
-    - `3` predictions bounding boxes, with `labels` `[0, 1, 0]`, with `scores` `[.71, .54, .74]`.
+    - `image1`:
+        - `2` ground truth bounding boxes, one belonging to `0` class and one to `1` class;
+        - `3` predictions bounding boxes, with `labels` `[0, 1, 1]` and `scores` `[.88, .70, .80]`;
+    - `image2`:
+        - `2` ground truth bounding boxes, each belonging to `0` class;
+        - `3` predictions bounding boxes, with `labels` `[0, 1, 0]`, with `scores` `[.71, .54, .74]`.
 
 The `mAP` (Mean Average Precision) and `mAR` (Mean Average Recall)
 for the previous situation can be calculated as follows:
@@ -114,12 +116,13 @@ print(output)
  'n_images': 2}
 """
 ```
-By default, `ODMetrics` uses `COCO` settings (see [__init__][src.od_metrics.od_metrics.ODMetrics.__init__] method).
-For the required format that `y_true` and `y_pred` must take please refers to
-[compute][src.od_metrics.od_metrics.ODMetrics.compute] method.
+
 
 ### Custom settings
-Instead of the default `COCO` settings, custom settings can be specified.
+By default, `ODMetrics` uses `COCO` settings (see [__init__][src.od_metrics.od_metrics.ODMetrics.__init__] method).
+Instead of the default `COCO` settings, custom settings can be specified.<br>
+For example, if one is interested in a threshold value of `0.4`, this can be specified
+directly in 
 
 ``` py title="custom_settings"
 from od_metrics import ODMetrics
