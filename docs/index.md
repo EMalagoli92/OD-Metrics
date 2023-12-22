@@ -22,21 +22,19 @@ hide:
 
 <p align="center">
   <strong>
-    A metrics package for Object Detection.
+    A metrics package for Object Detection. 
   </strong>
 </p>
 
+## Supported Metrics
+Supported metrics include `mAP` (Mean Average Precision), `mAR` (Mean Average Recall)
+and Intersection over Union `IoU`.
 ## Why OD-Metrics?
-- User-friendly
-- Customizable
-- Fast
-- Complete compatibility with [COCOAPI](https://github.com/cocodataset/cocoapi) results
-
-Supported metrics are:
-
-- Mean Average Precision `mAP`
-- Mean Average Recall `mAR`
-- Intersection over Union`IoU`.
+- **User-friendly**: simple to set and simple to use;
+- **Highly Customizable**: <TODO>
+- **Fast**
+- **Compatibility with [COCOAPI](https://github.com/cocodataset/cocoapi)**: each
+calculated metric is tested to coincide with COCOAPI metrics. 
 
 
 ## Installation
