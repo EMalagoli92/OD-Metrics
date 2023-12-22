@@ -21,6 +21,18 @@
   </strong>
 </p>
 
+## Supported Metrics
+Supported metrics include `mAP` (Mean Average Precision), `mAR` (Mean Average Recall)
+and Intersection over Union `IoU`.
+
+
+## Why OD-Metrics?
+- **User-friendly**: simple to set and simple to use;
+- **Highly Customizable**: every parameters that occur in the definition of `mAP`
+and `mAR` can be set by user to custom values;
+- **Compatibility with [COCOAPI](https://github.com/cocodataset/cocoapi)**: each
+calculated metric is tested to coincide with COCOAPI metrics. 
+
 ## Installation
 Install from PyPI
 ```
