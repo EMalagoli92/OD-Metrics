@@ -119,10 +119,11 @@ print(output)
 
 
 ### Custom settings
-By default, `ODMetrics` uses `COCO` settings (see [__init__][src.od_metrics.od_metrics.ODMetrics.__init__] method).
-Instead of the default `COCO` settings, custom settings can be specified.<br>
-For example, if one is interested in a threshold value of `0.4`, this can be specified
-directly in 
+By default, `ODMetrics` uses `COCO` settings for `iou_thresholds`, `recall_thresholds`,
+`max_detection_thresholds` and `area_ranges` (see
+[__init__][src.od_metrics.od_metrics.ODMetrics.__init__] method).<br>
+Instead of the default `COCO` settings, custom settings can be specified.   
+For example, if one is interested in a threshold value of `0.4`:
 
 ``` py title="custom_settings"
 from od_metrics import ODMetrics
