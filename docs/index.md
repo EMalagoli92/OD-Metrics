@@ -295,7 +295,7 @@ metrics = ODMetrics()
 output = metrics.compute(y_true, y_pred, extended_summary=True)
 print(list(output.keys()))
 """
-['mAP@[.5 | all | 100]',
+['mAP@[.5 | all | 100]',,
  'mAP@[.5:.95 | all | 100]',
  'mAP@[.5:.95 | large | 100]',
  'mAP@[.5:.95 | medium | 100]',
@@ -317,6 +317,57 @@ print(list(output.keys()))
  'mean_evaluator']
 """
 ```
+In particular `mean_evaluator` is `Callable` that can be used to calculate metrics
+for every for each combination of interest between constructor settings that are
+not included in default `compute` output.
+For example, using standard `COCO` settings, che metric combination 
+`mAP@[.75 | medium | 10]` is not included in default `compute` output.
+
+```py title="mean_evaluator_example"
+from od_metrics import ODMetrics
+
+# Ground truths
+y_true = [
+    { # image 1
+     "boxes": [[25, 16, 38, 56], [129, 123, 41, 62]],
+     "labels": [0, 1]
+     },
+    { # image 2
+     "boxes": [[123, 11, 43, 55], [38, 132, 59, 45]],
+     "labels": [0, 0]
+     }
+    ]
+
+# Predictions
+y_pred = [
+    { # image 1
+     "boxes": [[25, 17, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
+     "labels": [0, 1, 1],
+     "scores": [.88, .70, .80]
+     },
+    { # image 2
+     "boxes": [[64, 111, 64, 58], [26, 140, 60, 47], [19, 18, 43, 35]],
+     "labels": [0, 1, 0],
+     "scores": [.71, .54, .74]
+     }
+    ]
+
+metrics = ODMetrics()
+output = metrics.compute(y_true, y_pred, extended_summary=True)
+mean_evaluator = output["mean_evaluator"]
+_metric = mean_evaluator(
+    iou_threshold=.75,
+    max_detection_threshold=10,
+    area_range_key="medium",
+    metrics="AP"
+    )
+print(_metric)
+"""
+{mAP@[.75 | medium | 10]': 0.2574257425742574}
+"""
+```
+For all arguments accepted by `mean_evaluator` function, see `extended_summary`
+in [ODMetrics.compute()][src.od_metrics.od_metrics.ODMetrics.compute] method.
 
 ## API Reference
 ::: src.od_metrics.od_metrics
