@@ -121,12 +121,12 @@ print(output)
 ### Custom settings
 By default, `ODMetrics` uses `COCO` settings for `iou_thresholds`, `recall_thresholds`,
 `max_detection_thresholds` and `area_ranges` (see
-[__init__][src.od_metrics.od_metrics.ODMetrics.__init__] method).<br>
+[ODMetrics.\__init__()][src.od_metrics.od_metrics.ODMetrics.__init__] method).<br>
 Instead of the default `COCO` settings, custom settings can be specified.   
 For example, if one is interested in a iou threshold value of `0.4` and a maximum detection
 threshold of `2`:
 
-``` py title="custom_settings"
+``` py title="custom_settings_example"
 from od_metrics import ODMetrics
 
 # Ground truths
@@ -173,8 +173,8 @@ print(output)
 ```
 ### `class_metrics`
 The `class_metrics` option enable *per class* metrics: each metric is reported
-globally as well for each individual class
-``` py
+globally as well for each individual class.
+``` py title="class_metrics_example"
 from od_metrics import ODMetrics
 
 # Ground truths
@@ -251,6 +251,70 @@ print(output)
    'AR@[.75 | all | 100]': 0.0}},
  'classes': [0, 1],
  'n_images': 2}
+"""
+```
+!!! warning
+    Enable `class_metrics` has a performance impact.
+
+### `extended_summary`
+The `extended_summary` in
+[ODMetrics.compute()][src.od_metrics.od_metrics.ODMetrics.compute] method
+enable extended summary with additional metrics including IOU, average precision,
+average recall and mean evaluator (`Callable`).
+
+``` py title="extended_summary_example"
+from od_metrics import ODMetrics
+
+# Ground truths
+y_true = [
+    { # image 1
+     "boxes": [[25, 16, 38, 56], [129, 123, 41, 62]],
+     "labels": [0, 1]
+     },
+    { # image 2
+     "boxes": [[123, 11, 43, 55], [38, 132, 59, 45]],
+     "labels": [0, 0]
+     }
+    ]
+
+# Predictions
+y_pred = [
+    { # image 1
+     "boxes": [[25, 17, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
+     "labels": [0, 1, 1],
+     "scores": [.88, .70, .80]
+     },
+    { # image 2
+     "boxes": [[64, 111, 64, 58], [26, 140, 60, 47], [19, 18, 43, 35]],
+     "labels": [0, 1, 0],
+     "scores": [.71, .54, .74]
+     }
+    ]
+
+metrics = ODMetrics()
+output = metrics.compute(y_true, y_pred, extended_summary=True)
+print(list(output.keys()))
+"""
+['mAP@[.5 | all | 100]',
+ 'mAP@[.5:.95 | all | 100]',
+ 'mAP@[.5:.95 | large | 100]',
+ 'mAP@[.5:.95 | medium | 100]',
+ 'mAP@[.5:.95 | small | 100]',
+ 'mAP@[.75 | all | 100]',
+ 'mAR@[.5 | all | 100]',
+ 'mAR@[.5:.95 | all | 100]',
+ 'mAR@[.5:.95 | all | 10]',
+ 'mAR@[.5:.95 | all | 1]',
+ 'mAR@[.5:.95 | large | 100]',
+ 'mAR@[.5:.95 | medium | 100]',
+ 'mAR@[.5:.95 | small | 100]',
+ 'mAR@[.75 | all | 100]',
+ 'classes',
+ 'n_images',
+ 'AP',
+ 'AR',
+ 'IoU',
+ 'mean_evaluator']
 """
 ```
 
