@@ -191,8 +191,8 @@ class ODMetrics:
                     the number of boxes.
         extended_summary : bool, optional
             Option to enable extended summary with additional metrics
-            including IOU, average precision, average recall and mean
-            evaluator (Callable).
+            including `IoU`, `AP` (Average Precision), `AR` (Average Recall)
+            and `mean_evaluator` (`Callable`).
             The output dictionary will contain the following extra key-values:
 
                 IoU : dict[tuple[int, int], np.ndarray]

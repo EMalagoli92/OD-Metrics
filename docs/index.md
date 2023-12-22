@@ -259,8 +259,9 @@ print(output)
 ### `extended_summary`
 The `extended_summary` in
 [ODMetrics.compute()][src.od_metrics.od_metrics.ODMetrics.compute] method
-enable extended summary with additional metrics including IOU, average precision,
-average recall and mean evaluator (`Callable`).
+enable extended summary with additional metrics including `IoU`,
+`AP` (Average Precision), `AR` (Average Recall) and `mean_evaluator`
+(`Callable`).
 
 ``` py title="extended_summary_example"
 from od_metrics import ODMetrics
