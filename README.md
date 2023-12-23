@@ -49,7 +49,7 @@ For help, usage and API reference, please refer to [Documentation](https://emala
 
 ## Simple Example
 
-```python
+``` python
 from od_metrics import ODMetrics
 
 # Ground truths
@@ -67,7 +67,7 @@ y_true = [
 # Predictions
 y_pred = [
     { # image 1
-     "boxes": [[25, 17, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
+     "boxes": [[25, 27, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
      "labels": [0, 1, 1],
      "scores": [.88, .70, .80]
      },
@@ -83,19 +83,19 @@ output = metrics.compute(y_true, y_pred)
 print(output)
 """
 {'mAP@[.5 | all | 100]': 0.2574257425742574,
- 'mAP@[.5:.95 | all | 100]': 0.23168316831683164,
+ 'mAP@[.5:.95 | all | 100]': 0.10297029702970294,
  'mAP@[.5:.95 | large | 100]': -1.0,
- 'mAP@[.5:.95 | medium | 100]': 0.23168316831683164,
+ 'mAP@[.5:.95 | medium | 100]': 0.10297029702970294,
  'mAP@[.5:.95 | small | 100]': -1.0,
- 'mAP@[.75 | all | 100]': 0.2574257425742574,
+ 'mAP@[.75 | all | 100]': 0.0,
  'mAR@[.5 | all | 100]': 0.25,
- 'mAR@[.5:.95 | all | 100]': 0.225,
- 'mAR@[.5:.95 | all | 10]': 0.225,
- 'mAR@[.5:.95 | all | 1]': 0.225,
+ 'mAR@[.5:.95 | all | 100]': 0.1,
+ 'mAR@[.5:.95 | all | 10]': 0.1,
+ 'mAR@[.5:.95 | all | 1]': 0.1,
  'mAR@[.5:.95 | large | 100]': -1.0,
- 'mAR@[.5:.95 | medium | 100]': 0.225,
+ 'mAR@[.5:.95 | medium | 100]': 0.1,
  'mAR@[.5:.95 | small | 100]': -1.0,
- 'mAR@[.75 | all | 100]': 0.25,
+ 'mAR@[.75 | all | 100]': 0.0,
  'classes': [0, 1],
  'n_images': 2}
 """
