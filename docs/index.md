@@ -400,6 +400,25 @@ print(_metric)
 For all arguments accepted by `mean_evaluator` function, see `extended_summary`
 in [ODMetrics.compute()][src.od_metrics.od_metrics.ODMetrics.compute] method.
 
+### `Iou`
+The calculation of `mAP` and `mAR` clearly make use of `IoU`.
+It's possible to use standalone `iou` function.
+```py title="iou_example"
+from od_metrics import iou
+
+y_true = [[25, 16, 38, 56], [129, 123, 41, 62]]
+y_pred = [[25, 27, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]]
+
+result = iou(y_true, y_pred)
+print(result)
+"""
+array([[0.67655425, 0.        ],
+       [0.        , 0.46192609],
+       [0.        , 0.        ]])
+"""
+```
+
+
 ## API Reference
 ::: src.od_metrics.od_metrics
     selection:
