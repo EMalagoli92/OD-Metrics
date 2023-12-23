@@ -61,7 +61,7 @@ Suppose to be in the following situation.
         - `3` predictions bounding boxes, with `labels` `[0, 1, 1]` and `scores` `[.88, .70, .80]`;
         <p align="center">
           <a>
-            <img src="https://raw.githubusercontent.com/EMalagoli92/OD-Metrics/main/docs/assets/image1.png">
+            <img src="https://raw.githubusercontent.com/EMalagoli92/OD-Metrics/main/docs/assets/image_1.png">
           </a>  
         </p>
         
