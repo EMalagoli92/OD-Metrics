@@ -55,17 +55,14 @@ pip install git+https://github.com/EMalagoli92/OD-Metrics
 Suppose to be in the following situation. 
 !!! Example
     You have `2` images with:
+    
+    - #### Image 1
+      <img align="left" src="assets/image_1.png">
+      - `2` ground truth bounding boxes with: one belonging to `0` class and one to `1` class:
+      - `3` predictions bounding boxes, with `labels` `[0, 1, 1]` and `scores` `[.88, .70, .80]`.
 
-    - `image1`:
-        - `2` ground truth bounding boxes, one belonging to `0` class and one to `1` class;
-        - `3` predictions bounding boxes, with `labels` `[0, 1, 1]` and `scores` `[.88, .70, .80]`;
-        <p align="center">
-          <a>
-            <img src="https://raw.githubusercontent.com/EMalagoli92/OD-Metrics/main/docs/assets/image_1.png">
-          </a>  
-        </p>
-        
-    - `image2`:
+    - #### Image 2
+      <img align="left" src="assets/image_2.png">
         - `2` ground truth bounding boxes, each belonging to `0` class;
         - `3` predictions bounding boxes, with `labels` `[0, 1, 0]`, with `scores` `[.71, .54, .74]`.
 
