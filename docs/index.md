@@ -83,7 +83,7 @@ y_true = [
 # Predictions
 y_pred = [
     { # image 1
-     "boxes": [[25, 17, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
+     "boxes": [[25, 27, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
      "labels": [0, 1, 1],
      "scores": [.88, .70, .80]
      },
@@ -99,19 +99,19 @@ output = metrics.compute(y_true, y_pred)
 print(output)
 """
 {'mAP@[.5 | all | 100]': 0.2574257425742574,
- 'mAP@[.5:.95 | all | 100]': 0.23168316831683164,
+ 'mAP@[.5:.95 | all | 100]': 0.10297029702970294,
  'mAP@[.5:.95 | large | 100]': -1.0,
- 'mAP@[.5:.95 | medium | 100]': 0.23168316831683164,
+ 'mAP@[.5:.95 | medium | 100]': 0.10297029702970294,
  'mAP@[.5:.95 | small | 100]': -1.0,
- 'mAP@[.75 | all | 100]': 0.2574257425742574,
+ 'mAP@[.75 | all | 100]': 0.0,
  'mAR@[.5 | all | 100]': 0.25,
- 'mAR@[.5:.95 | all | 100]': 0.225,
- 'mAR@[.5:.95 | all | 10]': 0.225,
- 'mAR@[.5:.95 | all | 1]': 0.225,
+ 'mAR@[.5:.95 | all | 100]': 0.1,
+ 'mAR@[.5:.95 | all | 10]': 0.1,
+ 'mAR@[.5:.95 | all | 1]': 0.1,
  'mAR@[.5:.95 | large | 100]': -1.0,
- 'mAR@[.5:.95 | medium | 100]': 0.225,
+ 'mAR@[.5:.95 | medium | 100]': 0.1,
  'mAR@[.5:.95 | small | 100]': -1.0,
- 'mAR@[.75 | all | 100]': 0.25,
+ 'mAR@[.75 | all | 100]': 0.0,
  'classes': [0, 1],
  'n_images': 2}
 """
@@ -144,7 +144,7 @@ y_true = [
 # Predictions
 y_pred = [
     { # image 1
-     "boxes": [[25, 17, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
+     "boxes": [[25, 27, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
      "labels": [0, 1, 1],
      "scores": [.88, .70, .80]
      },
@@ -192,7 +192,7 @@ y_true = [
 # Predictions
 y_pred = [
     { # image 1
-     "boxes": [[25, 17, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
+     "boxes": [[25, 27, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
      "labels": [0, 1, 1],
      "scores": [.88, .70, .80]
      },
@@ -208,33 +208,33 @@ output = metrics.compute(y_true, y_pred)
 print(output)
 """
 {'mAP@[.5 | all | 100]': 0.16831683168316827,
- 'mAP@[.5:.95 | all | 100]': 0.15148514851485143,
+ 'mAP@[.5:.95 | all | 100]': 0.06732673267326732,
  'mAP@[.5:.95 | large | 100]': -1.0,
- 'mAP@[.5:.95 | medium | 100]': 0.15148514851485143,
+ 'mAP@[.5:.95 | medium | 100]': 0.06732673267326732,
  'mAP@[.5:.95 | small | 100]': -1.0,
- 'mAP@[.75 | all | 100]': 0.16831683168316827,
+ 'mAP@[.75 | all | 100]': 0.0,
  'mAR@[.5 | all | 100]': 0.16666666666666666,
- 'mAR@[.5:.95 | all | 100]': 0.15,
- 'mAR@[.5:.95 | all | 10]': 0.15,
- 'mAR@[.5:.95 | all | 1]': 0.15,
+ 'mAR@[.5:.95 | all | 100]': 0.06666666666666667,
+ 'mAR@[.5:.95 | all | 10]': 0.06666666666666667,
+ 'mAR@[.5:.95 | all | 1]': 0.06666666666666667,
  'mAR@[.5:.95 | large | 100]': -1.0,
- 'mAR@[.5:.95 | medium | 100]': 0.15,
+ 'mAR@[.5:.95 | medium | 100]': 0.06666666666666667,
  'mAR@[.5:.95 | small | 100]': -1.0,
- 'mAR@[.75 | all | 100]': 0.16666666666666666,
+ 'mAR@[.75 | all | 100]': 0.0,
  'class_metrics': {0: {'AP@[.5 | all | 100]': 0.33663366336633654,
-   'AP@[.5:.95 | all | 100]': 0.3029702970297029,
+   'AP@[.5:.95 | all | 100]': 0.13465346534653463,
    'AP@[.5:.95 | large | 100]': -1.0,
-   'AP@[.5:.95 | medium | 100]': 0.3029702970297029,
+   'AP@[.5:.95 | medium | 100]': 0.13465346534653463,
    'AP@[.5:.95 | small | 100]': -1.0,
-   'AP@[.75 | all | 100]': 0.33663366336633654,
+   'AP@[.75 | all | 100]': 0.0,
    'AR@[.5 | all | 100]': 0.3333333333333333,
-   'AR@[.5:.95 | all | 100]': 0.3,
-   'AR@[.5:.95 | all | 10]': 0.3,
-   'AR@[.5:.95 | all | 1]': 0.3,
+   'AR@[.5:.95 | all | 100]': 0.13333333333333333,
+   'AR@[.5:.95 | all | 10]': 0.13333333333333333,
+   'AR@[.5:.95 | all | 1]': 0.13333333333333333,
    'AR@[.5:.95 | large | 100]': -1.0,
-   'AR@[.5:.95 | medium | 100]': 0.3,
+   'AR@[.5:.95 | medium | 100]': 0.13333333333333333,
    'AR@[.5:.95 | small | 100]': -1.0,
-   'AR@[.75 | all | 100]': 0.3333333333333333},
+   'AR@[.75 | all | 100]': 0.0},
   1: {'AP@[.5 | all | 100]': 0.0,
    'AP@[.5:.95 | all | 100]': 0.0,
    'AP@[.5:.95 | large | 100]': -1.0,
@@ -281,7 +281,7 @@ y_true = [
 # Predictions
 y_pred = [
     { # image 1
-     "boxes": [[25, 17, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
+     "boxes": [[25, 27, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
      "labels": [0, 1, 1],
      "scores": [.88, .70, .80]
      },
@@ -322,7 +322,7 @@ In particular `mean_evaluator` is `Callable` that can be used to calculate metri
 for every for each combination of interest between constructor settings that are
 not included in default `compute` output.
 For example, using standard `COCO` settings, che metric combination 
-`mAP@[.75 | medium | 10]` is not included in default `compute` output.
+`mAP@[.55 | medium | 10]` is not included in default `compute` output.
 
 ```py title="mean_evaluator_example"
 from od_metrics import ODMetrics
@@ -342,7 +342,7 @@ y_true = [
 # Predictions
 y_pred = [
     { # image 1
-     "boxes": [[25, 17, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
+     "boxes": [[25, 27, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
      "labels": [0, 1, 1],
      "scores": [.88, .70, .80]
      },
@@ -357,14 +357,14 @@ metrics = ODMetrics()
 output = metrics.compute(y_true, y_pred, extended_summary=True)
 mean_evaluator = output["mean_evaluator"]
 _metric = mean_evaluator(
-    iou_threshold=.75,
+    iou_threshold=.55,
     max_detection_threshold=10,
     area_range_key="medium",
     metrics="AP"
     )
 print(_metric)
 """
-{mAP@[.75 | medium | 10]': 0.2574257425742574}
+{'mAP@[.55 | medium | 10]': 0.2574257425742574}
 """
 ```
 For all arguments accepted by `mean_evaluator` function, see `extended_summary`
