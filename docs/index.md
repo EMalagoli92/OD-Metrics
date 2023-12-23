@@ -57,12 +57,15 @@ Suppose to be in the following situation.
     You have `2` images with:
     
     - #### Image 1
-      <img align="left" src="assets/image_1.png">
+      <img align="left" width="400" height="400" src="assets/image_1.png">
       - `2` ground truth bounding boxes with: one belonging to `0` class and one to `1` class:
       - `3` predictions bounding boxes, with `labels` `[0, 1, 1]` and `scores` `[.88, .70, .80]`.
 
+    <br>
+    <br>
+
     - #### Image 2
-      <img align="left" src="assets/image_2.png">
+      <img align="left" width="500" height="500" src="assets/image_2.png">
         - `2` ground truth bounding boxes, each belonging to `0` class;
         - `3` predictions bounding boxes, with `labels` `[0, 1, 0]`, with `scores` `[.71, .54, .74]`.
 
