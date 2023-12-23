@@ -418,7 +418,7 @@ array([[0.67655425, 0.        ],
 """
 ```
 `iou` function supports `iscrowd` [COCOAPI](https://github.com/cocodataset/cocoapi) parameter.
-Please refer to [iou][src.od_metrics.od_metrics.iou]
+Please refer to [iou][src.od_metrics.od_metrics.iou] source code.
 
 ## API Reference
 ::: src.od_metrics.od_metrics
