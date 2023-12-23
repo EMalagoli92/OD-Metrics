@@ -60,14 +60,38 @@ Suppose to be in the following situation.
       <img align="left" width="400" height="400" src="assets/image_1.png">
       - `2` ground truth bounding boxes with: one belonging to `0` class and one to `1` class:
       - `3` predictions bounding boxes, with `labels` `[0, 1, 1]` and `scores` `[.88, .70, .80]`.
-
-    <br>
-    <br>
+      ```yaml
+      # Image 1
+      y_true =
+          {
+           "boxes": [[25, 16, 38, 56], [129, 123, 41, 62]],
+           "labels": [0, 1]
+           }
+      y_pred =
+          {
+           "boxes": [[25, 27, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
+           "labels": [0, 1, 1],
+           "scores": [.88, .70, .80]
+           },
+      ```
 
     - #### Image 2
-      <img align="left" width="500" height="500" src="assets/image_2.png">
-        - `2` ground truth bounding boxes, each belonging to `0` class;
-        - `3` predictions bounding boxes, with `labels` `[0, 1, 0]`, with `scores` `[.71, .54, .74]`.
+      <img align="left" src="assets/image_2.png">
+      - `2` ground truth bounding boxes, each belonging to `0` class;
+      - `3` predictions bounding boxes, with `labels` `[0, 1, 0]`, with `scores` `[.71, .54, .74]`.
+      ```yaml
+      # Image 2
+      y_true =
+          {
+           "boxes": [[123, 11, 43, 55], [38, 132, 59, 45]],
+           "labels": [0, 0]
+           }
+      y_pred = {
+           "boxes": [[64, 111, 64, 58], [26, 140, 60, 47], [19, 18, 43, 35]],
+           "labels": [0, 1, 0],
+           "scores": [.71, .54, .74]
+           }
+      ```  
 
 The `mAP` (Mean Average Precision) and `mAR` (Mean Average Recall)
 for the previous situation can be calculated as follows:
