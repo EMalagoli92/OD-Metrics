@@ -191,8 +191,8 @@ class ODMetrics:
                     the number of boxes.
         extended_summary : bool, optional
             Option to enable extended summary with additional metrics
-            including IOU, average precision, average recall and mean
-            evaluator (Callable).
+            including `IoU`, `AP` (Average Precision), `AR` (Average Recall)
+            and `mean_evaluator` (`Callable`).
             The output dictionary will contain the following extra key-values:
 
                 IoU : dict[tuple[int, int], np.ndarray]
@@ -1047,7 +1047,7 @@ class ODMetrics:
 def iou(
         y_true: np.ndarray | list,
         y_pred: np.ndarray | list,
-        iscrowd: np.ndarray | list[bool] | list[int] | None,
+        iscrowd: np.ndarray | list[bool] | list[int] | None = None,
         ) -> np.ndarray:
     """
     Calculate IoU between bounding boxes.
@@ -1087,17 +1087,18 @@ def iou(
     Parameters
     ----------
     y_true : np.ndarray | list
-        `np.ndarray` with shape `(B, 4)`, `B` batch size.
+        `np.ndarray` with shape `(B1, 4)`, `B1` `y_true` batch size.
     y_pred : np.ndarray | list
-        `np.ndarray` with shape `(B, 4)`, `B` batch size.
+        `np.ndarray` with shape `(B2, 4)`, `B2` `y_pred` batch size.
     iscrowd : np.ndarray | list[bool] | list[int] | None
         Whether `y_true` are crowd regions.
         If `None`, it will be set to `False` for all `y_true`.
+        The default is `None`.
 
     Returns
     -------
     np.ndarray
-        IoU vector of shape `(B,)`.
+        IoU vector of shape `(B2, B1)`.
     """
     if len(y_pred) == 0 or len(y_true) == 0:
         return np.array([])

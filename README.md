@@ -21,6 +21,18 @@
   </strong>
 </p>
 
+## Supported Metrics
+Supported metrics include `mAP` (Mean Average Precision), `mAR` (Mean Average Recall)
+and Intersection over Union `IoU`.
+
+
+## Why OD-Metrics?
+- **User-friendly**: simple to set and simple to use;
+- **Highly Customizable**: every parameters that occur in the definition of `mAP`
+and `mAR` can be set by user to custom values;
+- **Compatibility with [COCOAPI](https://github.com/cocodataset/cocoapi)**: each
+calculated metric is tested to coincide with COCOAPI metrics. 
+
 ## Installation
 Install from PyPI
 ```
@@ -37,14 +49,14 @@ For help, usage and API reference, please refer to [Documentation](https://emala
 
 ## Simple Example
 
-```python
+``` python
 from od_metrics import ODMetrics
 
 # Ground truths
 y_true = [
     { # image 1
      "boxes": [[25, 16, 38, 56], [129, 123, 41, 62]],
-     "labels": [0, 0]
+     "labels": [0, 1]
      },
     { # image 2
      "boxes": [[123, 11, 43, 55], [38, 132, 59, 45]],
@@ -55,13 +67,13 @@ y_true = [
 # Predictions
 y_pred = [
     { # image 1
-     "boxes": [[25, 17, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
-     "labels": [0, 0, 0],
+     "boxes": [[25, 27, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
+     "labels": [0, 1, 1],
      "scores": [.88, .70, .80]
      },
     { # image 2
      "boxes": [[64, 111, 64, 58], [26, 140, 60, 47], [19, 18, 43, 35]],
-     "labels": [0, 0, 0],
+     "labels": [0, 1, 0],
      "scores": [.71, .54, .74]
      }
     ]
@@ -71,20 +83,20 @@ output = metrics.compute(y_true, y_pred)
 print(output)
 """
 {'mAP@[.5 | all | 100]': 0.2574257425742574,
- 'mAP@[.5:.95 | all | 100]': 0.23168316831683164,
+ 'mAP@[.5:.95 | all | 100]': 0.10297029702970294,
  'mAP@[.5:.95 | large | 100]': -1.0,
- 'mAP@[.5:.95 | medium | 100]': 0.23168316831683164,
+ 'mAP@[.5:.95 | medium | 100]': 0.10297029702970294,
  'mAP@[.5:.95 | small | 100]': -1.0,
- 'mAP@[.75 | all | 100]': 0.2574257425742574,
+ 'mAP@[.75 | all | 100]': 0.0,
  'mAR@[.5 | all | 100]': 0.25,
- 'mAR@[.5:.95 | all | 100]': 0.225,
- 'mAR@[.5:.95 | all | 10]': 0.225,
- 'mAR@[.5:.95 | all | 1]': 0.225,
+ 'mAR@[.5:.95 | all | 100]': 0.1,
+ 'mAR@[.5:.95 | all | 10]': 0.1,
+ 'mAR@[.5:.95 | all | 1]': 0.1,
  'mAR@[.5:.95 | large | 100]': -1.0,
- 'mAR@[.5:.95 | medium | 100]': 0.225,
+ 'mAR@[.5:.95 | medium | 100]': 0.1,
  'mAR@[.5:.95 | small | 100]': -1.0,
- 'mAR@[.75 | all | 100]': 0.25,
- 'classes': [0],
+ 'mAR@[.75 | all | 100]': 0.0,
+ 'classes': [0, 1],
  'n_images': 2}
 """
 ```
