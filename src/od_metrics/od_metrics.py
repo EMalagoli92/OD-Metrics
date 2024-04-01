@@ -87,7 +87,7 @@ class ODMetrics:
         box_format: Literal["xyxy", "xywh", "cxcywh"], optional
             Bounding box format.
             Supported formats are:<br>
-                - `xyxy`: boxes are represented via corners,
+                - `"xyxy"`: boxes are represented via corners,
                         x1, y1 being top left and x2, y2
                         being bottom right.<br>
                 - `xywh`: boxes are represented via corner,
@@ -96,11 +96,11 @@ class ODMetrics:
                         This is the default format; all
                         input formats will be converted
                         to this.<br>
-                - `cxcywh`: boxes are represented via centre,
-                          width and height, cx, cy being
-                          center of box, w, h being width
-                          and height.<br>
-            The default is `xywh`.
+                - `"cxcywh"`: boxes are represented via centre,
+                        width and height, cx, cy being
+                        center of box, w, h being width
+                        and height.<br>
+            The default is `"xywh"`.
 
         Returns
         -------

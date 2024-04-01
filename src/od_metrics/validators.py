@@ -44,13 +44,13 @@ def _common_validator(
     dtype : type[int] | type[str] | type[float]
         Value dtypes.
     allow_none : bool
-        Whether to allow None values.
+        Whether to allow `None` values.
 
     Raises
     ------
     ValueError
         If `value` is neither a `dtype`, a list of `dtype` or
-        a 1-dimensional np.ndarray, or None if `allow_none` is True.
+        a 1-dimensional `np.ndarray`, or `None~ if `allow_none=True`.
         If `value` contains duplicate values.
 
     Returns
@@ -84,7 +84,7 @@ def _common_validator(
         _msg = (
             f"Invalid value for {name}. "
             f"{name} should be a {dtype.__name__}, list of {dtype.__name__} "
-            "or a 1-dimensional np.ndarray"
+            "or a 1-dimensional `np.ndarray`."
             )
         _msg += "or None." if allow_none else "."
         raise ValueError(_msg)
@@ -126,8 +126,8 @@ def _area_ranges_validator(
     ------
     ValueError
         If `value` is neither a dictionary with string keys and values
-        as lists/np.ndarray of 2 integers/floats, with first element less or
-        equal than second, or None.
+        as lists/`np.ndarray` of 2 integers/floats, with first element less or
+        equal than second, or `None`.
         If `value` contains duplicate values.
 
     Returns
@@ -164,7 +164,7 @@ def _area_ranges_validator(
             "- A dictionary with string keys and values as lists/np.ndarray "
             "of 2 integers/floats, with first element less or equal than "
             "second.\n"
-            "- None.\n"
+            "- `None`.\n"
             )
     # Check duplicates in .values()
     _values = [tuple(x) if isinstance(x, list) else tuple([x])
@@ -254,7 +254,7 @@ class ConstructorModel(BaseModel):
         value : Any
             Input value.
         info : ValidationInfo
-            Pydantic ValidationInfo
+            Pydantic `ValidationInfo`.
 
         Raises
         ------
@@ -555,19 +555,19 @@ def _convert_y_true(
         box_format: Literal["xyxy", "xywh", "cxcywh"],
         ) -> list[YTrueOutputModel]:
     """
-    Convert a list YTrueInputModel to a list of YTrueOutputModel.
+    Convert a list of `YTrueInputModel` to a list of `YTrueOutputModel`.
 
     Parameters
     ----------
     data : list[YTrueInputModel]
-        List of YTrueInputModel.
+        List of `YTrueInputModel`.
     box_format : Literal["xyxy", "xywh", "cxcywh"]
         Input format of given boxes.
 
     Returns
     -------
     list[YTrueOutputModel]
-        YTrueOutputModel list.
+        List of `YTrueOutputModel`.
     """
     annotations = []
     id_ = 1
@@ -604,19 +604,19 @@ def _convert_y_pred(
         box_format: Literal["xyxy", "xywh", "cxcywh"],
         ) -> list[YPredOutputModel]:
     """
-    Convert a list of YPredInputModel to a list of YPredOutputModel.
+    Convert a list of `YPredInputModel` to a list of `YPredOutputModel`.
 
     Parameters
     ----------
     data : list[YPredInputModel]
-        List of YPredInputModel.
+        List of `YPredInputModel`.
     box_format : Literal["xyxy", "xywh", "cxcywh"]
         Input format of given boxes.
 
     Returns
     -------
     list[YPredOutputModel]
-        YPredOutputModel list.
+        List of `YPredOutputModel`.
     """
     annotations = []
     id_ = 1
@@ -672,7 +672,7 @@ class ComputeModel(BaseModel):
         data : dict
             Input annotations.
         info : ValidationInfo
-            Pydantic ValidationInfo.
+            Pydantic `ValidationInfo`.
 
         Returns
         -------
@@ -738,7 +738,7 @@ class MeanModel(BaseModel):
         value : Any
             Input value.
         info : ValidationInfo
-            Pydantic ValidationInfo
+            Pydantic `ValidationInfo`.
 
         Returns
         -------
@@ -777,7 +777,7 @@ class MeanModel(BaseModel):
         value : Any
             Input value.
         info : ValidationInfo
-            Pydantic ValidationInfo
+            Pydantic `ValidationInfo`.
 
         Returns
         -------
@@ -816,7 +816,7 @@ class MeanModel(BaseModel):
         value : Any
             Input value.
         info : ValidationInfo
-            Pydantic ValidationInfo
+            Pydantic `ValidationInfo`.
 
         Returns
         -------

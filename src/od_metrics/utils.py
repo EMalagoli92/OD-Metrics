@@ -31,7 +31,7 @@ def to_array(
     Returns
     -------
     np.ndarray
-        Input converted to numpy array.
+        Input converted to `np.ndarray`.
     """
     if not isinstance(input_, np.ndarray):
         output = np.array(input_)
@@ -56,14 +56,14 @@ def get_indexes(
     Parameters
     ----------
     array1 : np.ndarray
-        The np.ndarray to search for elements.
+        The `np.ndarray` to search for elements.
     array2 : np.ndarray
-        The np.ndarray to search for matches.
+        The `np.ndarray` to search for matches.
 
     Returns
     -------
     np.ndarray
-        A np.ndarray of indices where elements from `array1` are
+        A `np.ndarray` of indices where elements from `array1` are
         present in `array2`.
     """
     return np.sort(np.where(np.isin(
@@ -127,17 +127,17 @@ def to_xywh(
         Input bounding box.
     box_format : Literal["xyxy", "xywh", "cxcywh"]
         Input bounding box format.
-        It can be `xyxy`, `xywh` or `cxcywh`.
+        It can be `"xyxy"`, `"xywh"` or `"cxcywh"`.
 
     Raises
     ------
     ValueError
-        If `box_format` not in `xyxy`, `xywh`, `cxcywh`.
+        If `box_format` not one of `"xyxy"`, `"xywh"`, `"cxcywh"`.
 
     Returns
     -------
     list[float]
-        Bounding box in `xywh` format.
+        Bounding box in `"xywh"` format.
     """
     if box_format == "xywh":
         return bbox
