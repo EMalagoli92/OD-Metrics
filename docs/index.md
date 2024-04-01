@@ -348,7 +348,7 @@ print(list(output.keys()))
  'mean_evaluator']
 """
 ```
-In particular `mean_evaluator` is `Callable` that can be used to calculate metrics 
+In particular `mean_evaluator` is `Callable` that can be used to calculate metrics
 for each combination of interest between constructor settings that are
 not included in default `compute` output.
 For example, using standard `COCO` settings, che metric combination 
