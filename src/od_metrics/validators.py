@@ -50,7 +50,7 @@ def _common_validator(
     ------
     ValueError
         If `value` is neither a `dtype`, a list of `dtype` or
-        a 1-dimensional `np.ndarray`, or `None~ if `allow_none=True`.
+        a 1-dimensional `np.ndarray`, or `None` if `allow_none=True`.
         If `value` contains duplicate values.
 
     Returns
@@ -86,7 +86,7 @@ def _common_validator(
             f"{name} should be a {dtype.__name__}, list of {dtype.__name__} "
             "or a 1-dimensional `np.ndarray`."
             )
-        _msg += "or None." if allow_none else "."
+        _msg += "or `None`." if allow_none else "."
         raise ValueError(_msg)
 
     # Check duplicates
@@ -161,7 +161,7 @@ def _area_ranges_validator(
         raise ValueError(
             f"Invalid value for {name}. "
             f"{name} should be either:\n"
-            "- A dictionary with string keys and values as lists/np.ndarray "
+            "- A dictionary with string keys and values as lists/`np.ndarray` "
             "of 2 integers/floats, with first element less or equal than "
             "second.\n"
             "- `None`.\n"
@@ -181,7 +181,7 @@ def _area_ranges_validator(
 
 
 class ConstructorModel(BaseModel):
-    """`__init__` method Model."""
+    """`__init__()` method Model."""
 
     iou_thresholds: np.ndarray
     recall_thresholds: np.ndarray
@@ -210,7 +210,7 @@ class ConstructorModel(BaseModel):
         value : Any
             Input value.
         info : ValidationInfo
-            Pydantic ValidationInfo
+            Pydantic `ValidationInfo`.
 
         Raises
         ------
@@ -298,7 +298,7 @@ class ConstructorModel(BaseModel):
         value : Any
             Input value.
         info : ValidationInfo
-            Pydantic ValidationInfo.
+            Pydantic `ValidationInfo`.
 
         Raises
         ------

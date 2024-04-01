@@ -36,46 +36,46 @@ def annotations_generator(
     """
     Annotations generator of Od-metrics format.
 
-    Bounding box are in `xywh` format.
+    Bounding box are in `"xywh"` format.
 
     Parameters
     ----------
     n_images : int, optional
         Number of images.
-        The default is 10.
+        The default is `10`.
     n_classes : int, optional
         Number of classes.
-        The default is 3.
+        The default is `3`.
     min_objects : int, optional
         Minimum number of objects in a single image.
-        The default is 0.
+        The default is `0`.
     max_objects : int, optional
         Max number of objects in a single image.
-        The default is 10.
+        The default is `10`.
     xy_min : int, optional
-        Minimum value for x, y coordinate in bounding box format `xywh`.
-        The default is 0.
+        Minimum value for x, y coordinate in bounding box format `"xywh"`.
+        The default is `0`.
     xy_max : int, optional
-        Minimum value for x, y coordinate in bounding box format `xywh`.
-        The default is 100.
+        Minimum value for x, y coordinate in bounding box format `"xywh"`.
+        The default is `100`.
     min_box_width : int, optional
-        Minimum value for width coordinate in bounding box format `xywh`.
-        The default is 0.
+        Minimum value for width coordinate in bounding box format `"xywh"`.
+        The default is `0`.
     max_box_width : int, optional
-        Maximum value for width coordinate in bounding box format `xywh`.
-        The default is 100.
+        Maximum value for width coordinate in bounding box format `"xywh"`.
+        The default is `100`.
     min_box_height : int, optional
-        Minimum value for height coordinate in bounding box format `xywh`.
-        The default is 0.
+        Minimum value for height coordinate in bounding box format `"xywh"`.
+        The default is `0`.
     max_box_height : int, optional
-        Maximum value for width coordinate in bounding box format `xywh`.
-        The default is 100.
+        Maximum value for width coordinate in bounding box format `"xywh"`.
+        The default is `100`.
     include_score : bool, optional
         Whether to include score.
-        The default is False.
+        The default is `False`.
     iscrowd_percentage: float, optional
         Percentage of images that contains at least one `iscrowd` region.
-        The default is .1.
+        The default is `.1`.
 
     Returns
     -------
@@ -123,12 +123,12 @@ def pycoco_converter(
     Parameters
     ----------
     annotations : list[dict[Literal["boxes", "labels", "scores"], np.ndarray]]
-        Annotations in od-metrics foramt.
+        Annotations in od-metrics format.
 
     Returns
     -------
     dict[Literal["images", "annotations", "categories"], list]
-        pycoco annotations
+        pycoco annotations.
     """
     pycoco_annotations = []
     annotation_id = 1
@@ -267,7 +267,7 @@ def xywh_xyxy(bbox: list[float]) -> list[float]:
     Returns
     -------
     list[float]
-        Bounding box in `xyxy` format.
+        Bounding box in `"xyxy"` format.
     """
     return [
         bbox[0],
@@ -279,7 +279,7 @@ def xywh_xyxy(bbox: list[float]) -> list[float]:
 
 def xywh_cxcywh(bbox: list[float]) -> list[float]:
     """
-    Change bounding box format from `xywh` to `cxcywh`.
+    Change bounding box format from `"xywh"` to `"cxcywh"`.
 
     Parameters
     ----------
@@ -289,7 +289,7 @@ def xywh_cxcywh(bbox: list[float]) -> list[float]:
     Returns
     -------
     list[float]
-        Bounding box in `cxcywh` format.
+        Bounding box in `"cxcywh"` format.
     """
     return [
         bbox[0] + bbox[2] / 2,
@@ -304,7 +304,7 @@ def xywh_to(
         box_format: Literal["xyxy", "xywh", "cxcywh"],
         ) -> list[float]:
     """
-    Change bounding box format from `xywh` to `box_format`.
+    Change bounding box format from `"xywh"` to `box_format`.
 
     Parameters
     ----------
@@ -312,12 +312,12 @@ def xywh_to(
         Input bounding box.
     box_format : Literal["xyxy", "xywh", "cxcywh"]
         Input bounding box format.
-        It can be `xyxy`, `xywh` or `cxcywh`.
+        It can be `"xyxy"`, `"xywh"` or `"cxcywh"`.
 
     Raises
     ------
     ValueError
-        If `box_format` not in `xyxy`, `xywh`, `cxcywh`.
+        If `box_format` not in `"xyxy"`, `"xywh"`, `"cxcywh"`.
 
     Returns
     -------
@@ -330,5 +330,5 @@ def xywh_to(
         return xywh_xyxy(bbox)
     if box_format == "cxcywh":
         return xywh_cxcywh(bbox)
-    raise ValueError("`box_format` can be `xyxy`, `xywh`, `cxcywh`. "
+    raise ValueError("`box_format` can be `'xyxy'`, `'xywh'`, `'cxcywh'`. "
                      f"Found {box_format}")

@@ -21,7 +21,7 @@ def to_array(
         input_: Any,
         ) -> np.ndarray:
     """
-    Trasform input to np.ndarray.
+    Trasform input to `np.ndarray`.
 
     Parameters
     ----------
@@ -82,7 +82,7 @@ def xyxy_xywh(bbox: list[float]) -> list[float]:
     Returns
     -------
     list[float]
-        Bounding box in `xywh` format.
+        Bounding box in `"xywh"` format.
     """
     return [
         bbox[0],
@@ -94,7 +94,7 @@ def xyxy_xywh(bbox: list[float]) -> list[float]:
 
 def cxcywh_xywh(bbox: list[float]) -> list[float]:
     """
-    Change bounding box format from `cxcywh` to `xywh`.
+    Change bounding box format from `"cxcywh"` to `"xywh"`.
 
     Parameters
     ----------
@@ -104,7 +104,7 @@ def cxcywh_xywh(bbox: list[float]) -> list[float]:
     Returns
     -------
     list[float]
-        Bounding box in `xywh` format.
+        Bounding box in `"xywh"` format.
     """
     return [
         bbox[0] - bbox[2] / 2,
@@ -119,7 +119,7 @@ def to_xywh(
         box_format: Literal["xyxy", "xywh", "cxcywh"],
         ) -> list[float]:
     """
-    Change bounding box format to `xywh`.
+    Change bounding box format to `"xywh"`.
 
     Parameters
     ----------
@@ -145,7 +145,7 @@ def to_xywh(
         return xyxy_xywh(bbox)
     if box_format == "cxcywh":
         return cxcywh_xywh(bbox)
-    raise ValueError("`box_format` can be `xyxy`, `xywh`, `cxcywh`. "
+    raise ValueError("`box_format` can be `'xyxy'`, `'xywh'`, `'cxcywh'`. "
                      f"Found {box_format}")
 
 

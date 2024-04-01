@@ -81,7 +81,7 @@ class ODMetrics:
             If `None`, no area range limits will be set.
             The default is `_Missing`.
         class_metrics : bool, optional
-            Option to enable per-class metrics. (See `compute`).
+            Option to enable per-class metrics (See `compute()` method).
             Has a performance impact.
             The default is `False`.
         box_format: Literal["xyxy", "xywh", "cxcywh"], optional
@@ -838,7 +838,7 @@ class ODMetrics:
             The default is `None`.
         area_range_key : str | list[str] | np.ndarray | None, optional
             Area range key on which calculate the mean.
-            It can be a `str`, a list of strings, np.ndarray,
+            It can be a `str`, a list of strings, `np.ndarray`,
             or `None`; all values must be included in the
             constructor argument `area_ranges`.
             If `None`, all input `area_ranges` keys will be used.
@@ -857,8 +857,8 @@ class ODMetrics:
             Label ids on which calculate the mean.
             If `class_metrics` is `True`, `label_id` must be
             included in the label ids of the provided `y_true`.
-            If `class_metrics` is `False`, `label_id` must be -1 (in this case
-            equivalent to `None`).
+            If `class_metrics` is `False`, `label_id` must be `-1`
+            (in this case equivalent to `None`).
             If `None`, all labels will be used.
             The default is `None`.
         metrics : Literal["AP", "AR"] | list[Literal["AP", "AR"]] | None,
@@ -1054,7 +1054,7 @@ def iou(
     """
     Calculate IoU between bounding boxes.
 
-    Single bounding boxes must be in `xywh` format, i.e.
+    Single bounding boxes must be in `"xywh"` format, i.e.
         [xmin, ymin, width, height]
 
     The standard iou of a ground truth `y_true` and detected
