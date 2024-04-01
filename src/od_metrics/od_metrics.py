@@ -81,13 +81,13 @@ class ODMetrics:
             If `None`, no area range limits will be set.
             The default is `_Missing`.
         class_metrics : bool, optional
-            Option to enable per-class metrics. (See `compute`).
+            Option to enable per-class metrics (See `compute()` method).
             Has a performance impact.
             The default is `False`.
         box_format: Literal["xyxy", "xywh", "cxcywh"], optional
             Bounding box format.
             Supported formats are:<br>
-                - `xyxy`: boxes are represented via corners,
+                - `"xyxy"`: boxes are represented via corners,
                         x1, y1 being top left and x2, y2
                         being bottom right.<br>
                 - `xywh`: boxes are represented via corner,
@@ -96,11 +96,11 @@ class ODMetrics:
                         This is the default format; all
                         input formats will be converted
                         to this.<br>
-                - `cxcywh`: boxes are represented via centre,
-                          width and height, cx, cy being
-                          center of box, w, h being width
-                          and height.<br>
-            The default is `xywh`.
+                - `"cxcywh"`: boxes are represented via centre,
+                        width and height, cx, cy being
+                        center of box, w, h being width
+                        and height.<br>
+            The default is `"xywh"`.
 
         Returns
         -------
@@ -147,23 +147,23 @@ class ODMetrics:
             Parameters that should be provided per dict:
 
                 boxes : list[list[float]] | np.ndarray
-                    List of floats lists or np.ndarray; the length of the
+                    List of floats lists or `np.ndarray`; the length of the
                     list/array correspond to the number of boxes and each
                     list/array is 4-float specifying the box coordinates in
                     the format specified in the constructor.
                 labels : list[int] | np.ndarray
-                    List of integers or np.ndarray specifying the ground
+                    List of integers or `np.ndarray` specifying the ground
                     truth classes for the boxes: the length corresponds to
                     the number of boxes.
                 iscrowd : list[bool | Literal[0, 1]] | np.ndarray
-                    List of integers or np.ndarray specifying crowd regions:
+                    List of integers or `np.ndarray` specifying crowd regions:
                     the length corresponds to the number of boxes.
-                    The values can be bool or 0/1 indicating whether the
+                    The values can be `bool` or `0`/`1` indicating whether the
                     bounding box indicates a crowd of objects.
                     Value is optional, and if not provided it will
-                    automatically be set to False.
+                    automatically be set to `False`.
                 area : list[float] | np.ndarray
-                    A list of float or np.ndarray specifying the area of
+                    A list of `float` or `np.ndarray` specifying the area of
                     the objects: the length corresponds to the number of
                     boxes.
                     Value is optional, and if not provided will
@@ -178,15 +178,15 @@ class ODMetrics:
             Parameters that should be provided per dict:
 
                 boxes : list[list[float]] | np.ndarray
-                    List of float lists or np.ndarray; the length of the
+                    List of float lists or `np.ndarray`; the length of the
                     list/array correspond to the number of boxes and each
                     list/array is 4-float specifying the box coordinates in
                     the format specified in the constructor.
                 scores : list[float] | np.ndarray
-                    List of floats or np.ndarray specifying for the boxes:
-                    the length corresponds to the number of boxes.
+                    List of floats or `np.ndarray` specifying the score for
+                    the boxes: the length corresponds to the number of boxes.
                 labels : list[int] | np.ndarray
-                    List of integers or np.ndarray specifying the ground
+                    List of integers or `np.ndarray` specifying the ground
                     truth classes for the boxes: the length corresponds to
                     the number of boxes.
         extended_summary : bool, optional
@@ -197,75 +197,77 @@ class ODMetrics:
 
                 IoU : dict[tuple[int, int], np.ndarray]
                        A dictionary containing the IoU values for every
-                       image/class combination e.g. ious[(0,0)]
-                       would contain the IoU for image 0 and class 0.
-                       Each value is a np.ndarray with shape (n, m)
-                       where n is the number of detections and m is the number
-                       of ground truth boxes for that image/class combination.
+                       image/class combination e.g. `IoU[(0,0)]`
+                       would contain the IoU for image `0` and class `0`.
+                       Each value is a `np.ndarray` with shape `(n, m)`
+                       where `n` is the number of detections and `m` is
+                       the number of ground truth boxes for that image/class
+                       combination.
                 AP : np.ndarray
-                      Average precision: a np.ndarray of shape (T, R, K, A, M)
-                      containing the precision values.
+                      Average precision: a `np.ndarray` of shape
+                      `(T, R, K, A, M)` containing the precision values.
                       Here:
-                          - T is the number of IoU thresholds
-                          - R is the number of recall thresholds
-                          - K is the number of classes
-                          - A is the number of areas
-                          - M is the number of max detections per image
+                          - `T` is the number of IoU thresholds
+                          - `R` is the number of recall thresholds
+                          - `K` is the number of classes
+                          - `A` is the number of areas
+                          - `M` is the number of max detections per image
                 AR : np.ndarray
-                     A np.ndarray of shape (T, K, A, M) containing the
+                     A `np.ndarray` of shape `(T, K, A, M)` containing the
                      averag recall values.
                      Here:
-                         - T is the number of IoU thresholds
-                         - K is the number of classes
-                         - A is the number of areas
-                         - M is the number of max detections per image
+                         - `T` is the number of IoU thresholds
+                         - `K` is the number of classes
+                         - `A` is the number of areas
+                         - `M` is the number of max detections per image
                 mean_evaluator : Callable
                     Mean evaluator function.
                     Parameters are:
                         iou_threshold : (float | list[float] | np.ndarray
                                          | None), optional
                             IoU threshold on which calculate the mean.
-                            It can be a float, a list of floats, np.ndarray
-                            or None; all values must be inlcuded in the
+                            It can be a `float`, a list of floats, `np.ndarray`
+                            or `None`; all values must be inlcuded in the
                             constructor argument `iou_thresholds`.
-                            If None, all input `iou_thresholds` will be used.
-                            The default is None.
+                            If `None`, all input `iou_thresholds` will be used.
+                            The default is `None`.
                         area_range_key : (str | list[str] | np.ndarray
                                           | None), optional
                             Area range key on which calculate the mean.
-                            It can be a str, a list of strings, np.ndarray,
-                            or None; all values must be included in the
+                            It can be a `str`, a list of strings, `np.ndarray`,
+                            or `None`; all values must be included in the
                             constructor argument `area_ranges`.
-                            If None, all input `area_ranges` keys will be used.
-                            The default is None.
+                            If `None`, all input `area_ranges` keys will be
+                            used.
+                            The default is `None`.
                         max_detection_threshold : (int | list[int] |
                                                    np.ndarray | None), optional
                             Threshold on maxiumum detections per image on
                             which calculate the mean.
-                            It can be a int, a list of ints, np.ndarray
-                            or None; all values must be inlcuded in the
+                            It can be a `int`, a list of integers, `np.ndarray`
+                            or `None`; all values must be inlcuded in the
                             constructor argument `max_detection_thresholds`.
-                            If None, all input `max_detection_thresholds`
+                            If `None`, all input `max_detection_thresholds`
                             will be used.
-                            The default is None.
+                            The default is `None`.
                         label_id : (int | list[int] | np.ndarray
                                     | None), optional
                             Label ids on which calculate the mean.
-                            If `class_metrics` is True, `label_id` must be
+                            If `class_metrics` is `True`, `label_id` must be
                             included in the label ids of the provided `y_true`.
-                            If `class_metrics` is False, `label_id` must be -1
-                            (in this case equivalent to None).
-                            If None, all labels will be used.
-                            The default is None.
+                            If `class_metrics` is `False`, `label_id` must be
+                            `-1` (in this case equivalent to `None`).
+                            If `None`, all labels will be used.
+                            The default is `None`.
                         metrics : (Literal["AP", "AR"]
                                    | list[Literal["AP", "AR"]] | None),
                                    optional
                             Metrics on which calculate the mean.
-                            If None, both "AP" and "AR" will be used.
-                            The default is None.
+                            If `None`, both `"AP"` and `"AR"` will be used.
+                            The default is `None`.
                         include_spec : bool, optional
                             Whether to include mean settings specification.
-                            The default is False.
+                            The default is `False`.
                         prefix : str, optional
                             Prefix to add to metrics keys.
                             The default is `m`.
@@ -278,7 +280,7 @@ class ODMetrics:
             `{metric}@[{iou_thresholds} | {area_ranges}
                       | {max_detection_thresholds}]`
 
-            If a field is None, the corresponding string field will be emtpy,
+            If a field is `None`, the corresponding string field will be emtpy,
             e.g., `{metric}@[{iou_thresholds} | {area_ranges}]`
             indicate metrics calculated without limit to detections per image,
             i.e. `max_detections_thresholds` set to `None`.
@@ -445,7 +447,7 @@ class ODMetrics:
         Returns
         -------
         np.ndarray
-            np.ndarray containing IoU values between `y_true` and `y_pred`.
+            `np.ndarray` containing IoU values between `y_true` and `y_pred`.
         """
         if self.class_metrics:
             y_true_ = y_true[image_id, label_id]
@@ -519,7 +521,7 @@ class ODMetrics:
         -------
         dict[str, Any] | None
             Dictionary containing results given image and label.
-            None if there is no ground-truths and detections for that
+            `None` if there is no ground-truths and detections for that
             specific `image_id` and `label_id`.
         """
         if self.class_metrics:
@@ -829,55 +831,55 @@ class ODMetrics:
         ----------
         iou_threshold : float | list[float] | np.ndarray | None, optional
             IoU threshold on which calculate the mean.
-            It can be a float, a list of floats, np.ndarray
-            or None; all values must be inlcuded in the
+            It can be a `float`, a list of floats, `np.ndarray`
+            or `None`; all values must be inlcuded in the
             constructor argument `iou_thresholds`.
-            If None, all input `iou_thresholds` will be used.
-            The default is None.
+            If `None`, all input `iou_thresholds` will be used.
+            The default is `None`.
         area_range_key : str | list[str] | np.ndarray | None, optional
             Area range key on which calculate the mean.
-            It can be a str, a list of strings, np.ndarray,
-            or None; all values must be included in the
+            It can be a `str`, a list of strings, `np.ndarray`,
+            or `None`; all values must be included in the
             constructor argument `area_ranges`.
-            If None, all input `area_ranges` keys will be used.
-            The default is None.
+            If `None`, all input `area_ranges` keys will be used.
+            The default is `None`.
         max_detection_threshold : int | list[int] |
                                    np.ndarray | None), optional
-            Threshold on maxiumum detections per image on
+            Threshold on maximum detections per image on
             which calculate the mean.
-            It can be a int, a list of ints, np.ndarray
-            or None; all values must be inlcuded in the
+            It can be a `int`, a list of integers, `np.ndarray`
+            or `None`; all values must be inlcuded in the
             constructor argument `max_detection_thresholds`.
-            If None, all input `max_detection_thresholds`
+            If `None`, all input `max_detection_thresholds`
             will be used.
-            The default is None.
+            The default is `None`.
         label_id : int | list[int] | np.ndarray | None, optional
             Label ids on which calculate the mean.
-            If `class_metrics` is True, `label_id` must be
+            If `class_metrics` is `True`, `label_id` must be
             included in the label ids of the provided `y_true`.
-            If `class_metrics` is False, `label_id` must be -1 (in this case
-            equivalent to None).
-            If None, all labels will be used.
-            The default is None.
+            If `class_metrics` is `False`, `label_id` must be `-1`
+            (in this case equivalent to `None`).
+            If `None`, all labels will be used.
+            The default is `None`.
         metrics : Literal["AP", "AR"] | list[Literal["AP", "AR"]] | None,
                   optional
             Metrics on which calculate the mean.
-            If None, both "AP" and "AR" will be used.
-            The default is None.
+            If `None`, both `"AP"` and `"AR"` will be used.
+            The default is `None`.
         include_spec : bool, optional
             Whether to include mean settings specification.
-            The default is False.
+            The default is `False`.
         prefix : str, optional
             Prefix to add to metrics keys.
             The default is `m`.
         results : dict[str, Any] | type[_Missing], optional
             Dictionary containing aggregated images results.
-            If _Missing an error will be raised.
-            The default is _Missing.
+            If `_Missing` an error will be raised.
+            The default is `_Missing`.
         label_ids : list[int] | np.ndarray | type[_Missing], optional
-            All label ids found in y_true.
-            If _Missing an error will be raised.
-            The default is _Missing.
+            All label ids found in `y_true`.
+            If `_Missing` an error will be raised.
+            The default is `_Missing`.
 
         Returns
         -------
@@ -1006,8 +1008,8 @@ class ODMetrics:
             Mean evaluator function.
         label_id : int | list[int] | np.ndarray | None
             Label ids.
-            If None, all labels will be used.
-            The default is None.
+            If `None`, all labels will be used.
+            The default is `None`.
         prefix : str
             Prefix to add to metrics keys.
 
@@ -1052,7 +1054,7 @@ def iou(
     """
     Calculate IoU between bounding boxes.
 
-    Single bounding boxes must be in `xywh` format, i.e.
+    Single bounding boxes must be in `"xywh"` format, i.e.
         [xmin, ymin, width, height]
 
     The standard iou of a ground truth `y_true` and detected

@@ -33,7 +33,7 @@ except ImportError:
     )
 @parameterized_class(TESTS)
 class TestPyCocoEquivalenceMetrics(unittest.TestCase):
-    """Test equivalence: ODMetrics and pycocotools.COCOeval"""
+    """Test equivalence: ODMetrics and `pycocotools.COCOeval()` method."""
 
     metrics_settings: dict
     compute_settings: dict
@@ -47,7 +47,7 @@ class TestPyCocoEquivalenceMetrics(unittest.TestCase):
             pycoco_params: pycocotools.cocoeval.Params,
             real_max_detections: int | None,
             ) -> pycocotools.cocoeval.Params:
-        """Set pycocotools.cocoeval.Params."""
+        """Set `pycocotools.cocoeval.Params`."""
         pycoco_params.iouThrs = od_metrics_params["iou_thresholds"]
         pycoco_params.recThrs = od_metrics_params["recall_thresholds"]
         # Handle max_detection_thresholds case
@@ -71,7 +71,7 @@ class TestPyCocoEquivalenceMetrics(unittest.TestCase):
             od_metrics_ious: dict,
             pycoco_ious: dict,
             ) -> bool:
-        """Test equivalence: od-metrics ious and pycocotools.ious."""
+        """Test equivalence: od-metrics ious and `pycocotools.ious`."""
         od_metrics_ious = dict(map(
             lambda x: (x[0], [] if np.array_equal(x[1], np.array([]))
                        else x[1]), od_metrics_ious.items()
@@ -87,7 +87,7 @@ class TestPyCocoEquivalenceMetrics(unittest.TestCase):
             od_metrics_output: dict,
             pycoco_eval: dict,
             ) -> bool:
-        """Test equivalence: od-metrics and pycocotools aggregated results."""
+        """Test equivalence: od-metrics and `pycocotools` aggregated result."""
         od_metrics_output = copy.deepcopy(od_metrics_output)
         pycoco_eval = copy.deepcopy(pycoco_eval)
 
@@ -108,7 +108,7 @@ class TestPyCocoEquivalenceMetrics(unittest.TestCase):
             pycoco_stats: np.ndarray,
             is_default_coco: bool,
             ) -> bool:
-        """Test equivalence: od-metrics summary and pycocotools summary."""
+        """Test equivalence: od-metrics summary and `pycocotools` summary."""
         # Check default settings
         if is_default_coco:
             od_metrics_stats = np.array([
@@ -135,7 +135,7 @@ class TestPyCocoEquivalenceMetrics(unittest.TestCase):
 
     # pylint: disable=R0915, R0912, R0914
     def test_equivalence(self) -> None:
-        """Test equivalence: od-metrics and pycocotools."""
+        """Test equivalence: od-metrics and `pycocotools`."""
         # Get annotations
         y_true_od_metrics = annotations_generator(
             **self.annotations_settings["y_true"])
@@ -301,7 +301,7 @@ class TestPyCocoEquivalenceMetrics(unittest.TestCase):
     "running `pip install pycocotools`"
     )
 class TestPyCocoEquivalenceIoU(unittest.TestCase):
-    """Test equivalence: od-metrics and pycocotools iou function."""
+    """Test equivalence: od-metrics and `pycocotools` iou function."""
 
     HIGH = 100000
     SIZE = 3000

@@ -21,7 +21,7 @@ def to_array(
         input_: Any,
         ) -> np.ndarray:
     """
-    Trasform input to np.ndarray.
+    Trasform input to `np.ndarray`.
 
     Parameters
     ----------
@@ -31,7 +31,7 @@ def to_array(
     Returns
     -------
     np.ndarray
-        Input converted to numpy array.
+        Input converted to `np.ndarray`.
     """
     if not isinstance(input_, np.ndarray):
         output = np.array(input_)
@@ -56,14 +56,14 @@ def get_indexes(
     Parameters
     ----------
     array1 : np.ndarray
-        The np.ndarray to search for elements.
+        The `np.ndarray` to search for elements.
     array2 : np.ndarray
-        The np.ndarray to search for matches.
+        The `np.ndarray` to search for matches.
 
     Returns
     -------
     np.ndarray
-        A np.ndarray of indices where elements from `array1` are
+        A `np.ndarray` of indices where elements from `array1` are
         present in `array2`.
     """
     return np.sort(np.where(np.isin(
@@ -82,7 +82,7 @@ def xyxy_xywh(bbox: list[float]) -> list[float]:
     Returns
     -------
     list[float]
-        Bounding box in `xywh` format.
+        Bounding box in `"xywh"` format.
     """
     return [
         bbox[0],
@@ -94,7 +94,7 @@ def xyxy_xywh(bbox: list[float]) -> list[float]:
 
 def cxcywh_xywh(bbox: list[float]) -> list[float]:
     """
-    Change bounding box format from `cxcywh` to `xywh`.
+    Change bounding box format from `"cxcywh"` to `"xywh"`.
 
     Parameters
     ----------
@@ -104,7 +104,7 @@ def cxcywh_xywh(bbox: list[float]) -> list[float]:
     Returns
     -------
     list[float]
-        Bounding box in `xywh` format.
+        Bounding box in `"xywh"` format.
     """
     return [
         bbox[0] - bbox[2] / 2,
@@ -119,7 +119,7 @@ def to_xywh(
         box_format: Literal["xyxy", "xywh", "cxcywh"],
         ) -> list[float]:
     """
-    Change bounding box format to `xywh`.
+    Change bounding box format to `"xywh"`.
 
     Parameters
     ----------
@@ -127,17 +127,17 @@ def to_xywh(
         Input bounding box.
     box_format : Literal["xyxy", "xywh", "cxcywh"]
         Input bounding box format.
-        It can be `xyxy`, `xywh` or `cxcywh`.
+        It can be `"xyxy"`, `"xywh"` or `"cxcywh"`.
 
     Raises
     ------
     ValueError
-        If `box_format` not in `xyxy`, `xywh`, `cxcywh`.
+        If `box_format` not one of `"xyxy"`, `"xywh"`, `"cxcywh"`.
 
     Returns
     -------
     list[float]
-        Bounding box in `xywh` format.
+        Bounding box in `"xywh"` format.
     """
     if box_format == "xywh":
         return bbox
@@ -145,7 +145,7 @@ def to_xywh(
         return xyxy_xywh(bbox)
     if box_format == "cxcywh":
         return cxcywh_xywh(bbox)
-    raise ValueError("`box_format` can be `xyxy`, `xywh`, `cxcywh`. "
+    raise ValueError("`box_format` can be `'xyxy'`, `'xywh'`, `'cxcywh'`. "
                      f"Found {box_format}")
 
 
