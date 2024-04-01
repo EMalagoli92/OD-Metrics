@@ -22,7 +22,7 @@ extra_javascript:
 markdown_extensions:
   - mdx_math
   - toc:
-      toc_depth: 2
+      toc_depth: 3
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
