@@ -17,7 +17,10 @@ hide:
   <img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/EMalagoli92/331395960725a4b47d4ca4977a24e949/raw/version.json?kill_cache=1" />
   <a href="https://github.com/EMalagoli92/OD-Metrics/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT">
-  </a>  
+  </a><br>
+  <a href="https://mybinder.org/v2/gh/EMalagoli92/OD-metrics/HEAD?labpath=samples%2Fsamples.ipynb">
+    <img src="https://mybinder.org/badge_logo.svg">
+  </a>
 </p>
 
 <p align="center">
