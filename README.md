@@ -12,6 +12,9 @@
   <img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/EMalagoli92/331395960725a4b47d4ca4977a24e949/raw/version.json?kill_cache=1" />
   <a href="https://github.com/EMalagoli92/OD-Metrics/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT">
+  </a><br>
+  <a href="https://mybinder.org/v2/gh/EMalagoli92/OD-metrics/HEAD?labpath=samples%2Fsamples.ipynb">
+    <img src="https://mybinder.org/badge_logo.svg">
   </a>
 </p>
 
@@ -33,6 +36,7 @@ and `mAR` can be set by user to custom values;
 - **Compatibility with [COCOAPI](https://github.com/cocodataset/cocoapi)**: each
 calculated metric is tested to coincide with COCOAPI metrics. 
 
+
 ## Installation
 Install from PyPI
 ```
@@ -45,6 +49,10 @@ pip install git+https://github.com/EMalagoli92/OD-Metrics
 
 ## Documentation
 For help, usage and API reference, please refer to [Documentation](https://emalagoli92.github.io/OD-Metrics/)
+
+
+## Try live Demo
+Try OD-Metrics samples with Binder [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/EMalagoli92/OD-metrics/HEAD?labpath=samples%2Fsamples.ipynb)
 
 
 ## Simple Example
