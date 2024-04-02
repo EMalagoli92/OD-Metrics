@@ -420,6 +420,11 @@ array([[0.67655425, 0.        ],
 `iou` function supports `iscrowd` [COCOAPI](https://github.com/cocodataset/cocoapi) parameter.
 Please refer to [iou][src.od_metrics.od_metrics.iou] source code.
 
+
+## Try live Demo
+Try OD-Metrics samples with Binder [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/EMalagoli92/OD-metrics/HEAD?labpath=samples%2Fsamples.ipynb)
+
+
 ## API Reference
 ::: src.od_metrics.od_metrics
     selection:
