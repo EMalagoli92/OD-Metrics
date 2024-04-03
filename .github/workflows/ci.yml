@@ -30,8 +30,3 @@ jobs:
       - run: pip install mkdocstrings
       - run: pip install mkdocstrings-python
       - run: mkdocs gh-deploy --force
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4.0.1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          slug: EMalagoli92/OD-Metrics
