@@ -20,7 +20,6 @@
     <img src="https://mybinder.org/badge_logo.svg"></a>
   <a href="https://colab.research.google.com/github/EMalagoli92/OD-Metrics/blob/main/samples/samples.ipynb">
     <img src="https://img.shields.io/badge/Open%20in%20Colab-blue?logo=google-colab&style=flat&labelColor=555"></a>
-  
 </p>
 
 <p align="center">
