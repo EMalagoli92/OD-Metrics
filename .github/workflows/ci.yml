@@ -30,3 +30,18 @@ jobs:
       - run: pip install mkdocstrings
       - run: pip install mkdocstrings-python
       - run: mkdocs gh-deploy --force
+            - name: Set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Coverage
+        run: |
+          pip install -r requirements.txt
+          pip install pycocotools==2.0.7
+          pip install coverage
+          coverage run -m unittest discover tests
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: EMalagoli92/OD-Metrics
