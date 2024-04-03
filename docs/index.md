@@ -20,9 +20,11 @@ hide:
   <br>
   <img src="https://img.shields.io/badge/python-%3E=3.9-yellow.svg?style=flat">
   <a href="https://github.com/EMalagoli92/OD-Metrics/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat" alt="License: MIT"></a>
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat" alt="License: MIT"></a><br>
   <a href="https://mybinder.org/v2/gh/EMalagoli92/OD-metrics/HEAD?labpath=samples%2Fsamples.ipynb">
     <img src="https://mybinder.org/badge_logo.svg"></a>
+  <a href="https://colab.research.google.com/github/EMalagoli92/OD-Metrics/blob/main/samples/samples.ipynb">
+    <img src="https://img.shields.io/badge/Open%20in%20Colab-blue?logo=google-colab&style=flat&labelColor=555"></a>
 </p>
 
 <p align="center">
@@ -58,7 +60,8 @@ pip install git+https://github.com/EMalagoli92/OD-Metrics
 ## Usage
 
 ### Try live Demo
-Try OD-Metrics samples with Binder [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/EMalagoli92/OD-metrics/HEAD?labpath=samples%2Fsamples.ipynb)
+Try OD-Metrics samples [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/EMalagoli92/OD-metrics/HEAD?labpath=samples%2Fsamples.ipynb)
+[![Colab](https://img.shields.io/badge/Open%20in%20Colab-blue?logo=google-colab&style=flat&labelColor=555)]("https://colab.research.google.com/github/EMalagoli92/OD-Metrics/blob/main/samples/samples.ipynb")
 
 ### Simple example.
 Suppose to be in the following situation. 
