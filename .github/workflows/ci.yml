@@ -30,7 +30,7 @@ jobs:
       - run: pip install mkdocstrings
       - run: pip install mkdocstrings-python
       - run: mkdocs gh-deploy --force
-            - name: Set up python
+      - name: Set up python
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
