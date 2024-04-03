@@ -13,9 +13,9 @@
   <a href="https://codecov.io/gh/EMalagoli92/OD-Metrics">
     <img src="https://codecov.io/gh/EMalagoli92/OD-Metrics/graph/badge.svg?token=U7VJTKGYN6"></a>
   <br>
-  <img src="https://img.shields.io/badge/python-%3E=3.9-yellow.svg?style=flat-square">
+  <img src="https://img.shields.io/badge/python-%3E=3.9-yellow.svg?style=flat">
   <a href="https://github.com/EMalagoli92/OD-Metrics/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT"></a>
+    <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat" alt="License: MIT"></a>
   <a href="https://mybinder.org/v2/gh/EMalagoli92/OD-metrics/HEAD?labpath=samples%2Fsamples.ipynb">
     <img src="https://mybinder.org/badge_logo.svg"></a>
 </p>
