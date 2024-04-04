@@ -25,8 +25,8 @@ except ImportError:
 
 
 @parameterized_class(TESTS)
-class TestODMetrics(unittest.TestCase):
-    """Test `od_metrics.ODMetrics` class."""
+class TestBaseODMetrics(unittest.TestCase):
+    """Test `od_metrics.ODMetrics` class core functionalties."""
 
     metrics_settings: dict
     compute_settings: dict
@@ -286,6 +286,18 @@ class TestODMetrics(unittest.TestCase):
             and (od_metrics_obj.area_ranges
                  == DEFAULT_COCO["area_ranges"])
         )
+
+
+class TestMiscODMetrics(unittest.TestCase):
+    """Test `od_metrics.ODMetrics` class additional functionalties."""
+
+    def test_get_mean_exceptions(self) -> None:
+        """Test `_get_mean()` method exceptions."""
+        metrics = ODMetrics()
+        with self.assertRaises(TypeError):
+            metrics._get_mean(results=None)  # pylint: disable=W0212
+        with self.assertRaises(TypeError):
+            metrics._get_mean(label_ids=None)  # pylint: disable=W0212
 
 
 class TestIoU(unittest.TestCase):
