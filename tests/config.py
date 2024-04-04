@@ -220,6 +220,15 @@ area_ranges_tests = [
      "exceptions": {"init": ValidationError},
      "ids": "area_ranges_ValidationError5"
      },
+    {
+     "metrics_settings": {
+         "area_ranges": {"custom1": [2, 3],
+                         "custom2": [2, 3]},
+         },
+     "compute_settings": {"extended_summary": True},
+     "exceptions": {"init": ValidationError},
+     "ids": "area_ranges_ValidationError6"
+     },
     ]
 
 
