@@ -25,8 +25,8 @@ except ImportError:
 
 
 @parameterized_class(TESTS)
-class TestPyCocoEquivalenceMetrics(unittest.TestCase):
-    """Test equivalence: ODMetrics and `pycocotools.COCOeval()` method."""
+class TestODMetrics(unittest.TestCase):
+    """Test `od_metrics.ODMetrics` class."""
 
     metrics_settings: dict
     compute_settings: dict
@@ -128,7 +128,7 @@ class TestPyCocoEquivalenceMetrics(unittest.TestCase):
 
     # pylint: disable=R0915, R0912, R0914
     def test_equivalence(self) -> None:
-        """Test equivalence: od-metrics and `pycocotools`."""
+        """Test equivalence: `od_metrics.ODMetrics` class and `pycocotools`."""
         # Get annotations
         y_true_od_metrics = annotations_generator(
             **self.annotations_settings["y_true"])
@@ -289,7 +289,7 @@ class TestPyCocoEquivalenceMetrics(unittest.TestCase):
 
 
 class TestIoU(unittest.TestCase):
-    """Test IoU metric."""
+    """Test `od_metrics.iou()` function."""
 
     HIGH = 100000
     SIZE = 3000
