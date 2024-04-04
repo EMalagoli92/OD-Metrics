@@ -10,6 +10,11 @@ theme:
   features:
     - content.code.copy
     - content.code.select
+    - navigation.sections
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tabs
+    - navigation.tabs.sticky
  
 plugins:
   - mkdocstrings:
@@ -36,4 +41,8 @@ markdown_extensions:
 extra_css:
   - assets/custom.css
 repo_name: OD-Metrics
-repo_url: https://github.com/EMalagoli92/OD-metrics  
+repo_url: https://github.com/EMalagoli92/OD-metrics
+nav:
+  - Get Started: index.md
+  - Usage: usage.md
+  - API Reference: api_reference.md
