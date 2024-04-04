@@ -46,6 +46,14 @@ iou_thresholds_tests = [
      "exceptions": {"init": ValidationError},
      "ids": "iou_thresholds_ValidationError2"
      },
+    {
+     "metrics_settings": {
+         "iou_thresholds": [.5, .5],
+     },
+     "compute_settings": {"extended_summary": True},
+     "exceptions": {"init": ValidationError},
+     "ids": "iou_thresholds_ValidationError3"
+     },
     ]
 
 
@@ -86,6 +94,14 @@ recall_thresholds_tests = [
      "compute_settings": {"extended_summary": True},
      "exceptions": {"init": ValidationError},
      "ids": "recall_thresholds_ValidationError2"
+     },
+    {
+     "metrics_settings": {
+         "recall_thresholds": [.2, .2],
+     },
+     "compute_settings": {"extended_summary": True},
+     "exceptions": {"init": ValidationError},
+     "ids": "recall_thresholds_ValidationError3"
      },
     ]
 
@@ -129,7 +145,15 @@ max_detection_thresholds_tests = [
          },
      "compute_settings": {"extended_summary": True},
      "exceptions": {"init": ValidationError},
-     "ids": "max_detection_thresholds_ValidationError"
+     "ids": "max_detection_thresholds_ValidationError1"
+     },
+    {
+     "metrics_settings": {
+         "max_detection_thresholds": [2, 2],
+         },
+     "compute_settings": {"extended_summary": True},
+     "exceptions": {"init": ValidationError},
+     "ids": "max_detection_thresholds_ValidationError2"
      },
     ]
 
@@ -372,6 +396,14 @@ mean_evaluator_tests = [
      "exceptions": {"mean_evaluator": ValueError},
      "ids": "mean_evaluator_iou_ValueError"
      },
+    {
+     "compute_settings": {"extended_summary": True},
+     "mean_evaluator_settings": {
+         "iou_threshold": [.5, .5],
+         },
+     "exceptions": {"mean_evaluator": ValidationError},
+     "ids": "mean_evaluator_iou_ValidationError"
+     },
     # area_range_key
     {
      "compute_settings": {"extended_summary": True},
@@ -409,6 +441,14 @@ mean_evaluator_tests = [
      "exceptions": {"mean_evaluator": ValueError},
      "ids": "mean_evaluator_area_range_key_ValueError"
      },
+    {
+     "compute_settings": {"extended_summary": True},
+     "mean_evaluator_settings": {
+         "area_range_key": ["all", "all"],
+         },
+     "exceptions": {"mean_evaluator": ValidationError},
+     "ids": "mean_evaluator_area_range_key_ValidationError"
+     },
     # max_detection_threshold
     {
      "compute_settings": {"extended_summary": True},
@@ -445,6 +485,14 @@ mean_evaluator_tests = [
          },
      "exceptions": {"mean_evaluator": ValueError},
      "ids": "mean_evaluator_max_detection_ValueError"
+     },
+    {
+     "compute_settings": {"extended_summary": True},
+     "mean_evaluator_settings": {
+         "max_detection_threshold": [10, 10],
+         },
+     "exceptions": {"mean_evaluator": ValidationError},
+     "ids": "mean_evaluator_max_detection_ValidationError"
      },
     # label_id
     {
