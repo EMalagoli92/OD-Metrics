@@ -24,7 +24,7 @@
 
 <p align="center">
   <strong>
-    A metrics python library for Object Detection.
+    A python library for Object Detection metrics.
   </strong>
 </p>
 
