@@ -4,7 +4,8 @@ hide:
 ---
 ## Try live Demo
 Try OD-Metrics samples [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/EMalagoli92/OD-metrics/HEAD?labpath=samples%2Fsamples.ipynb)
-[![Colab](https://img.shields.io/badge/Open%20in%20Colab-blue?logo=google-colab&style=flat&labelColor=555)]("https://colab.research.google.com/github/EMalagoli92/OD-Metrics/blob/main/samples/samples.ipynb")
+  <a href="https://colab.research.google.com/github/EMalagoli92/OD-Metrics/blob/main/samples/samples.ipynb">
+    <img src="https://img.shields.io/badge/Open%20in%20Colab-blue?logo=google-colab&style=flat&labelColor=555"></a>
 
 ## Simple example.
 Suppose to be in the following situation. 
