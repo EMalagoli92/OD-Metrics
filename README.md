@@ -39,7 +39,7 @@ calculated metric is tested to coincide with COCOAPI metrics.
 
 ## Supported Metrics
 Supported metrics include `mAP` (Mean Average Precision), `mAR` (Mean Average Recall)
-and Intersection over Union `IoU`.
+and `IoU` (Intersection over Union).
 
 ## Documentation
 For help, usage and API reference, please refer to [Documentation](https://emalagoli92.github.io/OD-Metrics/)
