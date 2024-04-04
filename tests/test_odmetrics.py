@@ -19,18 +19,11 @@ try:
     from pycocotools import mask as maskUtils
     from pycocotools.coco import COCO
     from pycocotools.cocoeval import COCOeval
-    _PYCOCOTOOLS_AVAILABLE = True
 except ImportError:
-    _PYCOCOTOOLS_AVAILABLE = False
+    print("This unittest needs `pycocotools`. Please intall by "
+          "running `pip install pycocotools`")
 
-# pylint: disable=E1101
 
-
-@unittest.skipUnless(
-    _PYCOCOTOOLS_AVAILABLE,
-    "This unittest needs `pycocotools`. Please intall by "
-    "running `pip install pycocotools`"
-    )
 @parameterized_class(TESTS)
 class TestPyCocoEquivalenceMetrics(unittest.TestCase):
     """Test equivalence: ODMetrics and `pycocotools.COCOeval()` method."""
@@ -301,11 +294,6 @@ class TestIoU(unittest.TestCase):
     HIGH = 100000
     SIZE = 3000
 
-    @unittest.skipUnless(
-        _PYCOCOTOOLS_AVAILABLE,
-        "This unittest needs `pycocotools`. Please intall by "
-        "running `pip install pycocotools`"
-        )
     @parameterized.expand([(None), ("random")])
     def test_pycoco_equivalence(
             self,
