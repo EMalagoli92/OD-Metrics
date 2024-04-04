@@ -1,8 +1,8 @@
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/EMalagoli92/OD-Metrics/main/docs/assets/logo_dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/EMalagoli92/OD-Metrics/main/docs/assets/logo_light.svg">
-  <img width="400" height="400" src="https://raw.githubusercontent.com/EMalagoli92/OD-Metrics/main/docs/assets/logo_light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/EMalagoli92/OD-Metrics/main/docs/assets/images/logo_dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/EMalagoli92/OD-Metrics/main/docs/assets/images/logo_light.svg">
+  <img width="400" height="400" src="https://raw.githubusercontent.com/EMalagoli92/OD-Metrics/main/docs/assets/images/logo_light.svg">
 </picture>
 </div>
 <p align="center">

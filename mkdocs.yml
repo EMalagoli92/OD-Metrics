@@ -5,8 +5,8 @@ theme:
   palette:
     scheme: slate
     primary: amber
-  logo: assets/logo_small.svg
-  favicon: assets/logo_small_orange.svg
+  logo: assets/images/logo_small.svg
+  favicon: assets/images/logo_small_orange.svg
   features:
     - content.code.copy
     - content.code.select
@@ -39,7 +39,7 @@ markdown_extensions:
   - admonition
   - pymdownx.details
 extra_css:
-  - assets/custom.css
+  - assets/stylesheets/custom.css
 repo_name: OD-Metrics
 repo_url: https://github.com/EMalagoli92/OD-metrics
 nav:

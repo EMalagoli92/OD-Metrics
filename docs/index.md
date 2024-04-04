@@ -5,9 +5,9 @@ hide:
 # OD-Metrics
 <div align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/logo_dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/logo_light.svg">
-  <img width="400" height="400" src="assets/logo_dark.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/images/logo_dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/images/logo_light.svg">
+  <img width="400" height="400" src="assets/images/logo_dark.svg">
 </picture>
 </div>
 <p align="center">
