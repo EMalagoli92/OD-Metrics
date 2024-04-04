@@ -4,13 +4,13 @@ from __future__ import annotations
 
 import unittest
 import copy
-from typing import Any
+from typing import Any, Literal
 import numpy as np
-from parameterized import parameterized_class
+from parameterized import parameterized, parameterized_class
 
 from src.od_metrics import ODMetrics, iou
 from src.od_metrics.constants import DEFAULT_COCO
-from tests.utils import annotations_generator, pycoco_converter,\
+from tests.utils import annotations_generator, pycoco_converter, \
     test_equality, rename_dict, xywh_to
 from tests.config import TESTS
 
@@ -295,28 +295,37 @@ class TestPyCocoEquivalenceMetrics(unittest.TestCase):
         )
 
 
-@unittest.skipUnless(
-    _PYCOCOTOOLS_AVAILABLE,
-    "This unittest needs `pycocotools`. Please intall by "
-    "running `pip install pycocotools`"
-    )
-class TestPyCocoEquivalenceIoU(unittest.TestCase):
-    """Test equivalence: od-metrics and `pycocotools` iou function."""
+class TestIoU(unittest.TestCase):
+    """Test IoU metric."""
 
     HIGH = 100000
     SIZE = 3000
 
-    def test_iou(self) -> None:
-        """Test IoU."""
-        iscrowd = list(map(
-            bool,
-            np.random.randint(
-                low=0,
-                high=2,
-                size=[self.SIZE]
-                ).tolist()
-            )
+    @unittest.skipUnless(
+        _PYCOCOTOOLS_AVAILABLE,
+        "This unittest needs `pycocotools`. Please intall by "
+        "running `pip install pycocotools`"
         )
+    @parameterized.expand([(None), ("random")])
+    def test_pycoco_equivalence(
+            self,
+            iscrowd_mode: Literal["random", None],
+            ) -> None:
+        """Test equivalence: `od_metrics` and `pycocotools` iou function."""
+        if iscrowd_mode == "random":
+            iscrowd = list(map(
+                bool,
+                np.random.randint(
+                    low=0,
+                    high=2,
+                    size=[self.SIZE]
+                    ).tolist()
+                )
+            )
+            iscrowd_pycoco = iscrowd
+        else:
+            iscrowd = None
+            iscrowd_pycoco = [False] * self.SIZE
         y_pred = np.random.randint(
             low=1,
             high=self.HIGH,
@@ -333,9 +342,38 @@ class TestPyCocoEquivalenceIoU(unittest.TestCase):
             y_pred=y_pred,
             iscrowd=iscrowd
             )
-        pycoco_ious = maskUtils.iou(y_pred, y_true, iscrowd)
+        pycoco_ious = maskUtils.iou(y_pred, y_true, iscrowd_pycoco)
 
         self.assertTrue(test_equality(od_metrics_ious, pycoco_ious))
+
+    def test_length_exception(self) -> None:
+        """Test exception `iscrowd` and `y_true` different length."""
+        iscrowd = list(map(
+            bool,
+            np.random.randint(
+                low=0,
+                high=2,
+                size=[self.SIZE + 1]
+                ).tolist()
+            )
+        )
+        y_pred = np.random.randint(
+            low=1,
+            high=self.HIGH,
+            size=[self.SIZE, 4]
+            )
+        y_true = np.random.randint(
+            low=1,
+            high=self.HIGH,
+            size=[self.SIZE, 4]
+            )
+
+        with self.assertRaises(ValueError):
+            iou(
+                y_true=y_true,
+                y_pred=y_pred,
+                iscrowd=iscrowd,
+                )
 
 
 if __name__ == "__main__":
