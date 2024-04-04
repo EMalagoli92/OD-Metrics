@@ -29,7 +29,7 @@ hide:
 
 <p align="center">
   <strong>
-    A metrics package for Object Detection. 
+    A metrics python library for Object Detection.
   </strong>
 </p>
 
