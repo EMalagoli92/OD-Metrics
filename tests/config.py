@@ -682,6 +682,18 @@ mean_evaluator_tests = [
 annotations_tests = [
     {
      "compute_settings": {"extended_summary": True},
+     "y_true": [
+         {"labels": [0, 2],
+          "boxes": np.array([[17, 83, 97, 47], [57, 86, 96, 73]])}
+         ],
+     "y_pred": [
+         {"labels": [0, 2],
+          "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]], "scores": [.2, .3]}
+         ],
+     "ids": "annotations_boxes_numpy_array"
+     },
+    {
+     "compute_settings": {"extended_summary": True},
      "annotations_settings": {
          "y_true": {"n_classes": 3},
          "y_pred": {"n_classes": 7},

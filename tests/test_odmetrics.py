@@ -5,13 +5,14 @@ from __future__ import annotations
 import unittest
 import copy
 from typing import Any, Literal
+from functools import partial
 import numpy as np
 from parameterized import parameterized, parameterized_class
 
 from src.od_metrics import ODMetrics, iou
 from src.od_metrics.constants import DEFAULT_COCO
 from tests.utils import annotations_generator, pycoco_converter, \
-    test_equality, rename_dict, xywh_to
+    test_equality, rename_dict, xywh_to, apply_function
 from tests.config import TESTS
 
 try:
@@ -169,17 +170,14 @@ class TestBaseODMetrics(unittest.TestCase):
                 od_metrics_obj = ODMetrics(**self.metrics_settings)
             return
         # Box format
+        convert_fn = partial(xywh_to, box_format=od_metrics_obj.box_format)
         y_true_od_metrics = [
-            ann | {
-                "boxes": [
-                    list(xywh_to(box, od_metrics_obj.box_format))
-                    for box in ann["boxes"]]} for ann in y_true_od_metrics
+            ann | {"boxes": apply_function(ann["boxes"], convert_fn)}
+            for ann in y_true_od_metrics
             ]
         y_pred_od_metrics = [
-            ann | {
-                "boxes": [
-                    list(xywh_to(box, od_metrics_obj.box_format))
-                    for box in ann["boxes"]]} for ann in y_pred_od_metrics
+            ann | {"boxes": apply_function(ann["boxes"], convert_fn)}
+            for ann in y_pred_od_metrics
             ]
 
         # Compute
