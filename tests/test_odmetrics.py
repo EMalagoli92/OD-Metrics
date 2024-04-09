@@ -33,6 +33,9 @@ class TestBaseODMetrics(unittest.TestCase):
     annotations_settings: dict
     mean_evaluator_settings: dict
     exceptions: dict
+    y_true: list | None
+    y_pred: list | None
+    to_cover: dict
 
     def get_pycoco_params(
             self,
@@ -149,8 +152,12 @@ class TestBaseODMetrics(unittest.TestCase):
         )
 
         # Prepare pycoco annotations
-        y_true_pycoco = pycoco_converter(y_true_od_metrics)
-        y_pred_pycoco = pycoco_converter(y_pred_od_metrics)
+        if self.to_cover.get("pycoco_converter", True):
+            y_true_pycoco = pycoco_converter(y_true_od_metrics)
+            y_pred_pycoco = pycoco_converter(y_pred_od_metrics)
+        else:
+            y_true_pycoco = None
+            y_pred_pycoco = None
 
         # Run Od_metrics evaluation
         # Init

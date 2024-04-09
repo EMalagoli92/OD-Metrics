@@ -710,6 +710,20 @@ annotations_tests = [
      "exceptions": {"compute": ValidationError},
      "ids": "annotations_exception_different_attributes_length"
      },
+    {
+     "compute_settings": {"extended_summary": True},
+     "y_true": [
+         {"labels": [0, 2],
+          "boxes": [[17, 83, 97], [57, 86, 96, 73]]}
+         ],
+     "y_pred": [
+         {"labels": [0, 2],
+          "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]], "scores": [.2, .3]}
+         ],
+     "exceptions": {"compute": ValidationError},
+     "to_cover": {"pycoco_converter": False},
+     "ids": "annotations_exception_boxes_length"
+     },
     ]
 
 
@@ -767,6 +781,10 @@ for test in tests:
         test_tmp["ids"] += f"__classs_metrics_{class_metrics_}"
         test_tmp["exceptions"] = test_tmp.get(
             "exceptions",
+            {}
+            )
+        test_tmp["to_cover"] = test_tmp.get(
+            "to_cover",
             {}
             )
         TESTS.append(test_tmp)
