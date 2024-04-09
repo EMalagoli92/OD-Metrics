@@ -678,11 +678,8 @@ mean_evaluator_tests = [
      },
     ]
 
-misc_tests = [
-    {
-     "compute_settings": {"extended_summary": True},
-     "ids": "default_COCO",
-     },
+
+annotations_tests = [
     {
      "compute_settings": {"extended_summary": True},
      "annotations_settings": {
@@ -699,6 +696,14 @@ misc_tests = [
          },
      "exceptions": {"compute": ValidationError},
      "ids": "misc_exception_compute_different_images"
+     },
+    ]
+
+
+misc_tests = [
+    {
+     "compute_settings": {"extended_summary": True},
+     "ids": "default_COCO",
      },
     {
      "compute_settings": {"extended_summary": "yes"},
@@ -717,6 +722,7 @@ tests: list[dict] = (
     + objects_number_tests
     + objects_size_tests
     + mean_evaluator_tests
+    + annotations_tests
     + misc_tests
     )
 
