@@ -130,10 +130,16 @@ class TestBaseODMetrics(unittest.TestCase):
     def test_equivalence(self) -> None:
         """Test equivalence: `od_metrics.ODMetrics` class and `pycocotools`."""
         # Get annotations
-        y_true_od_metrics = annotations_generator(
-            **self.annotations_settings["y_true"])
-        y_pred_od_metrics = annotations_generator(
-            **self.annotations_settings["y_pred"], include_score=True)
+        if getattr(self, "y_true", None):
+            y_true_od_metrics = self.y_true
+        else:
+            y_true_od_metrics = annotations_generator(
+                **self.annotations_settings["y_true"])
+        if getattr(self, "y_pred", None):
+            y_pred_od_metrics = self.y_pred
+        else:
+            y_pred_od_metrics = annotations_generator(
+                **self.annotations_settings["y_pred"], include_score=True)
         # max detections: Only used for max_detections_thresholds=None case
         real_max_detections = (
             max(detect["boxes"].shape[0] for detect in y_pred_od_metrics)
