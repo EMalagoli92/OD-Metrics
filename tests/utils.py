@@ -221,11 +221,11 @@ def test_equality(
                                                 "length.")
 
             for el1, el2 in zip(input1, input2):
-                checks.append(test_equality(el1, el2))
-        else:
-            checks.append(input1 == input2)
-    except AssertionError:
-        checks = [False]
+                checks.append(test_equality(el1, el2))  # pragma: no cover
+        else:                                           # pragma: no cover
+            checks.append(input1 == input2)             # pragma: no cover
+    except AssertionError:                              # pragma: no cover
+        checks = [False]                                # pragma: no cover
 
     return all(checks)
 
