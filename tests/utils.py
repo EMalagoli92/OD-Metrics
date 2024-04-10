@@ -363,5 +363,7 @@ def apply_function(
         return [func(elem) for elem in x]
     if isinstance(x, np.ndarray):
         return np.array([func(elem) for elem in x])
-    raise TypeError("Type not supported. Supported types are: `list` or"
-                    f"`np.ndarray`. Found: {type(x)}")
+    raise TypeError(  # pragma: no cover
+        "Type not supported. Supported types are: `list` or"
+        f"`np.ndarray`. Found: {type(x)}"
+        )
