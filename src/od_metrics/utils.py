@@ -145,8 +145,10 @@ def to_xywh(
         return xyxy_xywh(bbox)
     if box_format == "cxcywh":
         return cxcywh_xywh(bbox)
-    raise ValueError("`box_format` can be `'xyxy'`, `'xywh'`, `'cxcywh'`. "
-                     f"Found {box_format}")
+    raise ValueError(  # pragma: no cover
+        "`box_format` can be `'xyxy'`, `'xywh'`, `'cxcywh'`. "
+        f"Found {box_format}"
+        )
 
 
 def get_suffix(
