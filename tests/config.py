@@ -736,6 +736,32 @@ annotations_tests = [
      "to_cover": {"pycoco_converter": False},
      "ids": "annotations_exception_boxes_length"
      },
+    {
+     "compute_settings": {"extended_summary": True},
+     "y_true": [
+         {"labels": [0, 2]}
+         ],
+     "y_pred": [
+         {"labels": [0, 2],
+          "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]], "scores": [.2, .3]}
+         ],
+     "exceptions": {"compute": ValidationError},
+     "to_cover": {"pycoco_converter": False, "box_format_converter": False},
+     "ids": "annotations_exception_ytrue_no_boxes"
+     },
+    {
+     "compute_settings": {"extended_summary": True},
+     "y_true": [
+         {"labels": [0, 2],
+          "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]]}
+         ],
+     "y_pred": [
+         {"labels": [0, 2], "scores": [.2, .3]}
+         ],
+     "exceptions": {"compute": ValidationError},
+     "to_cover": {"pycoco_converter": False, "box_format_converter": False},
+     "ids": "annotations_exception_ypred_no_boxes"
+     },
     ]
 
 

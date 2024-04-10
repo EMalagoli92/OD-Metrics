@@ -170,15 +170,16 @@ class TestBaseODMetrics(unittest.TestCase):
                 od_metrics_obj = ODMetrics(**self.metrics_settings)
             return
         # Box format
-        convert_fn = partial(xywh_to, box_format=od_metrics_obj.box_format)
-        y_true_od_metrics = [
-            ann | {"boxes": apply_function(ann["boxes"], convert_fn)}
-            for ann in y_true_od_metrics
-            ]
-        y_pred_od_metrics = [
-            ann | {"boxes": apply_function(ann["boxes"], convert_fn)}
-            for ann in y_pred_od_metrics
-            ]
+        if self.to_cover.get("box_format_converter", True):
+            convert_fn = partial(xywh_to, box_format=od_metrics_obj.box_format)
+            y_true_od_metrics = [
+                ann | {"boxes": apply_function(ann["boxes"], convert_fn)}
+                for ann in y_true_od_metrics
+                ]
+            y_pred_od_metrics = [
+                ann | {"boxes": apply_function(ann["boxes"], convert_fn)}
+                for ann in y_pred_od_metrics
+                ]
 
         # Compute
         _compute_exception = self.exceptions.get("compute", None)
