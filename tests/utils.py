@@ -331,8 +331,10 @@ def xywh_to(
         return xywh_xyxy(bbox)
     if box_format == "cxcywh":
         return xywh_cxcywh(bbox)
-    raise ValueError("`box_format` can be `'xyxy'`, `'xywh'`, `'cxcywh'`. "
-                     f"Found {box_format}")
+    raise ValueError(  # pragma: no cover
+        "`box_format` can be `'xyxy'`, `'xywh'`, `'cxcywh'`. "
+        f"Found {box_format}"
+        )
 
 
 def apply_function(
