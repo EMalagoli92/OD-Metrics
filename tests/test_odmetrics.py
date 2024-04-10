@@ -222,58 +222,29 @@ class TestBaseODMetrics(unittest.TestCase):
             pycoco_obj.summarize()
 
         # Test IoUs equivalence
-        _iou_excpetion = self.exceptions.get("iou", None)
-        if _iou_excpetion is None:
-            with self.subTest("Test IoU"):
-                self.assertTrue(self._test_ious(
-                    od_metrics_ious=od_metrics_output["IoU"],
-                    pycoco_ious=pycoco_obj.ious
-                    )
+        with self.subTest("Test IoU"):
+            self.assertTrue(self._test_ious(
+                od_metrics_ious=od_metrics_output["IoU"],
+                pycoco_ious=pycoco_obj.ious
                 )
-        else:
-            with self.assertRaises(_iou_excpetion):
-                with self.subTest("Test IoU"):
-                    self._test_ious(
-                        od_metrics_ious=od_metrics_output["IoU"],
-                        pycoco_ious=pycoco_obj.ious
-                        )
-            return
+            )
 
         # Test aggregate equivalence
-        _aggregate_exception = self.exceptions.get("aggregate", None)
-        if _aggregate_exception is None:
-            with self.subTest("Test aggregate"):
-                self.assertTrue(self._test_aggregate(
-                    od_metrics_output=od_metrics_output,
-                    pycoco_eval=pycoco_obj.eval
-                    )
+        with self.subTest("Test aggregate"):
+            self.assertTrue(self._test_aggregate(
+                od_metrics_output=od_metrics_output,
+                pycoco_eval=pycoco_obj.eval
                 )
-        else:
-            with self.assertRaises(_aggregate_exception):
-                self._test_aggregate(
-                    od_metrics_output=od_metrics_output,
-                    pycoco_eval=pycoco_obj.eval
-                    )
-            return
+            )
 
         # Test summary equivalence
-        _summarize_exception = self.exceptions.get("summarize", None)
-        if _summarize_exception is None:
-            with self.subTest("Test summarize"):
-                self.assertTrue(self._test_summary(
-                    od_metrics_output=od_metrics_output,
-                    pycoco_stats=pycoco_obj.stats,
-                    is_default_coco=is_default_coco,
-                    )
+        with self.subTest("Test summarize"):
+            self.assertTrue(self._test_summary(
+                od_metrics_output=od_metrics_output,
+                pycoco_stats=pycoco_obj.stats,
+                is_default_coco=is_default_coco,
                 )
-        else:
-            with self.assertRaises(_summarize_exception):
-                self._test_summary(
-                    od_metrics_output=od_metrics_output,
-                    pycoco_stats=pycoco_obj.stats,
-                    is_default_coco=is_default_coco,
-                    )
-            return
+            )
 
         # Test mean evalautor
         _mean_evaluator_exception = self.exceptions.get("mean_evaluator", None)
