@@ -200,12 +200,13 @@ def test_equality(
     """
     try:
         if isinstance(input1, np.int64):
-            input1 = int(input1)
+            input1 = int(input1)  # pragma: no cover
         if isinstance(input2, np.int64):
-            input2 = int(input2)
+            input2 = int(input2)  # pragma: no cover
 
         if not isinstance(input1, type(input2)):
-            raise ValueError(f"Found: {type(input1)} and {type(input2)}")
+            raise ValueError(  # pragma: no cover
+                f"Found: {type(input1)} and {type(input2)}")
 
         checks = []
         if isinstance(input1, np.ndarray) and isinstance(input2, np.ndarray):
@@ -222,10 +223,10 @@ def test_equality(
 
             for el1, el2 in zip(input1, input2):
                 checks.append(test_equality(el1, el2))  # pragma: no cover
-        else:                                           # pragma: no cover
-            checks.append(input1 == input2)             # pragma: no cover
-    except AssertionError:                              # pragma: no cover
-        checks = [False]                                # pragma: no cover
+        else:  # pragma: no cover
+            checks.append(input1 == input2)  # pragma: no cover
+    except AssertionError:  # pragma: no cover
+        checks = [False]  # pragma: no cover
 
     return all(checks)
 
