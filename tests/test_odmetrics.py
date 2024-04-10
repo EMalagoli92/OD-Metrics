@@ -20,9 +20,11 @@ try:
     from pycocotools import mask as maskUtils
     from pycocotools.coco import COCO
     from pycocotools.cocoeval import COCOeval
-except ImportError:
-    print("This unittest needs `pycocotools`. Please intall by "
-          "running `pip install pycocotools`")
+except ImportError:  # pragma: no cover
+    print(  # pragma: no cover
+        "This unittest needs `pycocotools`. Please intall by "
+        "running `pip install pycocotools`"
+        )
 
 
 @parameterized_class(TESTS)
