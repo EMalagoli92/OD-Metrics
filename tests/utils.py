@@ -8,9 +8,10 @@ __all__ = [
     "test_equality",
     "rename_dict",
     "xywh_to",
+    "apply_function",
     ]
 
-from typing import Literal
+from typing import Literal, Callable
 import random
 import numpy as np
 
@@ -199,12 +200,13 @@ def test_equality(
     """
     try:
         if isinstance(input1, np.int64):
-            input1 = int(input1)
+            input1 = int(input1)  # pragma: no cover
         if isinstance(input2, np.int64):
-            input2 = int(input2)
+            input2 = int(input2)  # pragma: no cover
 
         if not isinstance(input1, type(input2)):
-            raise ValueError(f"Found: {type(input1)} and {type(input2)}")
+            raise ValueError(  # pragma: no cover
+                f"Found: {type(input1)} and {type(input2)}")
 
         checks = []
         if isinstance(input1, np.ndarray) and isinstance(input2, np.ndarray):
@@ -220,11 +222,11 @@ def test_equality(
                                                 "length.")
 
             for el1, el2 in zip(input1, input2):
-                checks.append(test_equality(el1, el2))
-        else:
-            checks.append(input1 == input2)
-    except AssertionError:
-        checks = [False]
+                checks.append(test_equality(el1, el2))  # pragma: no cover
+        else:  # pragma: no cover
+            checks.append(input1 == input2)  # pragma: no cover
+    except AssertionError:  # pragma: no cover
+        checks = [False]  # pragma: no cover
 
     return all(checks)
 
@@ -330,5 +332,41 @@ def xywh_to(
         return xywh_xyxy(bbox)
     if box_format == "cxcywh":
         return xywh_cxcywh(bbox)
-    raise ValueError("`box_format` can be `'xyxy'`, `'xywh'`, `'cxcywh'`. "
-                     f"Found {box_format}")
+    raise ValueError(  # pragma: no cover
+        "`box_format` can be `'xyxy'`, `'xywh'`, `'cxcywh'`. "
+        f"Found {box_format}"
+        )
+
+
+def apply_function(
+        x: list | np.ndarray,
+        func: Callable,
+        ) -> list | np.ndarray:
+    """
+    Apply a function to every element of a `list` or `np.ndarray`.
+
+    Parameters
+    ----------
+    x : list | np.ndarray
+        Input data. It can be a `list` or `np.ndarray`.
+    func : Callable
+        Function to apply to every element of input `x`.
+
+    Raises
+    ------
+    TypeError
+        If input is neither a `list` or `np.ndarray`.
+
+    Returns
+    -------
+    list | np.ndarray
+        Input with function applied to every element of `x`.
+    """
+    if isinstance(x, list):
+        return [func(elem) for elem in x]
+    if isinstance(x, np.ndarray):
+        return np.array([func(elem) for elem in x])
+    raise TypeError(  # pragma: no cover
+        "Type not supported. Supported types are: `list` or"
+        f"`np.ndarray`. Found: {type(x)}"
+        )

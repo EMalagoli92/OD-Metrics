@@ -16,7 +16,7 @@ from typing import Literal, Any, Callable, cast
 import numpy as np
 
 from .constants import DEFAULT_COCO, _STANDARD_OUTPUT
-from .utils import to_array, get_indexes, get_suffix, _Missing
+from .utils import get_indexes, get_suffix, _Missing
 from .validators import ConstructorModel, ComputeModel, MeanModel
 
 
@@ -899,8 +899,8 @@ class ODMetrics:
         # Default
         default_value = {
             "iou_threshold": self.iou_thresholds,
-            "label_id": to_array(label_ids),
-            "area_range_key": to_array(list(self.area_ranges.keys())),
+            "label_id": np.array(label_ids),
+            "area_range_key": np.array(list(self.area_ranges.keys())),
             "max_detection_threshold": self.max_detection_thresholds,
             }
 

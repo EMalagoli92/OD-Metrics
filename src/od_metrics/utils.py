@@ -4,43 +4,16 @@ from __future__ import annotations
 
 __all__ = [
     "_Missing",
-    "to_array",
     "get_indexes",
     "get_suffix",
     ]
 
-from typing import Literal, Any
+from typing import Literal
 import numpy as np
 
 
 class _Missing:
     """Sentinel class for missing values."""
-
-
-def to_array(
-        input_: Any,
-        ) -> np.ndarray:
-    """
-    Trasform input to `np.ndarray`.
-
-    Parameters
-    ----------
-    input_ : Any | None, optional
-        Input to be converted.
-
-    Returns
-    -------
-    np.ndarray
-        Input converted to `np.ndarray`.
-    """
-    if not isinstance(input_, np.ndarray):
-        output = np.array(input_)
-    else:
-        output = input_
-
-    if output.ndim == 0:
-        output = output.reshape(-1)
-    return output
 
 
 def get_indexes(
@@ -145,8 +118,10 @@ def to_xywh(
         return xyxy_xywh(bbox)
     if box_format == "cxcywh":
         return cxcywh_xywh(bbox)
-    raise ValueError("`box_format` can be `'xyxy'`, `'xywh'`, `'cxcywh'`. "
-                     f"Found {box_format}")
+    raise ValueError(  # pragma: no cover
+        "`box_format` can be `'xyxy'`, `'xywh'`, `'cxcywh'`. "
+        f"Found {box_format}"
+        )
 
 
 def get_suffix(

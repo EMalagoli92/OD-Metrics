@@ -5,13 +5,14 @@ from __future__ import annotations
 import unittest
 import copy
 from typing import Any, Literal
+from functools import partial
 import numpy as np
 from parameterized import parameterized, parameterized_class
 
 from src.od_metrics import ODMetrics, iou
 from src.od_metrics.constants import DEFAULT_COCO
 from tests.utils import annotations_generator, pycoco_converter, \
-    test_equality, rename_dict, xywh_to
+    test_equality, rename_dict, xywh_to, apply_function
 from tests.config import TESTS
 
 try:
@@ -19,9 +20,11 @@ try:
     from pycocotools import mask as maskUtils
     from pycocotools.coco import COCO
     from pycocotools.cocoeval import COCOeval
-except ImportError:
-    print("This unittest needs `pycocotools`. Please intall by "
-          "running `pip install pycocotools`")
+except ImportError:  # pragma: no cover
+    print(  # pragma: no cover
+        "This unittest needs `pycocotools`. Please intall by "
+        "running `pip install pycocotools`"
+        )
 
 
 @parameterized_class(TESTS)
@@ -33,6 +36,9 @@ class TestBaseODMetrics(unittest.TestCase):
     annotations_settings: dict
     mean_evaluator_settings: dict
     exceptions: dict
+    y_true: list | None
+    y_pred: list | None
+    to_cover: dict
 
     def get_pycoco_params(
             self,
@@ -130,10 +136,16 @@ class TestBaseODMetrics(unittest.TestCase):
     def test_equivalence(self) -> None:
         """Test equivalence: `od_metrics.ODMetrics` class and `pycocotools`."""
         # Get annotations
-        y_true_od_metrics = annotations_generator(
-            **self.annotations_settings["y_true"])
-        y_pred_od_metrics = annotations_generator(
-            **self.annotations_settings["y_pred"], include_score=True)
+        if getattr(self, "y_true", None):
+            y_true_od_metrics = self.y_true
+        else:
+            y_true_od_metrics = annotations_generator(
+                **self.annotations_settings["y_true"])
+        if getattr(self, "y_pred", None):
+            y_pred_od_metrics = self.y_pred
+        else:
+            y_pred_od_metrics = annotations_generator(
+                **self.annotations_settings["y_pred"], include_score=True)
         # max detections: Only used for max_detections_thresholds=None case
         real_max_detections = (
             max(detect["boxes"].shape[0] for detect in y_pred_od_metrics)
@@ -143,8 +155,12 @@ class TestBaseODMetrics(unittest.TestCase):
         )
 
         # Prepare pycoco annotations
-        y_true_pycoco = pycoco_converter(y_true_od_metrics)
-        y_pred_pycoco = pycoco_converter(y_pred_od_metrics)
+        if self.to_cover.get("pycoco_converter", True):
+            y_true_pycoco = pycoco_converter(y_true_od_metrics)
+            y_pred_pycoco = pycoco_converter(y_pred_od_metrics)
+        else:
+            y_true_pycoco = None
+            y_pred_pycoco = None
 
         # Run Od_metrics evaluation
         # Init
@@ -156,18 +172,16 @@ class TestBaseODMetrics(unittest.TestCase):
                 od_metrics_obj = ODMetrics(**self.metrics_settings)
             return
         # Box format
-        y_true_od_metrics = [
-            ann | {
-                "boxes": [
-                    list(xywh_to(box, od_metrics_obj.box_format))
-                    for box in ann["boxes"]]} for ann in y_true_od_metrics
-            ]
-        y_pred_od_metrics = [
-            ann | {
-                "boxes": [
-                    list(xywh_to(box, od_metrics_obj.box_format))
-                    for box in ann["boxes"]]} for ann in y_pred_od_metrics
-            ]
+        if self.to_cover.get("box_format_converter", True):
+            convert_fn = partial(xywh_to, box_format=od_metrics_obj.box_format)
+            y_true_od_metrics = [
+                ann | {"boxes": apply_function(ann["boxes"], convert_fn)}
+                for ann in y_true_od_metrics
+                ]
+            y_pred_od_metrics = [
+                ann | {"boxes": apply_function(ann["boxes"], convert_fn)}
+                for ann in y_pred_od_metrics
+                ]
 
         # Compute
         _compute_exception = self.exceptions.get("compute", None)
@@ -208,58 +222,29 @@ class TestBaseODMetrics(unittest.TestCase):
             pycoco_obj.summarize()
 
         # Test IoUs equivalence
-        _iou_excpetion = self.exceptions.get("iou", None)
-        if _iou_excpetion is None:
-            with self.subTest("Test IoU"):
-                self.assertTrue(self._test_ious(
-                    od_metrics_ious=od_metrics_output["IoU"],
-                    pycoco_ious=pycoco_obj.ious
-                    )
+        with self.subTest("Test IoU"):
+            self.assertTrue(self._test_ious(
+                od_metrics_ious=od_metrics_output["IoU"],
+                pycoco_ious=pycoco_obj.ious
                 )
-        else:
-            with self.assertRaises(_iou_excpetion):
-                with self.subTest("Test IoU"):
-                    self._test_ious(
-                        od_metrics_ious=od_metrics_output["IoU"],
-                        pycoco_ious=pycoco_obj.ious
-                        )
-            return
+            )
 
         # Test aggregate equivalence
-        _aggregate_exception = self.exceptions.get("aggregate", None)
-        if _aggregate_exception is None:
-            with self.subTest("Test aggregate"):
-                self.assertTrue(self._test_aggregate(
-                    od_metrics_output=od_metrics_output,
-                    pycoco_eval=pycoco_obj.eval
-                    )
+        with self.subTest("Test aggregate"):
+            self.assertTrue(self._test_aggregate(
+                od_metrics_output=od_metrics_output,
+                pycoco_eval=pycoco_obj.eval
                 )
-        else:
-            with self.assertRaises(_aggregate_exception):
-                self._test_aggregate(
-                    od_metrics_output=od_metrics_output,
-                    pycoco_eval=pycoco_obj.eval
-                    )
-            return
+            )
 
         # Test summary equivalence
-        _summarize_exception = self.exceptions.get("summarize", None)
-        if _summarize_exception is None:
-            with self.subTest("Test summarize"):
-                self.assertTrue(self._test_summary(
-                    od_metrics_output=od_metrics_output,
-                    pycoco_stats=pycoco_obj.stats,
-                    is_default_coco=is_default_coco,
-                    )
+        with self.subTest("Test summarize"):
+            self.assertTrue(self._test_summary(
+                od_metrics_output=od_metrics_output,
+                pycoco_stats=pycoco_obj.stats,
+                is_default_coco=is_default_coco,
                 )
-        else:
-            with self.assertRaises(_summarize_exception):
-                self._test_summary(
-                    od_metrics_output=od_metrics_output,
-                    pycoco_stats=pycoco_obj.stats,
-                    is_default_coco=is_default_coco,
-                    )
-            return
+            )
 
         # Test mean evalautor
         _mean_evaluator_exception = self.exceptions.get("mean_evaluator", None)

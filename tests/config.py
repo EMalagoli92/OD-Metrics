@@ -678,10 +678,33 @@ mean_evaluator_tests = [
      },
     ]
 
-misc_tests = [
+
+annotations_tests = [
     {
      "compute_settings": {"extended_summary": True},
-     "ids": "default_COCO",
+     "y_true": [
+         {"labels": [0, 2],
+          "boxes": np.array([[17, 83, 97, 47], [57, 86, 96, 73]])}
+         ],
+     "y_pred": [
+         {"labels": [0, 2],
+          "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]], "scores": [.2, .3]}
+         ],
+     "ids": "annotations_boxes_numpy_array"
+     },
+    {
+     "compute_settings": {"extended_summary": True},
+     "y_true": [
+         {"labels": [0, 2],
+          "boxes": np.array([[17, 83, 97, 47], [57, 86, 96, 73]]),
+          "area": np.array([4559, 7008]),
+          }
+         ],
+     "y_pred": [
+         {"labels": [0, 2],
+          "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]], "scores": [.2, .3]}
+         ],
+     "ids": "annotations_area_numpy_array"
      },
     {
      "compute_settings": {"extended_summary": True},
@@ -689,7 +712,7 @@ misc_tests = [
          "y_true": {"n_classes": 3},
          "y_pred": {"n_classes": 7},
          },
-     "ids": "misc_default_COCO_different_classes_y_true_y_pred"
+     "ids": "annotations_exception_different_classes_y_true_y_pred"
      },
     {
      "compute_settings": {"extended_summary": True},
@@ -698,7 +721,68 @@ misc_tests = [
          "y_pred": {"n_images": 5},
          },
      "exceptions": {"compute": ValidationError},
-     "ids": "misc_exception_compute_different_images"
+     "ids": "annotations_exception_different_images"
+     },
+    {
+     "compute_settings": {"extended_summary": True},
+     "y_true": [
+         {"labels": [0],
+          "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]]}
+         ],
+     "y_pred": [
+         {"labels": [0, 2],
+          "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]], "scores": [.2, .3]}
+         ],
+     "exceptions": {"compute": ValidationError},
+     "ids": "annotations_exception_different_attributes_length"
+     },
+    {
+     "compute_settings": {"extended_summary": True},
+     "y_true": [
+         {"labels": [0, 2],
+          "boxes": [[17, 83, 97], [57, 86, 96, 73]]}
+         ],
+     "y_pred": [
+         {"labels": [0, 2],
+          "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]], "scores": [.2, .3]}
+         ],
+     "exceptions": {"compute": ValidationError},
+     "to_cover": {"pycoco_converter": False},
+     "ids": "annotations_exception_boxes_length"
+     },
+    {
+     "compute_settings": {"extended_summary": True},
+     "y_true": [
+         {"labels": [0, 2]}
+         ],
+     "y_pred": [
+         {"labels": [0, 2],
+          "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]], "scores": [.2, .3]}
+         ],
+     "exceptions": {"compute": ValidationError},
+     "to_cover": {"pycoco_converter": False, "box_format_converter": False},
+     "ids": "annotations_exception_ytrue_no_boxes"
+     },
+    {
+     "compute_settings": {"extended_summary": True},
+     "y_true": [
+         {"labels": [0, 2],
+          "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]]}
+         ],
+     "y_pred": [
+         {"labels": [0, 2], "scores": [.2, .3]}
+         ],
+     "exceptions": {"compute": ValidationError},
+     "to_cover": {"pycoco_converter": False, "box_format_converter": False},
+     "ids": "annotations_exception_ypred_no_boxes"
+     },
+    ]
+
+
+misc_tests = [
+    {
+     "compute_settings": {"extended_summary": True},
+     "ids": "default_COCO",
      },
     {
      "compute_settings": {"extended_summary": "yes"},
@@ -717,6 +801,7 @@ tests: list[dict] = (
     + objects_number_tests
     + objects_size_tests
     + mean_evaluator_tests
+    + annotations_tests
     + misc_tests
     )
 
@@ -748,6 +833,10 @@ for test in tests:
         test_tmp["ids"] += f"__classs_metrics_{class_metrics_}"
         test_tmp["exceptions"] = test_tmp.get(
             "exceptions",
+            {}
+            )
+        test_tmp["to_cover"] = test_tmp.get(
+            "to_cover",
             {}
             )
         TESTS.append(test_tmp)

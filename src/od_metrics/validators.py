@@ -227,8 +227,8 @@ class ConstructorModel(BaseModel):
                 or "default_value" not in info.context
                 or info.field_name is None
                 ):
-            raise ValueError("Missing required context or field name "
-                             "information.")
+            raise ValueError(  # pragma: no cover
+                "Missing required context or field name information.")
 
         return _common_validator(
             name=info.field_name,
@@ -271,8 +271,8 @@ class ConstructorModel(BaseModel):
                 or "default_value" not in info.context
                 or info.field_name is None
                 ):
-            raise ValueError("Missing required context or field name "
-                             "information.")
+            raise ValueError(  # pragma: no cover
+                "Missing required context or field name information.")
 
         return _common_validator(
             name=info.field_name,
@@ -315,8 +315,8 @@ class ConstructorModel(BaseModel):
                 or "default_value" not in info.context
                 or info.field_name is None
                 ):
-            raise ValueError("Missing required context or field name "
-                             "information.")
+            raise ValueError(  # pragma: no cover
+                "Missing required context or field name information.")
 
         return _area_ranges_validator(
             name=info.field_name,
@@ -680,8 +680,8 @@ class ComputeModel(BaseModel):
             Ground truth or predictions annotations.
         """
         if info.context is None or "box_format" not in info.context:
-            raise ValueError("Missing required context or `box_format` "
-                             "information.")
+            raise ValueError(  # pragma: no cover
+                "Missing required context or `box_format` information.")
         box_format = info.context["box_format"]
 
         # y_true
@@ -750,8 +750,8 @@ class MeanModel(BaseModel):
                 or "default_value" not in info.context
                 or info.field_name is None
                 ):
-            raise ValueError("Missing required context or field name "
-                             "information.")
+            raise ValueError(  # pragma: no cover
+                "Missing required context or field name information.")
 
         return _common_validator(
             name=info.field_name,
@@ -789,8 +789,8 @@ class MeanModel(BaseModel):
                 or "default_value" not in info.context
                 or info.field_name is None
                 ):
-            raise ValueError("Missing required context or field name "
-                             "information.")
+            raise ValueError(  # pragma: no cover
+                "Missing required context or field name information.")
 
         return _common_validator(
             name=info.field_name,
@@ -828,8 +828,8 @@ class MeanModel(BaseModel):
                 or "default_value" not in info.context
                 or info.field_name is None
                 ):
-            raise ValueError("Missing required context or field name "
-                             "information.")
+            raise ValueError(  # pragma: no cover
+                "Missing required context or field name information.")
 
         return _common_validator(
             name=info.field_name,
