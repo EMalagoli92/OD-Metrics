@@ -50,7 +50,7 @@ jobs:
           label: unit test
           message: passed
           color: brightgreen
-          style: flat-square
+          style: flat
           forceUpdate: true
       - name: Mypy badge
         uses: schneegans/dynamic-badges-action@v1.7.0
@@ -61,7 +61,7 @@ jobs:
           label: mypy
           message: passed
           color: brightgreen
-          style: flat-square
+          style: flat
           forceUpdate: true
       - name: Pylint badge
         uses: schneegans/dynamic-badges-action@v1.7.0
@@ -72,7 +72,7 @@ jobs:
           label: pylint
           message: passed
           color: brightgreen
-          style: flat-square
+          style: flat
           forceUpdate: true
   update-badge-failure:
     name: "Update badge failure"
@@ -90,7 +90,7 @@ jobs:
           label: unit test
           message: not-passed
           color: red
-          style: flat-square
+          style: flat
           forceUpdate: true
       - name: Mypy badge
         uses: schneegans/dynamic-badges-action@v1.7.0
@@ -101,7 +101,7 @@ jobs:
           label: mypy
           message: not-passed
           color: red
-          style: flat-square
+          style: flat
           forceUpdate: true
       - name: Pylint badge
         uses: schneegans/dynamic-badges-action@v1.7.0
@@ -112,7 +112,7 @@ jobs:
           label: pylint
           message: not-passed
           color: red
-          style: flat-square
+          style: flat
           forceUpdate: true
   release:
     name: "Tagged Release"
@@ -134,7 +134,7 @@ jobs:
           label: release
           message: ${{ steps.create_release.outputs.automatic_releases_tag }}
           color: orange
-          style: flat-square
+          style: flat
           forceUpdate: true
   build-publish:
     name: Upload release to PyPI
