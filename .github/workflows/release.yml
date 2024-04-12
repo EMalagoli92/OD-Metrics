@@ -125,13 +125,13 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-      - name: Versione badge
+      - name: Version badge
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: 331395960725a4b47d4ca4977a24e949
           filename: version.json
-          label: release
+          label: pypi
           message: ${{ steps.create_release.outputs.automatic_releases_tag }}
           color: orange
           style: flat
