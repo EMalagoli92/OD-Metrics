@@ -90,7 +90,7 @@ class ODMetrics:
                 - `"xyxy"`: boxes are represented via corners,
                         x1, y1 being top left and x2, y2
                         being bottom right.<br>
-                - `xywh`: boxes are represented via corner,
+                - `"xywh"`: boxes are represented via corner,
                         width and height, x1, y2 being top
                         left, w, h being width and height.
                         This is the default format; all
