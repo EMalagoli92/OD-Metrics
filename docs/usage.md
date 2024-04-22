@@ -365,7 +365,7 @@ from od_metrics import iou
 y_true = [[25, 16, 38, 56], [129, 123, 41, 62]]
 y_pred = [[25, 27, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]]
 
-result = iou(y_true, y_pred)
+result = iou(y_true, y_pred, box_format="xywh")
 print(result)
 """
 array([[0.67655425, 0.        ],

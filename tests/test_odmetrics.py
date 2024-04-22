@@ -6,11 +6,13 @@ import unittest
 import copy
 from typing import Any, Literal
 from functools import partial
+from itertools import product
 import numpy as np
 from parameterized import parameterized, parameterized_class
 
 from src.od_metrics import ODMetrics, iou
 from src.od_metrics.constants import DEFAULT_COCO
+from src.od_metrics.utils import to_xywh
 from tests.utils import annotations_generator, pycoco_converter, \
     test_equality, rename_dict, xywh_to, apply_function
 from tests.config import TESTS
@@ -331,6 +333,65 @@ class TestIoU(unittest.TestCase):
 
         self.assertTrue(test_equality(od_metrics_ious, pycoco_ious))
 
+    @parameterized.expand(list(product(
+        ["random", None], ["xyxy", "xywh", "cxcywh", "error"])))
+    def test_box_formats(
+            self,
+            iscrowd_mode: Literal["random", None],
+            box_format: Literal["xyxy", "xywh", "cxcywh"],
+            ) -> None:
+        """Test `box_format` argument."""
+        if iscrowd_mode == "random":
+            iscrowd = list(map(
+                bool,
+                np.random.randint(
+                    low=0,
+                    high=2,
+                    size=[self.SIZE]
+                    ).tolist()
+                )
+            )
+            iscrowd_pycoco = iscrowd
+        else:
+            iscrowd = None
+            iscrowd_pycoco = [False] * self.SIZE
+        y_pred = np.random.randint(
+            low=1,
+            high=self.HIGH,
+            size=[self.SIZE, 4]
+            )
+
+        y_true = np.random.randint(
+            low=1,
+            high=self.HIGH,
+            size=[self.SIZE, 4]
+            )
+
+        if box_format in ["xyxy", "xywh", "cxcywh"]:
+            od_metrics_ious = iou(
+                y_true=y_true,
+                y_pred=y_pred,
+                iscrowd=iscrowd,
+                box_format=box_format,
+                )
+
+            y_true_pycoco = np.array([to_xywh(bbox_, box_format)
+                                      for bbox_ in y_true])
+            y_pred_pycoco = np.array([to_xywh(bbox_, box_format)
+                                      for bbox_ in y_pred])
+            pycoco_ious = maskUtils.iou(y_pred_pycoco, y_true_pycoco,
+                                        iscrowd_pycoco)
+
+            self.assertTrue(test_equality(od_metrics_ious, pycoco_ious))
+        else:
+            with self.assertRaises(ValueError):
+                od_metrics_ious = iou(
+                    y_true=y_true,
+                    y_pred=y_pred,
+                    iscrowd=iscrowd,
+                    box_format=box_format,
+                    )
+
     def test_length_exception(self) -> None:
         """Test exception `iscrowd` and `y_true` different length."""
         iscrowd = list(map(
@@ -359,6 +420,55 @@ class TestIoU(unittest.TestCase):
                 y_pred=y_pred,
                 iscrowd=iscrowd,
                 )
+
+    @parameterized.expand(list(product(
+        ["random", None], ["xyxy", "xywh", "cxcywh"])))
+    def test_not_valid_boxes(
+            self,
+            iscrowd_mode: Literal["random", None],
+            box_format: Literal["xyxy", "xywh", "cxcywh"],
+            ) -> None:
+        """Test equivalence for not valid (negative values) boxes."""
+        if iscrowd_mode == "random":
+            iscrowd = list(map(
+                bool,
+                np.random.randint(
+                    low=0,
+                    high=2,
+                    size=[self.SIZE]
+                    ).tolist()
+                )
+            )
+            iscrowd_pycoco = iscrowd
+        else:
+            iscrowd = None
+            iscrowd_pycoco = [False] * self.SIZE
+        y_pred = np.random.randint(
+            low=-10,
+            high=1,
+            size=[self.SIZE, 4]
+            )
+        y_true = np.random.randint(
+            low=-10,
+            high=1,
+            size=[self.SIZE, 4]
+            )
+
+        od_metrics_ious = iou(
+            y_true=y_true,
+            y_pred=y_pred,
+            iscrowd=iscrowd,
+            box_format=box_format,
+            )
+
+        y_true_pycoco = np.array([to_xywh(bbox_, box_format)
+                                  for bbox_ in y_true])
+        y_pred_pycoco = np.array([to_xywh(bbox_, box_format)
+                                  for bbox_ in y_pred])
+        pycoco_ious = maskUtils.iou(y_pred_pycoco, y_true_pycoco,
+                                    iscrowd_pycoco)
+
+        self.assertTrue(test_equality(od_metrics_ious, pycoco_ious))
 
 
 if __name__ == "__main__":

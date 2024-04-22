@@ -6,6 +6,8 @@ __all__ = [
     "_Missing",
     "get_indexes",
     "get_suffix",
+    "to_xywh",
+    "to_xyxy",
     ]
 
 from typing import Literal
@@ -119,6 +121,87 @@ def to_xywh(
     if box_format == "cxcywh":
         return cxcywh_xywh(bbox)
     raise ValueError(  # pragma: no cover
+        "`box_format` can be `'xyxy'`, `'xywh'`, `'cxcywh'`. "
+        f"Found {box_format}"
+        )
+
+
+def xywh_xyxy(bbox: list[float]) -> list[float]:
+    """
+    Change bounding box format from `xywh` to `xyxy`.
+
+    Parameters
+    ----------
+    bbox : list[float]
+        Input bounding box.
+
+    Returns
+    -------
+    list[float]
+        Bounding box in `"xyxy"` format.
+    """
+    return [
+        bbox[0],
+        bbox[1],
+        bbox[0] + bbox[2],
+        bbox[1] + bbox[3]
+        ]
+
+
+def cxcywh_xyxy(bbox: list[float]) -> list[float]:
+    """
+    Change bounding box format from `cxcywh` to `xyxy`.
+
+    Parameters
+    ----------
+    bbox : list[float]
+        Input bounding box.
+
+    Returns
+    -------
+    list[float]
+        Bounding box in `"xyxy"` format.
+    """
+    return [
+        bbox[0] - bbox[2] / 2,
+        bbox[1] - bbox[3] / 2,
+        bbox[0] + bbox[2] / 2,
+        bbox[1] + bbox[3] / 2
+        ]
+
+
+def to_xyxy(
+        bbox: list[float],
+        box_format: Literal["xyxy", "xywh", "cxcywh"],
+        ) -> list[float]:
+    """
+    Change bounding box format to `"xyxy"`.
+
+    Parameters
+    ----------
+    bbox : list[float]
+        Input bounding box.
+    box_format : Literal["xyxy", "xywh", "cxcywh"]
+        Input bounding box format.
+        It can be `"xyxy"`, `"xywh"` or `"cxcywh"`.
+
+    Raises
+    ------
+    ValueError
+        If `box_format` not one of `"xyxy"`, `"xywh"`, `"cxcywh"`.
+
+    Returns
+    -------
+    list[float]
+        Bounding box in `"xyxy"` format.
+    """
+    if box_format == "xywh":
+        return xywh_xyxy(bbox)
+    if box_format == "xyxy":
+        return bbox
+    if box_format == "cxcywh":
+        return cxcywh_xyxy(bbox)
+    raise ValueError(
         "`box_format` can be `'xyxy'`, `'xywh'`, `'cxcywh'`. "
         f"Found {box_format}"
         )
