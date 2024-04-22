@@ -776,6 +776,34 @@ annotations_tests = [
      "to_cover": {"pycoco_converter": False, "box_format_converter": False},
      "ids": "annotations_exception_ypred_no_boxes"
      },
+    {
+     "compute_settings": {"extended_summary": True},
+     "y_true": [
+         {"labels": [0, 2],
+          "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]]}
+         ],
+     "y_pred": [
+         {
+             "labels": [0, 2],
+             "boxes": [[-17, -83, 0, 47], [0, 86, -96, 73]],
+             "scores": [.2, .3]}
+         ],
+     "ids": "annotations_with_no_valid_y_pred_boxes"
+     },
+    {
+     "compute_settings": {"extended_summary": True},
+     "y_true": [
+         {"labels": [0, 2],
+          "boxes": [[-17, -83, 0, 47], [0, 86, -96, 73]]}
+         ],
+     "y_pred": [
+         {
+             "labels": [0, 2],
+             "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]],
+             "scores": [.2, .3]}
+         ],
+     "ids": "annotations_with_no_valid_y_true_boxes"
+     },
     ]
 
 
