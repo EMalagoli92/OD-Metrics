@@ -16,7 +16,7 @@ from typing import Literal, Any, Callable, cast
 import numpy as np
 
 from .constants import DEFAULT_COCO, _STANDARD_OUTPUT
-from .utils import get_indexes, get_suffix, _Missing
+from .utils import get_indexes, get_suffix, _Missing, to_xyxy
 from .validators import ConstructorModel, ComputeModel, MeanModel
 
 
@@ -483,7 +483,8 @@ class ODMetrics:
         ious = iou(
             y_true=y_true_boxes,
             y_pred=y_pred_boxes,
-            iscrowd=iscrowd
+            iscrowd=iscrowd,
+            box_format="xywh",
             )
         return ious
 
@@ -1050,12 +1051,10 @@ def iou(
         y_true: np.ndarray | list,
         y_pred: np.ndarray | list,
         iscrowd: np.ndarray | list[bool] | list[int] | None = None,
+        box_format: Literal["xyxy", "xywh", "cxcywh"] = "xywh",
         ) -> np.ndarray:
     """
     Calculate IoU between bounding boxes.
-
-    Single bounding boxes must be in `"xywh"` format, i.e.
-        [xmin, ymin, width, height]
 
     The standard iou of a ground truth `y_true` and detected
     `y_pred` object is:
@@ -1096,6 +1095,23 @@ def iou(
         Whether `y_true` are crowd regions.
         If `None`, it will be set to `False` for all `y_true`.
         The default is `None`.
+    box_format: Literal["xyxy", "xywh", "cxcywh"], optional
+        Bounding box format.
+        Supported formats are:<br>
+            - `"xyxy"`: boxes are represented via corners,
+                    x1, y1 being top left and x2, y2
+                    being bottom right.<br>
+            - `"xywh"`: boxes are represented via corner,
+                    width and height, x1, y2 being top
+                    left, w, h being width and height.
+                    This is the default format; all
+                    input formats will be converted
+                    to this.<br>
+            - `"cxcywh"`: boxes are represented via centre,
+                    width and height, cx, cy being
+                    center of box, w, h being width
+                    and height.<br>
+        The default is `"xywh"`.
 
     Returns
     -------
@@ -1111,20 +1127,14 @@ def iou(
                              "length.")
     else:
         iscrowd = [False]*len(y_true)
-    # To np.ndarray
-    if not isinstance(y_pred, np.ndarray):
-        y_pred = np.array(y_pred)
-    if not isinstance(y_true, np.ndarray):
-        y_true = np.array(y_true)
+    # To np.ndarray and xyxy box format
+    y_true = np.array([to_xyxy(bbox_, box_format) for bbox_ in y_true])
+    y_pred = np.array([to_xyxy(bbox_, box_format) for bbox_ in y_pred])
 
     # pylint: disable-next=W0632
-    xmin1, ymin1, width1, height1 = np.hsplit(y_pred, 4)
+    xmin1, ymin1, xmax1, ymax1 = np.hsplit(y_pred, 4)
     # pylint: disable-next=W0632
-    xmin2, ymin2, width2, height2 = np.hsplit(y_true, 4)
-    xmax1 = xmin1 + width1
-    xmax2 = xmin2 + width2
-    ymax1 = ymin1 + height1
-    ymax2 = ymin2 + height2
+    xmin2, ymin2, xmax2, ymax2 = np.hsplit(y_true, 4)
 
     # Intersection
     xmin_i = np.maximum(xmin1.T, xmin2).T
