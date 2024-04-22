@@ -334,7 +334,7 @@ class TestIoU(unittest.TestCase):
         self.assertTrue(test_equality(od_metrics_ious, pycoco_ious))
 
     @parameterized.expand(list(product(
-        ["random", None], ["xyxy", "xywh", "cxcywh"])))
+        ["random", None], ["xyxy", "xywh", "cxcywh", "error"])))
     def test_box_formats(
             self,
             iscrowd_mode: Literal["random", None],
@@ -360,25 +360,37 @@ class TestIoU(unittest.TestCase):
             high=self.HIGH,
             size=[self.SIZE, 4]
             )
-        y_pred_pycoco = np.array([to_xywh(bbox_, box_format)
-                                  for bbox_ in y_pred])
+
         y_true = np.random.randint(
             low=1,
             high=self.HIGH,
             size=[self.SIZE, 4]
             )
-        y_true_pycoco = np.array([to_xywh(bbox_, box_format)
-                                  for bbox_ in y_true])
-        od_metrics_ious = iou(
-            y_true=y_true,
-            y_pred=y_pred,
-            iscrowd=iscrowd,
-            box_format=box_format,
-            )
-        pycoco_ious = maskUtils.iou(y_pred_pycoco, y_true_pycoco,
-                                    iscrowd_pycoco)
 
-        self.assertTrue(test_equality(od_metrics_ious, pycoco_ious))
+        if box_format in ["xyxy", "xywh", "cxcywh"]:
+            od_metrics_ious = iou(
+                y_true=y_true,
+                y_pred=y_pred,
+                iscrowd=iscrowd,
+                box_format=box_format,
+                )
+
+            y_true_pycoco = np.array([to_xywh(bbox_, box_format)
+                                      for bbox_ in y_true])
+            y_pred_pycoco = np.array([to_xywh(bbox_, box_format)
+                                      for bbox_ in y_pred])
+            pycoco_ious = maskUtils.iou(y_pred_pycoco, y_true_pycoco,
+                                        iscrowd_pycoco)
+
+            self.assertTrue(test_equality(od_metrics_ious, pycoco_ious))
+        else:
+            with self.assertRaises(ValueError):
+                od_metrics_ious = iou(
+                    y_true=y_true,
+                    y_pred=y_pred,
+                    iscrowd=iscrowd,
+                    box_format=box_format,
+                    )
 
     def test_length_exception(self) -> None:
         """Test exception `iscrowd` and `y_true` different length."""

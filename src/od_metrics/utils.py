@@ -201,7 +201,7 @@ def to_xyxy(
         return bbox
     if box_format == "cxcywh":
         return cxcywh_xyxy(bbox)
-    raise ValueError(  # pragma: no cover
+    raise ValueError(
         "`box_format` can be `'xyxy'`, `'xywh'`, `'cxcywh'`. "
         f"Found {box_format}"
         )
