@@ -421,6 +421,55 @@ class TestIoU(unittest.TestCase):
                 iscrowd=iscrowd,
                 )
 
+    @parameterized.expand(list(product(
+        ["random", None], ["xyxy", "xywh", "cxcywh"])))
+    def test_not_valid_boxes(
+            self,
+            iscrowd_mode: Literal["random", None],
+            box_format: Literal["xyxy", "xywh", "cxcywh"],
+            ) -> None:
+        """Test equivalence for not valid (negative values) boxes."""
+        if iscrowd_mode == "random":
+            iscrowd = list(map(
+                bool,
+                np.random.randint(
+                    low=0,
+                    high=2,
+                    size=[self.SIZE]
+                    ).tolist()
+                )
+            )
+            iscrowd_pycoco = iscrowd
+        else:
+            iscrowd = None
+            iscrowd_pycoco = [False] * self.SIZE
+        y_pred = np.random.randint(
+            low=-10,
+            high=1,
+            size=[self.SIZE, 4]
+            )
+        y_true = np.random.randint(
+            low=-10,
+            high=1,
+            size=[self.SIZE, 4]
+            )
+
+        od_metrics_ious = iou(
+            y_true=y_true,
+            y_pred=y_pred,
+            iscrowd=iscrowd,
+            box_format=box_format,
+            )
+
+        y_true_pycoco = np.array([to_xywh(bbox_, box_format)
+                                  for bbox_ in y_true])
+        y_pred_pycoco = np.array([to_xywh(bbox_, box_format)
+                                  for bbox_ in y_pred])
+        pycoco_ious = maskUtils.iou(y_pred_pycoco, y_true_pycoco,
+                                    iscrowd_pycoco)
+
+        self.assertTrue(test_equality(od_metrics_ious, pycoco_ious))
+
 
 if __name__ == "__main__":
     unittest.main()  # pragma: no cover
