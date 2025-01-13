@@ -45,7 +45,7 @@ calculated metric is tested to coincide with COCOAPI metrics.
 
 ## Supported Metrics
 Supported metrics include `mAP` (Mean Average Precision), `mAR` (Mean Average Recall)
-and `IoU` (Intersection over Union).
+and `IoU` (Intersection over Union). For more information see [Metrics](iou.md).
 
 
 ## Installation

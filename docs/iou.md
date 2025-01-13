@@ -4,26 +4,26 @@
 <img src="../assets/images/iou.png" alt="drawing" width="500"/></p>
 
 ## What is IoU?
-**Intersection Over Union (IoU)** is a metric used to evaluate the accuracy of an object detector and it's broadly applicable across various computer vision tasks. It measures the overlap between two bounding boxes.<br>
+**Intersection Over Union (IoU)** is a widely used metric for evaluating the accuracy of object detectors, applicable across various computer vision tasks. It measures the overlap between two bounding boxes.<br>
 **IoU** is a crucial metric in object detection because it provides a clear quantification of how well the bounding boxes predicted by the model match the actual objects in the image.
 
 
 
 ## Definition
-**IoU** (also referred to as the [Jaccard Index](https://en.wikipedia.org/wiki/Jaccard_index)) between two boxes $\textbf{A}, \textbf{B} \in \mathbb{R}^4$ is calculated as the ratio of the intersection area to their union area.<br>
+**IoU** (also referred to as the [Jaccard Index](https://en.wikipedia.org/wiki/Jaccard_index)) between two boxes $\textbf{A}, \textbf{B} \in \mathbb{R}^4$ is defined as the ratio of their intersection area to their union area.<br>
 Mathematically:
 
 $$IoU(\textbf{A},\textbf{B})={{|\textbf{A}\cap \textbf{B}|} \over {|\textbf{A}\cup \textbf{B}|}}$$
 
 ## How to calculate IoU?
-Suppose we want to calculate the **IoU** between two boxes $\textbf{A}$ and $\textbf{B}$, that we suppose in `xyxy`(to-left, bottom-right corners) format:
+Suppose we need to compute the **IoU** between two boxes $\textbf{A}$ and $\textbf{B}$, given in the `xyxy`(to-left, bottom-right corners) format:
 \begin{equation}
 \begin{split}
 & \textbf{A} = (x^A_1, y^A_1, x^A_2, y^A_2) \\
 & \textbf{B} = (x^B_1, y^B_1, x^B_2, y^B_2)
 \end{split}
 \end{equation}
-To calculate the intersection between $\textbf{A}$ and $\textbf{B}$ we can define:
+To compute the intersection between $\textbf{A}$ and $\textbf{B}$ we define:
 \begin{equation}
 \begin{split}
 & x^I_1 = \max(x^A_1, x^B_1)\\
@@ -52,7 +52,7 @@ To calculate the union between $A$ and $B$:
 & \textbf{B} = (105, 120, 185, 160)
 \end{split}
 \end{equation}
-For the intersection we have:
+The intersection is calculated as follows:
 \begin{equation}
 \begin{split}
 & x^I_1 = \max(50, 105) = 105\\
@@ -61,20 +61,19 @@ For the intersection we have:
 & y^I_2 = \min(150, 160) = 150\\
 \end{split}
 \end{equation}
-Then:
+Therefore:
 $$ |\textbf{A}\cap \textbf{B}| = \max(150 - 105, 0) * \max(150 - 120, 0) = 1350 $$
 For the union:
 $$ |\textbf{A}\cup \textbf{B}| = |\textbf{A}| + |\textbf{B}| - |\textbf{A}\cap \textbf{B}| = 5000 + 3200 - 1350 = 6850 $$
 
 Then:
 
-$$IoU(\textbf{A}, \textbf{B}) = \frac{1350}{6850} = 0,197080292$$
+$$IoU(\textbf{A}, \textbf{B}) = \frac{1350}{6850} = 0.197080292$$
 
 
 ## `iscrowd` parameter
 OD-Metrics `iou` function supports `iscrowd` [COCOAPI](https://github.com/cocodataset/cocoapi) parameter.
-For `crowd` regions, **IoU** metrics is calculated using a modified criteria:
-If a $\textbf{y}_{true}$ object is marked as `iscrowd`, it is permissible for a detected object $\textbf{y}_{pred}$ to match any subregion of the $\textbf{y}_{true}$. Choosing $\textbf{y}_{true'}$ in the crowd $\textbf{y}_{true}$ that best matches the $\textbf{y}_{pred}$ can be done using:
+For `crowd` regions, the **IoU** metric is computed using a modified criterion: if a $\textbf{y}_{true}$ object is marked as `iscrowd`, it is permissible for a detected object $\textbf{y}_{pred}$ to match any subregion of the $\textbf{y}_{true}$. Choosing $\textbf{y}'_{true}$ in the crowd $\textbf{y}_{true}$ that best matches the $\textbf{y}_{pred}$ can be done using:
 
 $$\textbf{y}'_{true} = \textbf{y}_{pred} \bigcap \textbf{y}_{true}$$
 
@@ -88,8 +87,7 @@ IoU(\textbf{y}_{true}, \textbf{y}_{pred}) & = IoU(\textbf{y}'_{true}, \textbf{y}
 \end{split}
 \end{equation}
 
-For crowd regions in ground truth, this modified criteria for **IoU**
-is applied. 
+This modified **IoU** criterion is applied to crowd regions in the ground truth.
 
 
 ## IoU in OD-Metrics
@@ -109,4 +107,4 @@ array([[0.19708029]])
 """
 ```
 
-For more examples see Usage sections or source code.
+For more examples see [Usage](usage.md#iou) sections or [API Reference](api_reference.md).
