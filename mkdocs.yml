@@ -25,6 +25,9 @@ plugins:
   - search
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 markdown_extensions:
   - mdx_math
   - toc:
@@ -38,6 +41,11 @@ markdown_extensions:
   - pymdownx.superfences
   - admonition
   - pymdownx.details
+  - pymdownx.arithmatex:
+      generic: true
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
 extra_css:
   - assets/stylesheets/custom.css
 repo_name: OD-Metrics
@@ -46,3 +54,6 @@ nav:
   - Get Started: index.md
   - Usage: usage.md
   - API Reference: api_reference.md
+  - Metrics:
+      IoU: iou.md
+      mAP and mAR: map_mar.md
