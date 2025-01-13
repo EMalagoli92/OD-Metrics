@@ -5,7 +5,7 @@
 
 ## How to calculate mAP?
 <p align="center">
-<img src="../assets/map_1.png" alt="drawing" width="500"/></p>
+<img src="../assets/images/map_1.png" alt="drawing" width="500"/></p>
 
 The starting point is that each prediction of an object detection algorithm is composed by three components:
 

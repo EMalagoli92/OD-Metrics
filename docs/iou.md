@@ -1,7 +1,7 @@
 # Intersection over Union (IoU)
 
 <p align="center">
-<img src="../assets/iou.png" alt="drawing" width="500"/></p>
+<img src="../assets/images/iou.png" alt="drawing" width="500"/></p>
 
 ## What is IoU?
 **Intersection Over Union (IoU)** is a metric used to evaluate the accuracy of an object detector and it's broadly applicable across various computer vision tasks. It measures the overlap between two bounding boxes.<br>
@@ -44,7 +44,7 @@ To calculate the union between $A$ and $B$:
 
 ### Example
 <p align="center">
-<img src="../assets/iou_example.png" alt="drawing" width="500"/></p>
+<img src="../assets/images/iou_example.png" alt="drawing" width="500"/></p>
 
 \begin{equation}
 \begin{split}
