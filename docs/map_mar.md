@@ -56,21 +56,27 @@ $$ \text{R}_{\bar{c}}(\tau_{s}, \tau_{\text{IoU}}) = \frac{\text{TP}_{\bar{c}}(\
 where $Y_{\bar{c}} = \{ y \in Y \mid c = \bar{c} \}$.
 
 ## Average Precision and Mean Average Precision
-For a specific class $\bar{c}$ and IoU threhsold $\bar{\tau}_{IoU}$, the **Average Precision** $\text{AP}_{\bar{c}}@[\bar{\tau}_{IoU}]$ is a metric based on the area under a $\text{P}_{\bar{c}}(\tau_{s}, \bar{\tau}_{\text{IoU}})\times \text{R}_{\bar{c}}(\tau_{s}, \bar{\tau}_{\text{IoU}})$ curve.<br>
+For a specific class $\bar{c}$ and IoU threhsold $\bar{\tau}_{IoU}$, the **Average Precision** $\text{AP}_{\bar{c}}@[\bar{\tau}_{IoU}]$ is a metric based on the area under a $\text{P}_{\bar{c}}(\tau_{s}, \bar{\tau}_{\text{IoU}})\times \text{R}_{\bar{c}}(\tau_{s}, \bar{\tau}_{\text{IoU}})$ curve:
+$$\text{AP}_{\bar{c}}@[\bar{\tau}_{\text{IoU}}] = \int_0^1 \text{P}_{\bar{c}}(\text{R}_{\bar{c}}; \bar{\tau}_{\text{IoU}}) d\text{R}_{\bar{c}} $$
+
 In large datasets, it is useful to have a unique metric that is able to represent the exactness of the detections among all $C$ classes. For such cases, the mean average precision $\text{mAP}@[\bar{\tau}_{\text{IoU}}]$ is computed, which is simply:
 $$\text{mAP}@[\bar{\tau}_{\text{IoU}}] = \frac{1}{C}\sum_{c=1}^C \text{AP}_{c}@[\bar{\tau}_{\text{IoU}}] $$
 
-This area is in practice replaced with a finite sum using certain recall values and different interpolation methods.
-
-One starts by ordering the $K$ different confidence scores output by the detector:
+This area is in practice replaced with a finite sum using certain recall values.
+One starts by ordering the $K$ different confidence scores output by the detector, for the specific class $\bar{c}$:
 
 $$T_{\bar{c}} = \{ \tau_{s_k}, k \in \mathbb{N}_{\leq K}^+ \mid \tau_{s_i} > \tau_{s_j} \; \forall i > j\}$$
 
-Interpolated Precision:
+Since the $\text{R}_{\bar{c}}$ values also have a one-to-one, monotonic correspondence with $\tau_{s_k}$, which has a one-to-one, monotonic, correspondence with the index $k$, then the Precision-Recall curve is not continuous but sampled at the discrete points $\text{R}_{\bar{c}}(\tau_{s_k},\bar{\tau}_{\text{IoU}})$, leading to the set of pairs $(\text{P}_{\bar{c}}(\tau_{s_k},\bar{\tau}_{\text{IoU}}),\text{R}_{\bar{c}}(\tau_{s_k},\bar{\tau}_{\text{IoU}}))$ indexed by $k$.
+Now one defines an ordered set of reference recall values $R_r$
 
-$$\tilde{P}_{\bar{c}}(x, \bar{\tau}_{IoU}) = \max_{j \in \mathbb{N}_{\leq K}^+ \mid R_{\bar{c}}(\tau_{s_j}, \bar{\tau}_{IoU}) \geq x} P_{\bar{c}}(\tau_{s_j}, \bar{\tau}_{IoU})$$
+$$\{ R_{r_n}, n \in \mathbb{N}_{\leq N}^+ \mid R_{r_m} < R_{r_n} \; \forall m > n \}$$
 
+The $\text{AP}_{\bar{c}}$ is computed using the two ordered sets $\{ \tau_{s_k} \}_{k \in \mathbb{N}_{\leq K}^+}$ and $\{ R_{r_n} \}_{n \in \mathbb{N}_{\leq N}^+}$ But before computing $\text{AP}_{\bar{c}}$, the Precision-Recall pairs have to be interpolated such that the resulting Precision-Recall curve is monotonic. The resulting interpolated curve is defined by a continuous function $\tilde{P}_{\bar{c}}(x, \bar{\tau}_{IoU})$, where $x$ is a real value contained in the interval $[0, 1]$, defined as:
 
+$$\tilde{P}_{\bar{c}}(x, \bar{\tau}_{IoU}) = \max_{k \in \mathbb{N}_{\leq K}^+ \mid R_{\bar{c}}(\tau_{s_k}, \bar{\tau}_{IoU}) \geq x} P_{\bar{c}}(\tau_{s_k}, \bar{\tau}_{IoU})$$
+
+The precision value interpolated at recall $x$ corresponds to the maximum precision $P_{\bar{c}}(\tau_{s_k}, \bar{\tau}_{IoU})$ whose corresponding recall value is greater than or equal to $x$.
 
 $N$-Point Interpolation. In this case the sequence $T_{\bar{c}}$ is chosen such that the corresponding sequence ${R_\bar{c}(\tau_{s_k}, \bar{\tau}_{IoU})}$ is equally spaced in the interval $[0,1]$, that is:
 
