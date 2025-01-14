@@ -62,7 +62,7 @@ $$\text{AP}_{\bar{c}}@[\bar{\tau}_{\text{IoU}}] = \int_0^1 \text{P}_{\bar{c}}(\t
 In large datasets, it is useful to have a unique metric that is able to represent the exactness of the detections among all $C$ classes. For such cases, the mean average precision $\text{mAP}@[\bar{\tau}_{\text{IoU}}]$ is computed, which is simply:
 $$\text{mAP}@[\bar{\tau}_{\text{IoU}}] = \frac{1}{C}\sum_{c=1}^C \text{AP}_{c}@[\bar{\tau}_{\text{IoU}}] $$
 
-This area is in practice replaced with a finite sum using certain recall values.
+This area is in practice replaced with a finite sum using certain recall values and different interpolation methods.
 One starts by ordering the $K$ different confidence scores output by the detector, for the specific class $\bar{c}$:
 
 $$T_{\bar{c}} = \{ \tau_{s_k}, k \in \mathbb{N}_{\leq K}^+ \mid \tau_{s_i} > \tau_{s_j} \; \forall i > j\}$$
@@ -78,18 +78,19 @@ $$\tilde{P}_{\bar{c}}(x, \bar{\tau}_{IoU}) = \max_{k \in \mathbb{N}_{\leq K}^+ \
 
 The precision value interpolated at recall $x$ corresponds to the maximum precision $P_{\bar{c}}(\tau_{s_k}, \bar{\tau}_{IoU})$ whose corresponding recall value is greater than or equal to $x$.
 
-$N$-Point Interpolation. In this case the sequence $T_{\bar{c}}$ is chosen such that the corresponding sequence ${R_\bar{c}(\tau_{s_k}, \bar{\tau}_{IoU})}$ is equally spaced in the interval $[0,1]$, that is:
+#### $N$-Point Interpolation
+In the **$N$-point interpolation**, the set of reference recall values $\{ R_{r_n} \}_{n \in \mathbb{N}_{\leq N}^+}$ are equally spaced in the interval $[0, 1]$ that is
 
-$$R_{\bar{c}}(\tau_{s_k}, \bar{\tau}_{IoU}) = \frac{N - k}{N -1}, \; \; k \in \mathbb{N}^+_{\leq N}$$
+$$R_{r_n} = \frac{N - n}{N -1}, \; \; n \in \mathbb{N}^+_{\leq N}$$
 
-and thus:
+and:
 
-$$ AP_{\bar{c}}@[\bar{\tau}_{IoU}] = \frac{1}{N} \sum_{k=1}^N  \tilde{P}_{\bar{c}}(\frac{N - k}{N -1}, \bar{\tau}_{IoU}) $$
+$$ AP_{\bar{c}}@[\bar{\tau}_{IoU}] = \frac{1}{N} \sum_{n=1}^N  \tilde{P}_{\bar{c}}(\frac{N - n}{N -1}, \bar{\tau}_{IoU}) $$
 
 Popular choices are $N=11$ or $N=101$.
 
-In all-point interpolation:
-
+#### All-point Interpolation:
+In the so-called **all-point interpolation**, the set values $\{ R_{r_n} \}_{n \in \mathbb{N}_{\leq N}^+}$ corresponds exactly to the set of recall values computed considering all $K$ confidence levels $\{ \tau_{s_k} \}_{k \in \mathbb{N}_{\leq K}^+}$:
 $$ AP_{\bar{c}}@[\bar{\tau}_{IoU}] = \sum_{k=0}^{K} (R_\bar{c}(\tau_{s_k}, \bar{\tau}_{IoU}) - R_\bar{c}(\tau_{s_{k+1}}, \bar{\tau}_{IoU})) \tilde{P}_{\bar{c}}(R_\bar{c}(\tau_{s_k}, \bar{\tau}_{IoU}), \bar{\tau}_{IoU}) $$
 
 with $\tau_{s_0} = 0$, $R_\bar{c}(\tau_{s_0}, \bar{\tau}_{IoU}) = 1$, $\tau_{s_{K+1}} = 1$, $R_\bar{c}(\tau_{s_{K+1}}, \bar{\tau}_{IoU}) = 0$.
