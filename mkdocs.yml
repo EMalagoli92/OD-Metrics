@@ -23,6 +23,8 @@ plugins:
           options:
             docstring_style: numpy
   - search
+  - bibtex:
+      bib_file: bib.bib
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML
   - javascripts/mathjax.js
@@ -46,6 +48,7 @@ markdown_extensions:
   - def_list
   - pymdownx.tasklist:
       custom_checkbox: true
+  - footnotes
 extra_css:
   - assets/stylesheets/custom.css
 repo_name: OD-Metrics
