@@ -56,7 +56,7 @@ repo_url: https://github.com/EMalagoli92/OD-metrics
 nav:
   - Get Started: index.md
   - Metrics:
-      IoU: iou.md
-      mAP: map.md
+      - IoU: iou.md
+      - mAP: map.md
   - Usage: usage.md
   - API Reference: api_reference.md
