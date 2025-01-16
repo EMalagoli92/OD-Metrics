@@ -13,7 +13,7 @@
 **IoU** (also referred to as the [Jaccard Index](https://en.wikipedia.org/wiki/Jaccard_index)) between two boxes $\textbf{A}, \textbf{B} \in \mathbb{R}^4$ is defined as the ratio of their intersection area to their union area.<br>
 Mathematically:
 
-$$IoU(\textbf{A},\textbf{B})={{|\textbf{A}\cap \textbf{B}|} \over {|\textbf{A}\cup \textbf{B}|}}$$
+$$\text{IoU}(\textbf{A},\textbf{B})={{|\textbf{A}\cap \textbf{B}|} \over {|\textbf{A}\cup \textbf{B}|}}$$
 
 ## How to calculate IoU?
 Suppose we need to compute the **IoU** between two boxes $\textbf{A}$ and $\textbf{B}$, given in the `xyxy`(to-left, bottom-right corners) format:
@@ -68,7 +68,7 @@ $$ |\textbf{A}\cup \textbf{B}| = |\textbf{A}| + |\textbf{B}| - |\textbf{A}\cap \
 
 Then:
 
-$$IoU(\textbf{A}, \textbf{B}) = \frac{1350}{6850} = 0.197080292$$
+$$\text{IoU}(\textbf{A}, \textbf{B}) = \frac{1350}{6850} = 0.19708029$$
 
 
 ## `iscrowd` parameter
@@ -82,18 +82,16 @@ $$ \textbf{y}'_{true} \bigcup \textbf{y}_{pred} = \textbf{y}_{pred}$$
 computing **IoU** when `iscrowd=True`, is equivalent to:
 \begin{equation}
 \begin{split}
-IoU(\textbf{y}_{true}, \textbf{y}_{pred}) & = IoU(\textbf{y}'_{true}, \textbf{y}_{pred}) 
+\text{IoU}(\textbf{y}_{true}, \textbf{y}_{pred}) & = \text{IoU}(\textbf{y}'_{true}, \textbf{y}_{pred}) 
        \\ & = \frac{|\textbf{y}_{true} \bigcap \textbf{y}_{pred}|}{\textbf{y}_{pred}}
 \end{split}
 \end{equation}
 
-This modified **IoU** criterion is applied to crowd regions in the ground truth.
+This modified **IoU** criterion is applied to `crowd` regions in the ground truth.
 
 
 ## IoU in OD-Metrics
-OD-Metrics supports **IoU** metrics with the `iou` function.<br>
-The usage is straightfoward.
-
+OD-Metrics supports **IoU** metrics with the `iou` function. The usage is straightfoward.
 ```python
 from od_metrics import iou
 
@@ -107,4 +105,4 @@ array([[0.19708029]])
 """
 ```
 
-For more examples see [Usage](usage.md#iou) sections or [API Reference](api_reference.md).
+For more examples see [Usage](usage.md#iou) or [API Reference](api_reference.md).
