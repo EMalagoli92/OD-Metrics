@@ -55,8 +55,8 @@ repo_name: OD-Metrics
 repo_url: https://github.com/EMalagoli92/OD-metrics
 nav:
   - Get Started: index.md
-  - Usage: usage.md
-  - API Reference: api_reference.md
   - Metrics:
       IoU: iou.md
-      mAP and mAR: map_mar.md
+      mAP: map.md
+  - Usage: usage.md
+  - API Reference: api_reference.md

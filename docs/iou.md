@@ -4,7 +4,7 @@
 <img src="../assets/images/iou.png" alt="drawing" width="500"/></p>
 
 ## What is IoU?
-**Intersection Over Union (IoU)** is a widely used metric for evaluating the accuracy of object detectors, applicable across various computer vision tasks. It measures the overlap between two bounding boxes.<br>
+**Intersection Over Union (IoU)** is a widely used metric in computer vision that measures the overlap between two bounding boxes.<br>
 **IoU** is a crucial metric in object detection because it provides a clear quantification of how well the bounding boxes predicted by the model match the actual objects in the image.
 
 
