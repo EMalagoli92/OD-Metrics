@@ -41,8 +41,13 @@ hide:
 - **Compatibility with COCOAPI**: Metrics are rigorously tested to ensure compatibility with [COCOAPI](https://github.com/cocodataset/cocoapi), ensuring reliability and consistency.
 
 ## Metrics Overview
-Supported metrics include **[mAP](map.md) (Mean Average Precision)**, `mAR` (Mean Average Recall)
-and **[IoU](iou.md) (Intersection over Union)**. For more information see [Metrics](iou.md).
+Supported metrics include:
+
+- [mAP](map_mar.md#what-is-map) (Mean Average Precision)
+- [mAR](map_mar.md#average-recall) (Mean Average Recall)
+- [IoU](iou.md) (Intersection over Union)
+
+For more information see [Metrics](iou.md).
 
 
 ## Installation

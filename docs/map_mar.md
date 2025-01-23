@@ -1,4 +1,4 @@
-# Mean Average Precision (mAP)
+# Mean Average Precision (mAP) and Recall (mAR)
 
 ## What is mAP?
 **Mean Average Precision (mAP)** is the de facto standard accuracy metric in object detection, providing a comprehensive measure of a model's ability to correctly detect and localize objects within an image.<br>
@@ -109,7 +109,19 @@ Regardless of the interpolation method, the **Average Precision** $\text{AP}_{\b
 
 $$\text{mAP}@[\bar{\tau}_{\text{IoU}}] = \frac{1}{C}\sum_{c=1}^C \text{AP}_{c}@[\bar{\tau}_{\text{IoU}}] $$
 
-In certain competitions, the final metric is further averaged across multiple IoU thresholds $\tau_{\text{IoU}}$; for example, in [MS-COCO](https://cocodataset.org/#home) [@lin2014microsoft], e.g., $\tau_{\text{IoU}} \in \{0.5, 0.55, \ldots, 0.95\}$ in increments of 0.05 and it is often denoted as $\text{mAP}$@[0.5:0.95].
+In certain competitions, the final metric $\text{mAP}@[T]$ is computed as the average over a predefined set $T$ of IoU thresholds $\tau_{\text{IoU}}$;  for example, in [MS-COCO](https://cocodataset.org/#home) [@lin2014microsoft], e.g., $\tau_{\text{IoU}} \in T = \{0.5, 0.55, \ldots, 0.95\}$ in increments of 0.05 and it is often denoted as $\text{mAP}@[0.5:0.95]$.
+
+
+## Average Recall
+Following the definition used in [MS-COCO](https://cocodataset.org/#home), given a set $T$ of IoU thresholds $\tau_{\text{IoU}}$ and a specific class $\bar{c}$, the **Average Recall** $\text{AR}_{\bar{c}}@[T]$ is defined as:
+
+$$ \text{AR}_{\bar{c}}@[T] = \frac{1}{|T|} \sum_{\tau_{\text{IoU}} \in T} \max_{k \in \mathbb{N}_{\leq K}^+} \text{R}_\bar{c}(\tau_{s_k}; \tau_{\text{IoU}})$$
+
+The **Mean Average Recall** $\text{mAR}@[T]$ is then calculated as the average of $\text{AR}_{\bar{c}}@[T]$ across all $C$ classes:
+
+$$ \text{mAR}@[T] = \frac{1}{C}\sum_{c=1}^C \text{AR}_{c}@[T] $$
+
+In [MS-COCO](https://cocodataset.org/#home) [@lin2014microsoft], $T = \{0.5, 0.55, \ldots, 0.95\}$ and the corresponding **Mean Average Recall** is denoted as $\text{mAR}@[0.5:0.95]$.
 
 ## References
 
