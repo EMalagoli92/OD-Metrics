@@ -3,54 +3,55 @@ hide:
 - navigation
 ---
 ## Try live Demo
-Try OD-Metrics samples [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/EMalagoli92/OD-metrics/HEAD?labpath=samples%2Fsamples.ipynb)
+Explore live OD-Metrics examples on Binder or Colab [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/EMalagoli92/OD-metrics/HEAD?labpath=samples%2Fsamples.ipynb)
   <a href="https://colab.research.google.com/github/EMalagoli92/OD-Metrics/blob/main/samples/samples.ipynb">
     <img src="https://img.shields.io/badge/Open%20in%20Colab-blue?logo=google-colab&style=flat&labelColor=555"></a>
 
 ## Simple example.
-Suppose to be in the following situation. 
-!!! Example
-    You have `2` images with:
-    
-    - #### Image 1
-      <img align="left" width="400" height="400" src="../assets/images/image_1.png">
-      - `2` ground truth bounding boxes with: one belonging to `0` class and one to `1` class:
-      - `3` predictions bounding boxes, with `labels` `[0, 1, 1]` and `scores` `[.88, .70, .80]`.
-      ```yaml
-      # Image 1
-      y_true =
-          {
-           "boxes": [[25, 16, 38, 56], [129, 123, 41, 62]],
-           "labels": [0, 1]
-           }
-      y_pred =
-          {
-           "boxes": [[25, 27, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
-           "labels": [0, 1, 1],
-           "scores": [.88, .70, .80]
-           },
-      ```
+Consider a scenario where you have two images, **Image 1** and **Image 2**, and the following annotations and predictions.
 
-    - #### Image 2
-      <img align="left" src="../assets/images/image_2.png">
-      - `2` ground truth bounding boxes, each belonging to `0` class;
-      - `3` predictions bounding boxes, with `labels` `[0, 1, 0]`, with `scores` `[.71, .54, .74]`.
-      ```yaml
-      # Image 2
-      y_true =
-          {
-           "boxes": [[123, 11, 43, 55], [38, 132, 59, 45]],
-           "labels": [0, 0]
-           }
-      y_pred = {
-           "boxes": [[64, 111, 64, 58], [26, 140, 60, 47], [19, 18, 43, 35]],
-           "labels": [0, 1, 0],
-           "scores": [.71, .54, .74]
-           }
-      ```  
+<img align="left" width="450" height="600" src="../assets/images/image_1.png">
+The **Image 1** contains:
 
-The `mAP` (Mean Average Precision) and `mAR` (Mean Average Recall)
-for the previous situation can be calculated as follows:
+- `2` ground truth bounding boxes with: one belonging to `0` class and one to `1` class:
+- `3` predictions bounding boxes, with `labels` `[0, 1, 1]` and `scores` `[.88, .70, .80]`.
+```yaml
+# Image 1
+y_true =
+  {
+   "boxes": [[25, 16, 38, 56], [129, 123, 41, 62]],
+   "labels": [0, 1]
+   }
+y_pred =
+  {
+   "boxes": [[25, 27, 37, 54], [119, 111, 40, 67], [124, 9, 49, 67]],
+   "labels": [0, 1, 1],
+   "scores": [.88, .70, .80]
+   },
+```
+
+<img align="left" width="450" height="600" src="../assets/images/image_2.png">
+The **Image 2** contains:
+
+- `2` ground truth bounding boxes, each belonging to `0` class;
+- `3` predictions bounding boxes, with `labels` `[0, 1, 0]`, with `scores` `[.71, .54, .74]`.
+```yaml
+# Image 2
+y_true =
+  {
+   "boxes": [[123, 11, 43, 55], [38, 132, 59, 45]],
+   "labels": [0, 0]
+   }
+y_pred = {
+   "boxes": [[64, 111, 64, 58], [26, 140, 60, 47], [19, 18, 43, 35]],
+   "labels": [0, 1, 0],
+   "scores": [.71, .54, .74]
+   }
+```
+<br>
+
+The [mAP](map_mar.md#what-is-map) (Mean Average Precision) and [mAR](map_mar.md#average-recall) (Mean Average Recall)
+for the scenario can be calculated as follows:
 ``` py title="simple_example"
 from od_metrics import ODMetrics
 

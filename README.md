@@ -31,16 +31,17 @@
 
 
 ## Why OD-Metrics?
-- **User-friendly**: simple to set and simple to use;
-- **Highly Customizable**: every parameters that occur in the definition of `mAP`
-and `mAR` can be set by user to custom values;
-- **Compatibility with [COCOAPI](https://github.com/cocodataset/cocoapi)**: each
-calculated metric is tested to coincide with COCOAPI metrics. 
+- **User-friendly**: Designed for simplicity, allowing users to calculate metrics with minimal setup.
+- **Highly Customizable**: Offers flexibility by allowing users to set custom values for every parameter in metrics definitions.
+- **COCOAPI Compatibility**: Metrics are rigorously tested to ensure compatibility with [COCOAPI](https://github.com/cocodataset/cocoapi), ensuring reliability and consistency.
 
 
 ## Supported Metrics
-Supported metrics include `mAP` (Mean Average Precision), `mAR` (Mean Average Recall)
-and `IoU` (Intersection over Union).
+Supported metrics include:
+
+- `mAP` (Mean Average Precision)
+- `mAR` (Mean Average Recall)
+- `IoU` (Intersection over Union).
 
 ## Documentation
 For help, usage and API reference, please refer to [Documentation](https://emalagoli92.github.io/OD-Metrics/)

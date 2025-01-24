@@ -38,7 +38,7 @@ hide:
 ## Why OD-Metrics?
 - **User-friendly**: Designed for simplicity, allowing users to calculate metrics with minimal setup.
 - **Highly Customizable**: Offers flexibility by allowing users to set custom values for every parameter in metrics definitions.
-- **Compatibility with COCOAPI**: Metrics are rigorously tested to ensure compatibility with [COCOAPI](https://github.com/cocodataset/cocoapi), ensuring reliability and consistency.
+- **COCOAPI Compatibility**: Metrics are rigorously tested to ensure compatibility with [COCOAPI](https://github.com/cocodataset/cocoapi), ensuring reliability and consistency.
 
 ## Metrics Overview
 Supported metrics include:

@@ -17,13 +17,16 @@ $$\text{IoU}(\textbf{A},\textbf{B})={{|\textbf{A}\cap \textbf{B}|} \over {|\text
 
 ## How to calculate IoU?
 Suppose we need to compute the **IoU** between two boxes $\textbf{A}$ and $\textbf{B}$, given in the `xyxy`(to-left, bottom-right corners) format:
+
 \begin{equation}
 \begin{split}
 & \textbf{A} = (x^A_1, y^A_1, x^A_2, y^A_2) \\
 & \textbf{B} = (x^B_1, y^B_1, x^B_2, y^B_2)
 \end{split}
 \end{equation}
+
 To compute the intersection between $\textbf{A}$ and $\textbf{B}$ we define:
+
 \begin{equation}
 \begin{split}
 & x^I_1 = \max(x^A_1, x^B_1)\\
@@ -32,9 +35,13 @@ To compute the intersection between $\textbf{A}$ and $\textbf{B}$ we define:
 & y^I_2 = \min(y^A_2, y^B_2) \\
 \end{split}
 \end{equation}
+
 Then:
+
 $$ |\textbf{A}\cap \textbf{B}| = \max(x^I_2 - x^I_1, 0) * \max(y^I_2 - y^I_1) $$
+
 To calculate the union between $A$ and $B$:
+
 \begin{equation}
 \begin{split}
 |\textbf{A}\cup \textbf{B}| & = |\textbf{A}| + |\textbf{B}| - |\textbf{A}\cap \textbf{B}|\\
@@ -52,7 +59,9 @@ To calculate the union between $A$ and $B$:
 & \textbf{B} = (105, 120, 185, 160)
 \end{split}
 \end{equation}
+
 The intersection is calculated as follows:
+
 \begin{equation}
 \begin{split}
 & x^I_1 = \max(50, 105) = 105\\
@@ -61,9 +70,13 @@ The intersection is calculated as follows:
 & y^I_2 = \min(150, 160) = 150\\
 \end{split}
 \end{equation}
+
 Therefore:
+
 $$ |\textbf{A}\cap \textbf{B}| = \max(150 - 105, 0) * \max(150 - 120, 0) = 1350 $$
+
 For the union:
+
 $$ |\textbf{A}\cup \textbf{B}| = |\textbf{A}| + |\textbf{B}| - |\textbf{A}\cap \textbf{B}| = 5000 + 3200 - 1350 = 6850 $$
 
 Then:
@@ -72,14 +85,16 @@ $$\text{IoU}(\textbf{A}, \textbf{B}) = \frac{1350}{6850} = 0.19708029$$
 
 
 ## `iscrowd` parameter
-OD-Metrics `iou` function supports `iscrowd` [COCOAPI](https://github.com/cocodataset/cocoapi) parameter.
-For `crowd` regions, the **IoU** metric is computed using a modified criterion: if a $\textbf{y}_{true}$ object is marked as `iscrowd`, it is permissible for a detected object $\textbf{y}_{pred}$ to match any subregion of the $\textbf{y}_{true}$. Choosing $\textbf{y}'_{true}$ in the crowd $\textbf{y}_{true}$ that best matches the $\textbf{y}_{pred}$ can be done using:
+OD-Metrics `iou` function supports `iscrowd` [COCOAPI](https://github.com/cocodataset/cocoapi) parameter, which indicates whether a ground truth bounding box $\textbf{y}_{true}$ represents a crowd of objects. For `crowd` regions, the **IoU** metric is computed using a modified criterion: if a $\textbf{y}_{true}$ object is marked as `iscrowd`, it is permissible for a detected object $\textbf{y}_{pred}$ to match any subregion of the $\textbf{y}_{true}$. Choosing $\textbf{y}'_{true}$ in the crowd $\textbf{y}_{true}$ that best matches the $\textbf{y}_{pred}$ can be done using:
 
 $$\textbf{y}'_{true} = \textbf{y}_{pred} \bigcap \textbf{y}_{true}$$
 
 Since by definition:
+
 $$ \textbf{y}'_{true} \bigcup \textbf{y}_{pred} = \textbf{y}_{pred}$$
+
 computing **IoU** when `iscrowd=True`, is equivalent to:
+
 \begin{equation}
 \begin{split}
 \text{IoU}(\textbf{y}_{true}, \textbf{y}_{pred}) & = \text{IoU}(\textbf{y}'_{true}, \textbf{y}_{pred}) 
