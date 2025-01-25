@@ -14,11 +14,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
       - name: Set up python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.9'
       - name: Check Python version
         run: python --version
+      - name: Check Python location
+        run: which python
       - name: Set up venv
         run: |
           sudo apt install python3-venv
