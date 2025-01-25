@@ -19,6 +19,7 @@ jobs:
           python-version: '3.9'
       - name: Set up venv
         run: |
+          sudo apt-get install python3.9-distutils
           sudo apt install python3-venv
           sudo python -m venv venv
       - name: Unit test
