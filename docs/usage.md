@@ -3,18 +3,17 @@ hide:
 - navigation
 ---
 ## Try live Demo
-Explore live OD-Metrics examples on Binder or Colab [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/EMalagoli92/OD-metrics/HEAD?labpath=samples%2Fsamples.ipynb)
-  <a href="https://colab.research.google.com/github/EMalagoli92/OD-Metrics/blob/main/samples/samples.ipynb">
+Explore live `OD-Metrics` examples on Binder [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/EMalagoli92/OD-metrics/HEAD?labpath=samples%2Fsamples.ipynb) or Google Colab <a href="https://colab.research.google.com/github/EMalagoli92/OD-Metrics/blob/main/samples/samples.ipynb">
     <img src="https://img.shields.io/badge/Open%20in%20Colab-blue?logo=google-colab&style=flat&labelColor=555"></a>
 
 ## Simple example.
-Consider a scenario where you have two images, **Image 1** and **Image 2**, and the following annotations and predictions.
+Consider a scenario with two images, **Image 1** and **Image 2**, and the following annotations and predictions.
 
 <img align="left" width="450" height="600" src="../assets/images/image_1.png">
-The **Image 1** contains:
+**Image 1** contains:
 
-- `2` ground truth bounding boxes with: one belonging to `0` class and one to `1` class:
-- `3` predictions bounding boxes, with `labels` `[0, 1, 1]` and `scores` `[.88, .70, .80]`.
+- `2` ground-truth bounding boxes, one for class `0` and one for class `1`;
+- `3` predicted bounding boxes with `labels` `[0, 1, 1]` and `scores` `[.88, .70, .80]`.
 ```yaml
 # Image 1
 y_true =
@@ -31,10 +30,10 @@ y_pred =
 ```
 
 <img align="left" width="450" height="600" src="../assets/images/image_2.png">
-The **Image 2** contains:
+**Image 2** contains:
 
-- `2` ground truth bounding boxes, each belonging to `0` class;
-- `3` predictions bounding boxes, with `labels` `[0, 1, 0]`, with `scores` `[.71, .54, .74]`.
+- `2` ground-truth bounding boxes, both for class `0`;
+- `3` predicted bounding boxes, with `labels` `[0, 1, 0]` and `scores` `[.71, .54, .74]`.
 ```yaml
 # Image 2
 y_true =
@@ -51,7 +50,7 @@ y_pred = {
 <br>
 
 The [mAP](map_mar.md#what-is-map) (Mean Average Precision) and [mAR](map_mar.md#average-recall) (Mean Average Recall)
-for the scenario can be calculated as follows:
+for this scenario are computed using `OD-Metrics` as follows.
 ``` py title="simple_example"
 from od_metrics import ODMetrics
 
@@ -106,11 +105,8 @@ print(output)
 
 
 ## Custom settings
-By default, `ODMetrics` uses `COCO` settings for `iou_thresholds`, `recall_thresholds`,
-`max_detection_thresholds` and `area_ranges` (see
-[ODMetrics.\__init__()][src.od_metrics.od_metrics.ODMetrics.__init__] method).<br>
-Instead of the default `COCO` settings, custom settings can be specified.   
-For example, if one is interested in a iou threshold value of `0.4` and a maximum detection
+By default, `OD-Metrics` follows [MS-COCO](https://cocodataset.org/#home) [@lin2014microsoft] settings, including `iou_thresholds`, `recall_thresholds`, `max_detection_thresholds`, and `area_ranges` (see [ODMetrics.\__init__()][src.od_metrics.od_metrics.ODMetrics.__init__] method).<br>
+Custom settings can replace the default configuration. For instance, to set an IoU threshold of `0.4` and a maximum detection
 threshold of `2`:
 
 ``` py title="custom_settings_example"
@@ -159,8 +155,9 @@ print(output)
 """
 ```
 ## `class_metrics`
-The `class_metrics` option enable *per class* metrics: each metric is reported
-globally as well for each individual class.
+The `class_metrics` option enables *per-class* metrics: each metric is reported globally and for each individual class.
+!!! warning
+    Enabling `class_metrics` has a performance impact.
 ``` py title="class_metrics_example"
 from od_metrics import ODMetrics
 
@@ -240,15 +237,9 @@ print(output)
  'n_images': 2}
 """
 ```
-!!! warning
-    Enable `class_metrics` has a performance impact.
 
 ## `extended_summary`
-The `extended_summary` in
-[ODMetrics.compute()][src.od_metrics.od_metrics.ODMetrics.compute] method
-enable extended summary with additional metrics including `IoU`,
-`AP` (Average Precision), `AR` (Average Recall) and `mean_evaluator`
-(`Callable`).
+The `extended_summary` option in the [ODMetrics.compute()][src.od_metrics.od_metrics.ODMetrics.compute] method enables an extended summary with additional metrics such as `IoU`, `AP` (Average Precision), `AR` (Average Recall), and `mean_evaluator` (a `Callable`).
 
 ``` py title="extended_summary_example"
 from od_metrics import ODMetrics
@@ -305,11 +296,7 @@ print(list(output.keys()))
  'mean_evaluator']
 """
 ```
-In particular `mean_evaluator` is `Callable` that can be used to calculate metrics
-for each combination of interest between constructor settings that are
-not included in default `compute` output.
-For example, using standard `COCO` settings, che metric combination 
-`mAP@[.55 | medium | 10]` is not included in default `compute` output.
+In particular, `mean_evaluator` is a `Callable` that can calculate metrics for any combination of settings, even those not included in default `compute` output. For example, with standard [MS-COCO](https://cocodataset.org/#home) [@lin2014microsoft] settings, the metric combination `mAP@[.55 | medium | 10]` is not included in the default `compute` output but can be obtained using the `mean_evaluator`, after calling `compute`.
 
 ```py title="mean_evaluator_example"
 from od_metrics import ODMetrics
@@ -354,12 +341,10 @@ print(_metric)
 {'mAP@[.55 | medium | 10]': 0.2574257425742574}
 """
 ```
-For all arguments accepted by `mean_evaluator` function, see `extended_summary`
-in [ODMetrics.compute()][src.od_metrics.od_metrics.ODMetrics.compute] method.
+For a complete list of arguments accepted by the `mean_evaluator` function, refer to the `extended_summary` option in the [ODMetrics.compute()][src.od_metrics.od_metrics.ODMetrics.compute] method.
 
-## `Iou`
-The calculation of `mAP` and `mAR` clearly make use of `IoU`.
-It's possible to use standalone `iou` function.
+## `IoU`
+The calculation of [mAP](map_mar.md#what-is-map) and [mAR](map_mar.md#average-recall) relies on [IoU](iou.md) (Intersection over Union). You can use the standalone `iou` function from `OD-Metrics`.
 ```py title="iou_example"
 from od_metrics import iou
 
@@ -374,5 +359,6 @@ array([[0.67655425, 0.        ],
        [0.        , 0.        ]])
 """
 ```
-`iou` function supports `iscrowd` [COCOAPI](https://github.com/cocodataset/cocoapi) parameter.
-Please refer to [iou][src.od_metrics.od_metrics.iou] source code.
+The `iou` function supports the `iscrowd` parameter from the [COCOAPI](https://github.com/cocodataset/cocoapi). For more details, refer to the [iscrowd](iou.md#iscrowd-parameter) section.
+
+## References

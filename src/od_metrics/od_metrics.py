@@ -1065,18 +1065,24 @@ def iou(
 
     Notes
     -----
-    For `crowd` regions, COCO use a modified criteria:
-        If a `y_true` object is marked as `iscrowd`, it is permissible
-        for a detected object `y_pred` to match any subregion of the `y_true`.
-        Choosing `y_true'` in the crowd `y_true` that best matches the `y_pred`
-        can be done using:
-            $$\\text{y_true'} = \\text{y_pred} \\bigcap \\text{y_true}$$
-        Since by definition:
-            $$ \\text{y_true'} \\bigcup \\text{y_pred} = \\text{y_pred}$$
-        computing:
-            $$iou(\\text{y_true}, \\text{y_pred}, \\text{iscrowd}) =
-               iou(\\text{y_true'}, \\text{y_pred}) =
-               \\frac{\\text{y_true} \\bigcap \\text{y_pred}}{\\text{y_pred}}$$
+    For `crowd` regions, COCO use a modified criteria.
+    If a `y_true` object is marked as `iscrowd`, it is permissible
+    for a detected object `y_pred` to match any subregion of the `y_true`.
+    Choosing `y_true'` in the crowd `y_true` that best matches the `y_pred`
+    can be done using:
+
+    $$\\text{y_true'} = \\text{y_pred} \\bigcap \\text{y_true}$$
+    
+    Since by definition:
+    
+    $$ \\text{y_true'} \\bigcup \\text{y_pred} = \\text{y_pred}$$
+    
+    computing:
+
+    $$iou(\\text{y_true}, \\text{y_pred}, \\text{iscrowd}) =
+        iou(\\text{y_true'}, \\text{y_pred}) =
+        \\frac{\\text{y_true} \\bigcap \\text{y_pred}}{\\text{y_pred}}$$
+
     For crowd regions in ground truth, this modified criteria for IoU
     is applied.
 

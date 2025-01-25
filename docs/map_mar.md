@@ -97,11 +97,11 @@ $$ \text{AP}_{\bar{c}}@[\bar{\tau}_{\text{IoU}}] = \frac{1}{N} \sum_{n=1}^N  \ti
 
 Popular choices include $N=101$ as in [MS-COCO](https://cocodataset.org/#home) [@lin2014microsoft] detection competition, and $N=11$, initially adopted by the [PASCAL-VOC](http://host.robots.ox.ac.uk/pascal/VOC/index.html) [@everingham2015pascal, @everingham10], which later transitioned to the all-point interpolation method.
 
-!!! hint "ODMetrics"
-    Since ODMetrics adopts the [MS-COCO](https://cocodataset.org/#home) standard, it uses the **$N$-point interpolation**.
+!!! hint "`OD-Metrics`"
+    Since `OD-Metrics` adopts the [MS-COCO](https://cocodataset.org/#home) [@lin2014microsoft] standard, it uses the **$N$-point interpolation**.
 
 
-### All-Point Interpolation:
+### All-Point Interpolation
 In the so-called **all-point interpolation**, the set values $\{ \text{R}_{r_n} \}_{n \in \mathbb{N}_{\leq N}^+}$ corresponds exactly to the set of recall values computed considering all $K$ confidence levels $\{ \tau_{s_k} \}_{k \in \mathbb{N}_{\leq K}^+}$:
 
 $$ \text{AP}_{\bar{c}}@[\bar{\tau}_{\text{IoU}}] = \sum_{k=0}^{K} (\text{R}_\bar{c}(\tau_{s_k}; \bar{\tau}_{\text{IoU}}) - \text{R}_\bar{c}(\tau_{s_{k+1}}; \bar{\tau}_{\text{IoU}})) \tilde{\text{P}}_{\bar{c}}(\text{R}_\bar{c}(\tau_{s_k}; \bar{\tau}_{\text{IoU}}); \bar{\tau}_{\text{IoU}}) $$
@@ -117,7 +117,7 @@ In certain competitions, the final metric $\text{mAP}@[T]$ is computed as the av
 
 
 ## Average Recall
-Following the definition used in [MS-COCO](https://cocodataset.org/#home), given a set $T$ of IoU thresholds $\tau_{\text{IoU}}$ and a specific class $\bar{c}$, the **Average Recall** $\text{AR}_{\bar{c}}@[T]$ is defined as:
+Following the definition used in [MS-COCO](https://cocodataset.org/#home) [@lin2014microsoft], given a set $T$ of IoU thresholds $\tau_{\text{IoU}}$ and a specific class $\bar{c}$, the **Average Recall** $\text{AR}_{\bar{c}}@[T]$ is defined as:
 
 $$ \text{AR}_{\bar{c}}@[T] = \frac{1}{|T|} \sum_{\tau_{\text{IoU}} \in T} \max_{k \in \mathbb{N}_{\leq K}^+} \text{R}_\bar{c}(\tau_{s_k}; \tau_{\text{IoU}})$$
 
