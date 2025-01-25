@@ -128,3 +128,6 @@ print(output)
 
 ## License
 This work is made available under the [MIT License](https://github.com/EMalagoli92/OD-Metrics/blob/main/LICENSE)
+
+## Support
+Found this helpful? ⭐ it on [GitHub](https://github.com/EMalagoli92/OD-Metrics)
