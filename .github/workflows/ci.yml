@@ -29,6 +29,7 @@ jobs:
       - run: pip install mkdocs python-markdown-math
       - run: pip install mkdocstrings
       - run: pip install mkdocstrings-python
+      - run: pip install mkdocs-bibtex
       - run: mkdocs gh-deploy --force
       - name: Set up python
         uses: actions/setup-python@v2
