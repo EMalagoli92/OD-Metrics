@@ -39,12 +39,14 @@
 ## Supported Metrics
 Supported metrics include:
 
-- `mAP` (Mean Average Precision)
-- `mAR` (Mean Average Recall)
-- `IoU` (Intersection over Union).
+- [mAP](https://emalagoli92.github.io/OD-Metrics/map_mar/) (Mean Average Precision)
+- [mAR](https://emalagoli92.github.io/OD-Metrics/map_mar/) (Mean Average Recall)
+- [IoU](https://emalagoli92.github.io/OD-Metrics/iou/) (Intersection over Union).
+
+For more information see [Metrics](https://emalagoli92.github.io/OD-Metrics/iou/) documentation.
 
 ## Documentation
-For help, usage and API reference, please refer to [Documentation](https://emalagoli92.github.io/OD-Metrics/)
+For help, usage, API reference, and an overview of metrics formulas, please refer to [Documentation](https://emalagoli92.github.io/OD-Metrics/).
 
 
 ## Try live Demo
