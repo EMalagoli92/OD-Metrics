@@ -32,11 +32,11 @@ jobs:
           sudo venv/bin/python -m unittest discover tests
       - name: Mypy
         run: |
-          sudo venv/bin/python -m pip install mypy
+          sudo venv/bin/python -m pip install mypy==1.9.0
           sudo venv/bin/python -m mypy src
       - name: Pylint
         run: |
-          sudo venv/bin/python -m pip install pylint
+          sudo venv/bin/python -m pip install pylint==3.0.3
           sudo venv/bin/python -m pylint src
   update-badge-success:
     name: "Update badge success"
