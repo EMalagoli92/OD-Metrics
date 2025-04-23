@@ -81,7 +81,7 @@ class ODMetrics:
             If `None`, no area range limits will be set.
             The default is `_Missing`.
         class_metrics: bool | type[_Missing], optional
-            If `True`, evaluation is performed per class: 
+            If `True`, evaluation is performed per class:
             detections are matched to ground truths only if they share
             the same `label_id`.
             If `False`, evaluation is category-agnostic.
@@ -89,8 +89,8 @@ class ODMetrics:
             dictionary with per-class results.
             This corresponds to `useCats` in the COCO evaluation protocol.
             If not specified (`_Missing`), the default (COCO) is used and
-            corresponds to the `True`.
-            The default is `True`.
+            corresponds to `True`.
+            The default is `_Missing`.
         box_format: Literal["xyxy", "xywh", "cxcywh"], optional
             Bounding box format.
             Supported formats are:<br>

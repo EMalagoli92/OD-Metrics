@@ -84,28 +84,67 @@ metrics = ODMetrics()
 output = metrics.compute(y_true, y_pred)
 print(output)
 """
-{'mAP@[.5 | all | 100]': 0.2574257425742574,
- 'mAP@[.5:.95 | all | 100]': 0.10297029702970294,
- 'mAP@[.5:.95 | large | 100]': -1.0,
- 'mAP@[.5:.95 | medium | 100]': 0.10297029702970294,
- 'mAP@[.5:.95 | small | 100]': -1.0,
- 'mAP@[.75 | all | 100]': 0.0,
- 'mAR@[.5 | all | 100]': 0.25,
- 'mAR@[.5:.95 | all | 100]': 0.1,
- 'mAR@[.5:.95 | all | 10]': 0.1,
- 'mAR@[.5:.95 | all | 1]': 0.1,
- 'mAR@[.5:.95 | large | 100]': -1.0,
- 'mAR@[.5:.95 | medium | 100]': 0.1,
- 'mAR@[.5:.95 | small | 100]': -1.0,
- 'mAR@[.75 | all | 100]': 0.0,
- 'classes': [0, 1],
- 'n_images': 2}
+{
+    "mAP@[.5 | all | 100]": 0.16831683168316827,
+    "mAP@[.5:.95 | all | 100]": 0.06732673267326732,
+    "mAP@[.5:.95 | large | 100]": -1.0,
+    "mAP@[.5:.95 | medium | 100]": 0.06732673267326732,
+    "mAP@[.5:.95 | small | 100]": -1.0,
+    "mAP@[.75 | all | 100]": 0.0,
+    "mAR@[.5 | all | 100]": 0.16666666666666666,
+    "mAR@[.5:.95 | all | 100]": 0.06666666666666667,
+    "mAR@[.5:.95 | all | 10]": 0.06666666666666667,
+    "mAR@[.5:.95 | all | 1]": 0.06666666666666667,
+    "mAR@[.5:.95 | large | 100]": -1.0,
+    "mAR@[.5:.95 | medium | 100]": 0.06666666666666667,
+    "mAR@[.5:.95 | small | 100]": -1.0,
+    "mAR@[.75 | all | 100]": 0.0,
+    "class_metrics": {
+        "0": {
+            "AP@[.5 | all | 100]": 0.33663366336633654,
+            "AP@[.5:.95 | all | 100]": 0.13465346534653463,
+            "AP@[.5:.95 | large | 100]": -1.0,
+            "AP@[.5:.95 | medium | 100]": 0.13465346534653463,
+            "AP@[.5:.95 | small | 100]": -1.0,
+            "AP@[.75 | all | 100]": 0.0,
+            "AR@[.5 | all | 100]": 0.3333333333333333,
+            "AR@[.5:.95 | all | 100]": 0.13333333333333333,
+            "AR@[.5:.95 | all | 10]": 0.13333333333333333,
+            "AR@[.5:.95 | all | 1]": 0.13333333333333333,
+            "AR@[.5:.95 | large | 100]": -1.0,
+            "AR@[.5:.95 | medium | 100]": 0.13333333333333333,
+            "AR@[.5:.95 | small | 100]": -1.0,
+            "AR@[.75 | all | 100]": 0.0
+        },
+        "1": {
+            "AP@[.5 | all | 100]": 0.0,
+            "AP@[.5:.95 | all | 100]": 0.0,
+            "AP@[.5:.95 | large | 100]": -1.0,
+            "AP@[.5:.95 | medium | 100]": 0.0,
+            "AP@[.5:.95 | small | 100]": -1.0,
+            "AP@[.75 | all | 100]": 0.0,
+            "AR@[.5 | all | 100]": 0.0,
+            "AR@[.5:.95 | all | 100]": 0.0,
+            "AR@[.5:.95 | all | 10]": 0.0,
+            "AR@[.5:.95 | all | 1]": 0.0,
+            "AR@[.5:.95 | large | 100]": -1.0,
+            "AR@[.5:.95 | medium | 100]": 0.0,
+            "AR@[.5:.95 | small | 100]": -1.0,
+            "AR@[.75 | all | 100]": 0.0
+        }
+    },
+    "classes": [
+        0,
+        1
+    ],
+    "n_images": 2
+}
 """
 ```
 
 
 ## Custom settings
-By default, `OD-Metrics` follows [MS-COCO](https://cocodataset.org/#home) [@lin2014microsoft] settings, including `iou_thresholds`, `recall_thresholds`, `max_detection_thresholds`, and `area_ranges` (see [ODMetrics.\__init__()][src.od_metrics.od_metrics.ODMetrics.__init__] method).<br>
+By default, `OD-Metrics` follows [MS-COCO](https://cocodataset.org/#home) [@lin2014microsoft] settings, including `iou_thresholds`, `recall_thresholds`, `max_detection_thresholds`, `area_ranges`, and `class_metrics` (see [ODMetrics.\__init__()][src.od_metrics.od_metrics.ODMetrics.__init__] method).<br>
 Custom settings can replace the default configuration. For instance, to set an IoU threshold of `0.4` and a maximum detection
 threshold of `2`:
 
@@ -142,22 +181,50 @@ metrics = ODMetrics(iou_thresholds=.4, max_detection_thresholds=2)
 output = metrics.compute(y_true, y_pred)
 print(output)
 """
-{'mAP@[.4 | all | 2]': 0.2574257425742574,
- 'mAP@[.4 | large | 2]': -1.0,
- 'mAP@[.4 | medium | 2]': 0.2574257425742574,
- 'mAP@[.4 | small | 2]': -1.0,
- 'mAR@[.4 | all | 2]': 0.25,
- 'mAR@[.4 | large | 2]': -1.0,
- 'mAR@[.4 | medium | 2]': 0.25,
- 'mAR@[.4 | small | 2]': -1.0,
- 'classes': [0, 1],
- 'n_images': 2}
+{
+    "mAP@[.4 | all | 2]": 0.4183168316831683,
+    "mAP@[.4 | large | 2]": -1.0,
+    "mAP@[.4 | medium | 2]": 0.4183168316831683,
+    "mAP@[.4 | small | 2]": -1.0,
+    "mAR@[.4 | all | 2]": 0.6666666666666666,
+    "mAR@[.4 | large | 2]": -1.0,
+    "mAR@[.4 | medium | 2]": 0.6666666666666666,
+    "mAR@[.4 | small | 2]": -1.0,
+    "class_metrics": {
+        "0": {
+            "AP@[.4 | all | 2]": 0.33663366336633654,
+            "AP@[.4 | large | 2]": -1.0,
+            "AP@[.4 | medium | 2]": 0.33663366336633654,
+            "AP@[.4 | small | 2]": -1.0,
+            "AR@[.4 | all | 2]": 0.3333333333333333,
+            "AR@[.4 | large | 2]": -1.0,
+            "AR@[.4 | medium | 2]": 0.3333333333333333,
+            "AR@[.4 | small | 2]": -1.0
+        },
+        "1": {
+            "AP@[.4 | all | 2]": 0.5,
+            "AP@[.4 | large | 2]": -1.0,
+            "AP@[.4 | medium | 2]": 0.5,
+            "AP@[.4 | small | 2]": -1.0,
+            "AR@[.4 | all | 2]": 1.0,
+            "AR@[.4 | large | 2]": -1.0,
+            "AR@[.4 | medium | 2]": 1.0,
+            "AR@[.4 | small | 2]": -1.0
+        }
+    },
+    "classes": [
+        0,
+        1
+    ],
+    "n_images": 2
+}
 """
 ```
 ## `class_metrics`
-The `class_metrics` option enables *per-class* metrics: each metric is reported globally and for each individual class.
-!!! warning
-    Enabling `class_metrics` has a performance impact.
+If `True`, evaluation is performed per class: detections are matched to ground truths only if they share the same `label_id`. If `False`, evaluation is category-agnostic. When `True`, the output includes a `"class_metrics"`
+dictionary with per-class results. This corresponds to `useCats` in the COCO evaluation protocol. If not specified the default (COCO) is used and
+corresponds to `True`.
+By setting `class_metrics=False`, the evaluation is category-agnostiic.
 ``` py title="class_metrics_example"
 from od_metrics import ODMetrics
 
@@ -187,54 +254,31 @@ y_pred = [
      }
     ]
 
-metrics = ODMetrics(class_metrics=True)
+metrics = ODMetrics(class_metrics=False)
 output = metrics.compute(y_true, y_pred)
 print(output)
 """
-{'mAP@[.5 | all | 100]': 0.16831683168316827,
- 'mAP@[.5:.95 | all | 100]': 0.06732673267326732,
- 'mAP@[.5:.95 | large | 100]': -1.0,
- 'mAP@[.5:.95 | medium | 100]': 0.06732673267326732,
- 'mAP@[.5:.95 | small | 100]': -1.0,
- 'mAP@[.75 | all | 100]': 0.0,
- 'mAR@[.5 | all | 100]': 0.16666666666666666,
- 'mAR@[.5:.95 | all | 100]': 0.06666666666666667,
- 'mAR@[.5:.95 | all | 10]': 0.06666666666666667,
- 'mAR@[.5:.95 | all | 1]': 0.06666666666666667,
- 'mAR@[.5:.95 | large | 100]': -1.0,
- 'mAR@[.5:.95 | medium | 100]': 0.06666666666666667,
- 'mAR@[.5:.95 | small | 100]': -1.0,
- 'mAR@[.75 | all | 100]': 0.0,
- 'class_metrics': {0: {'AP@[.5 | all | 100]': 0.33663366336633654,
-   'AP@[.5:.95 | all | 100]': 0.13465346534653463,
-   'AP@[.5:.95 | large | 100]': -1.0,
-   'AP@[.5:.95 | medium | 100]': 0.13465346534653463,
-   'AP@[.5:.95 | small | 100]': -1.0,
-   'AP@[.75 | all | 100]': 0.0,
-   'AR@[.5 | all | 100]': 0.3333333333333333,
-   'AR@[.5:.95 | all | 100]': 0.13333333333333333,
-   'AR@[.5:.95 | all | 10]': 0.13333333333333333,
-   'AR@[.5:.95 | all | 1]': 0.13333333333333333,
-   'AR@[.5:.95 | large | 100]': -1.0,
-   'AR@[.5:.95 | medium | 100]': 0.13333333333333333,
-   'AR@[.5:.95 | small | 100]': -1.0,
-   'AR@[.75 | all | 100]': 0.0},
-  1: {'AP@[.5 | all | 100]': 0.0,
-   'AP@[.5:.95 | all | 100]': 0.0,
-   'AP@[.5:.95 | large | 100]': -1.0,
-   'AP@[.5:.95 | medium | 100]': 0.0,
-   'AP@[.5:.95 | small | 100]': -1.0,
-   'AP@[.75 | all | 100]': 0.0,
-   'AR@[.5 | all | 100]': 0.0,
-   'AR@[.5:.95 | all | 100]': 0.0,
-   'AR@[.5:.95 | all | 10]': 0.0,
-   'AR@[.5:.95 | all | 1]': 0.0,
-   'AR@[.5:.95 | large | 100]': -1.0,
-   'AR@[.5:.95 | medium | 100]': 0.0,
-   'AR@[.5:.95 | small | 100]': -1.0,
-   'AR@[.75 | all | 100]': 0.0}},
- 'classes': [0, 1],
- 'n_images': 2}
+{
+    "mAP@[.5 | all | 100]": 0.2574257425742574,
+    "mAP@[.5:.95 | all | 100]": 0.10297029702970294,
+    "mAP@[.5:.95 | large | 100]": -1.0,
+    "mAP@[.5:.95 | medium | 100]": 0.10297029702970294,
+    "mAP@[.5:.95 | small | 100]": -1.0,
+    "mAP@[.75 | all | 100]": 0.0,
+    "mAR@[.5 | all | 100]": 0.25,
+    "mAR@[.5:.95 | all | 100]": 0.1,
+    "mAR@[.5:.95 | all | 10]": 0.1,
+    "mAR@[.5:.95 | all | 1]": 0.1,
+    "mAR@[.5:.95 | large | 100]": -1.0,
+    "mAR@[.5:.95 | medium | 100]": 0.1,
+    "mAR@[.5:.95 | small | 100]": -1.0,
+    "mAR@[.75 | all | 100]": 0.0,
+    "classes": [
+        0,
+        1
+    ],
+    "n_images": 2
+}
 """
 ```
 
@@ -338,7 +382,7 @@ _metric = mean_evaluator(
     )
 print(_metric)
 """
-{'mAP@[.55 | medium | 10]': 0.2574257425742574}
+{'mAP@[.55 | medium | 10]': 0.16831683168316827}
 """
 ```
 For a complete list of arguments accepted by the `mean_evaluator` function, refer to the `extended_summary` option in the [ODMetrics.compute()][src.od_metrics.od_metrics.ODMetrics.compute] method.
