@@ -184,8 +184,8 @@ def _class_metrics_validator(
         name: str,
         value: Any,
         default_flag: Any,
-        default_value: dict[str, list[float]]
-        ) -> dict[str | None, list[float]]:
+        default_value: bool
+        ) -> bool:
     """
     Validate `class_metrics` field.
 
@@ -197,7 +197,7 @@ def _class_metrics_validator(
         Input value.
     default_flag : Any
         Flag for default value.
-    default_value :  dict[str, list[float]]
+    default_value :  bool
         Default value.
 
     Raises

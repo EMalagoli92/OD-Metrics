@@ -10,7 +10,7 @@ __all__ = [
 import numpy as np
 
 # Default COCO parameters
-DEFAULT_COCO: dict[str, np.ndarray | dict[str, list[float]]] = {
+DEFAULT_COCO: dict[str, np.ndarray | dict[str, list[float]] | bool] = {
     "iou_thresholds": np.linspace(
         start=.5,
         stop=0.95,

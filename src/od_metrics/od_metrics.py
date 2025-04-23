@@ -80,7 +80,7 @@ class ODMetrics:
                 }`
             If `None`, no area range limits will be set.
             The default is `_Missing`.
-        class_metrics: bool | type[_Missing], optional
+        class_metrics : bool | type[_Missing], optional
             If `True`, evaluation is performed per class:
             detections are matched to ground truths only if they share
             the same `label_id`.
@@ -91,7 +91,7 @@ class ODMetrics:
             If not specified (`_Missing`), the default (COCO) is used and
             corresponds to `True`.
             The default is `_Missing`.
-        box_format: Literal["xyxy", "xywh", "cxcywh"], optional
+        box_format : Literal["xyxy", "xywh", "cxcywh"], optional
             Bounding box format.
             Supported formats are:<br>
                 - `"xyxy"`: boxes are represented via corners,
