@@ -817,6 +817,11 @@ misc_tests = [
      "exceptions": {"compute": ValidationError},
      "ids": "misc_exception_extended_summary"
      },
+    {
+     "metrics_settings": {"class_metrics": "yes"},
+     "exceptions": {"init": ValidationError},
+     "ids": "misc_exception_class_metrics"
+     }
     ]
 
 
