@@ -224,7 +224,7 @@ print(output)
 If `True`, evaluation is performed per class: detections are matched to ground truths only if they share the same `label_id`. If `False`, evaluation is category-agnostic. When `True`, the output includes a `"class_metrics"`
 dictionary with per-class results. This corresponds to `useCats` in the COCO evaluation protocol. If not specified the default (COCO) is used and
 corresponds to `True`.
-By setting `class_metrics=False`, the evaluation is category-agnostiic.
+By setting `class_metrics=False`, the evaluation is category-agnostic.
 ``` py title="class_metrics_example"
 from od_metrics import ODMetrics
 
