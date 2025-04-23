@@ -38,7 +38,7 @@ class ODMetrics:
                                        type[_Missing]) = _Missing,
             area_ranges: (dict[str, list[float] | np.ndarray] | None |
                           type[_Missing]) = _Missing,
-            class_metrics: bool = False,
+            class_metrics: bool = True,
             box_format: Literal["xyxy", "xywh", "cxcywh"] = "xywh",
             ) -> None:
         """
@@ -81,9 +81,13 @@ class ODMetrics:
             If `None`, no area range limits will be set.
             The default is `_Missing`.
         class_metrics : bool, optional
-            Option to enable per-class metrics (See `compute()` method).
-            Has a performance impact.
-            The default is `False`.
+            If `True`, evaluation is performed per class: 
+            detections are matched to ground truths only if they share
+            the same `label_id`.
+            If `False`, evaluation is category-agnostic.
+            When `True`, the output includes a `"class_metrics"`
+            dictionary with per-class results.
+            The default is `True`.
         box_format: Literal["xyxy", "xywh", "cxcywh"], optional
             Bounding box format.
             Supported formats are:<br>
