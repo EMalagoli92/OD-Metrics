@@ -30,6 +30,7 @@ DEFAULT_COCO: dict[str, np.ndarray | dict[str, list[float]]] = {
         "medium": [32 ** 2, 96 ** 2],
         "large": [96 ** 2, 1e5 ** 2]
         },
+    "class_metrics": True,
     }
 
 

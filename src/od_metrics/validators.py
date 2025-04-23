@@ -180,6 +180,48 @@ def _area_ranges_validator(
     return _value
 
 
+def _class_metrics_validator(
+        name: str,
+        value: Any,
+        default_flag: Any,
+        default_value: dict[str, list[float]]
+        ) -> dict[str | None, list[float]]:
+    """
+    Validate `class_metrics` field.
+
+    Parameters
+    ----------
+    name : str
+        Field name.
+    value : Any
+        Input value.
+    default_flag : Any
+        Flag for default value.
+    default_value :  dict[str, list[float]]
+        Default value.
+
+    Raises
+    ------
+    ValueError
+        If `value` is not a `bool`.
+
+    Returns
+    -------
+    bool
+    """
+    # bool
+    if isinstance(value, bool):
+        _value = value
+    # Missing
+    elif value is default_flag:
+        _value = default_value
+    else:
+        raise ValueError(
+            f"Invalid value for {name}. {name} should be a `bool`.")
+
+    return _value
+
+
 class ConstructorModel(BaseModel):
     """`__init__()` method Model."""
 
@@ -319,6 +361,48 @@ class ConstructorModel(BaseModel):
                 "Missing required context or field name information.")
 
         return _area_ranges_validator(
+            name=info.field_name,
+            value=value,
+            default_flag=info.context["default_flag"],
+            default_value=info.context["default_value"][info.field_name]
+            )
+
+    @field_validator("class_metrics", mode="before")
+    @classmethod
+    def area_ranges_validator(
+            cls: type[Self],
+            value: Any,
+            info: ValidationInfo,
+            ) -> bool:
+        """
+        Validate `class_metrics` field.
+
+        Parameters
+        ----------
+        value : Any
+            Input value.
+        info : ValidationInfo
+            Pydantic `ValidationInfo`.
+
+        Raises
+        ------
+        ValueError
+            If context or field name informations are missing.
+
+        Returns
+        -------
+        bool
+        """
+        if (
+                info.context is None
+                or "default_flag" not in info.context
+                or "default_value" not in info.context
+                or info.field_name is None
+                ):
+            raise ValueError(  # pragma: no cover
+                "Missing required context or field name information.")
+
+        return _class_metrics_validator(
             name=info.field_name,
             value=value,
             default_flag=info.context["default_flag"],

@@ -38,7 +38,7 @@ class ODMetrics:
                                        type[_Missing]) = _Missing,
             area_ranges: (dict[str, list[float] | np.ndarray] | None |
                           type[_Missing]) = _Missing,
-            class_metrics: bool = True,
+            class_metrics: bool | type[_Missing] = _Missing,
             box_format: Literal["xyxy", "xywh", "cxcywh"] = "xywh",
             ) -> None:
         """
@@ -80,14 +80,16 @@ class ODMetrics:
                 }`
             If `None`, no area range limits will be set.
             The default is `_Missing`.
-        class_metrics : bool, optional
+        class_metrics: bool | type[_Missing], optional
             If `True`, evaluation is performed per class: 
             detections are matched to ground truths only if they share
             the same `label_id`.
             If `False`, evaluation is category-agnostic.
             When `True`, the output includes a `"class_metrics"`
             dictionary with per-class results.
-            This corresponds to `useCats=1` in the COCO evaluation protocol.
+            This corresponds to `useCats` in the COCO evaluation protocol.
+            If not specified (`_Missing`), the default (COCO) is used and
+            corresponds to the `True`.
             The default is `True`.
         box_format: Literal["xyxy", "xywh", "cxcywh"], optional
             Bounding box format.
