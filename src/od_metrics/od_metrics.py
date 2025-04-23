@@ -87,6 +87,7 @@ class ODMetrics:
             If `False`, evaluation is category-agnostic.
             When `True`, the output includes a `"class_metrics"`
             dictionary with per-class results.
+            This corresponds to `useCats=1` in the COCO evaluation protocol.
             The default is `True`.
         box_format: Literal["xyxy", "xywh", "cxcywh"], optional
             Bounding box format.
