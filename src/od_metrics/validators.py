@@ -369,7 +369,7 @@ class ConstructorModel(BaseModel):
 
     @field_validator("class_metrics", mode="before")
     @classmethod
-    def area_ranges_validator(
+    def class_metrics_validator(
             cls: type[Self],
             value: Any,
             info: ValidationInfo,
