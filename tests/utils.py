@@ -116,7 +116,8 @@ def annotations_generator(
 
 def pycoco_converter(
         annotations: list[dict[Literal[
-            "boxes", "labels", "scores"], np.ndarray]]
+            "boxes", "labels", "scores"], np.ndarray]],
+        categories: list[int],
         ) -> dict[Literal["images", "annotations", "categories"], list]:
     """
     Convert od-metrics annotations to pycoco format.
@@ -125,6 +126,8 @@ def pycoco_converter(
     ----------
     annotations : list[dict[Literal["boxes", "labels", "scores"], np.ndarray]]
         Annotations in od-metrics format.
+    categories : list[int]
+        Category ids list.
 
     Returns
     -------
@@ -160,13 +163,10 @@ def pycoco_converter(
 
             annotation_id += 1
 
-    _labels = np.unique(np.concatenate([
-        _["labels"] for _ in annotations]).flatten()).tolist()
-
     output = {
         "images": [{"id": id_} for id_ in range(len(annotations))],
         "annotations": pycoco_annotations,
-        "categories": [{"id": id_} for id_ in _labels],
+        "categories": [{"id": id_} for id_ in categories],
         }
 
     return output

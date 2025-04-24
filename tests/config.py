@@ -712,7 +712,7 @@ annotations_tests = [
          "y_true": {"n_classes": 3},
          "y_pred": {"n_classes": 7},
          },
-     "ids": "annotations_exception_different_classes_y_true_y_pred"
+     "ids": "annotations_different_classes_y_true_y_pred"
      },
     {
      "compute_settings": {"extended_summary": True},

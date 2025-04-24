@@ -148,6 +148,11 @@ class TestBaseODMetrics(unittest.TestCase):
         else:
             y_pred_od_metrics = annotations_generator(
                 **self.annotations_settings["y_pred"], include_score=True)
+
+        categories = np.unique(
+            np.concatenate([_annotation["labels"] 
+             for _annotation in y_true_od_metrics + y_pred_od_metrics])
+             ).tolist()
         # max detections: Only used for max_detections_thresholds=None case
         real_max_detections = (
             max(detect["boxes"].shape[0] for detect in y_pred_od_metrics)
@@ -158,8 +163,8 @@ class TestBaseODMetrics(unittest.TestCase):
 
         # Prepare pycoco annotations
         if self.to_cover.get("pycoco_converter", True):
-            y_true_pycoco = pycoco_converter(y_true_od_metrics)
-            y_pred_pycoco = pycoco_converter(y_pred_od_metrics)
+            y_true_pycoco = pycoco_converter(y_true_od_metrics, categories)
+            y_pred_pycoco = pycoco_converter(y_pred_od_metrics, categories)
         else:
             y_true_pycoco = None
             y_pred_pycoco = None

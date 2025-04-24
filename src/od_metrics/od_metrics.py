@@ -331,9 +331,9 @@ class ODMetrics:
         y_pred = [y_pred_.dict() for y_pred_ in compute_model.y_pred]
         extended_summary = compute_model.extended_summary
 
-        # Get label_ids from y_true
+        # Get label_ids from y_true + y_pred
         label_ids = np.unique([_annotation["label_id"]
-                               for _annotation in y_true]).tolist()
+                               for _annotation in y_true + y_pred]).tolist()
         _label_ids = label_ids if self.class_metrics else [-1]
 
         # y_true, y_pred --> default_dict (keys: (image_id, label_id))
