@@ -21,7 +21,7 @@ hide:
   <br>
   <img src="https://img.shields.io/badge/python-%3E=3.9-yellow.svg?style=flat">
   <a href="https://github.com/EMalagoli92/OD-Metrics/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat" alt="License: MIT"></a><br>
+    <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat" alt="License: Apache 2.0"></a><br>
   <a href="https://mybinder.org/v2/gh/EMalagoli92/OD-metrics/HEAD?labpath=samples%2Fsamples.ipynb">
     <img src="https://mybinder.org/badge_logo.svg"></a>
   <a href="https://colab.research.google.com/github/EMalagoli92/OD-Metrics/blob/main/samples/samples.ipynb">
@@ -61,7 +61,7 @@ pip install git+https://github.com/EMalagoli92/OD-Metrics
 ```
 
 ## License
-This work is made available under the [MIT License](https://github.com/EMalagoli92/OD-Metrics/blob/main/LICENSE)
+This work is made available under the [Apache License 2.0](https://github.com/EMalagoli92/OD-Metrics/blob/main/LICENSE)
 
 ## Support
 Found this helpful? ⭐ it on [GitHub](https://github.com/EMalagoli92/OD-Metrics)
