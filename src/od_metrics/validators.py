@@ -504,7 +504,7 @@ def _reformat_y_pred(
     return annotations
 
 
-def _preprocess(
+def _preprocess(  # pylint: disable=R0912
         data: dict,
         mode: Literal["y_true", "y_pred"],
         ) -> dict:
