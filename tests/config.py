@@ -720,7 +720,7 @@ annotations_tests = [
          "y_true": {"n_images": 10},
          "y_pred": {"n_images": 5},
          },
-     "exceptions": {"compute": ValidationError},
+     "exceptions": {"compute": ValueError},
      "ids": "annotations_exception_different_images"
      },
     {
@@ -733,7 +733,7 @@ annotations_tests = [
          {"labels": [0, 2],
           "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]], "scores": [.2, .3]}
          ],
-     "exceptions": {"compute": ValidationError},
+     "exceptions": {"compute": ValueError},
      "ids": "annotations_exception_different_attributes_length"
      },
     {
@@ -746,7 +746,7 @@ annotations_tests = [
          {"labels": [0, 2],
           "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]], "scores": [.2, .3]}
          ],
-     "exceptions": {"compute": ValidationError},
+     "exceptions": {"compute": ValueError},
      "to_cover": {"pycoco_converter": False},
      "ids": "annotations_exception_boxes_length"
      },
@@ -759,7 +759,7 @@ annotations_tests = [
          {"labels": [0, 2],
           "boxes": [[17, 83, 97, 47], [57, 86, 96, 73]], "scores": [.2, .3]}
          ],
-     "exceptions": {"compute": ValidationError},
+     "exceptions": {"compute": ValueError},
      "to_cover": {"pycoco_converter": False, "box_format_converter": False},
      "ids": "annotations_exception_ytrue_no_boxes"
      },
@@ -772,7 +772,7 @@ annotations_tests = [
      "y_pred": [
          {"labels": [0, 2], "scores": [.2, .3]}
          ],
-     "exceptions": {"compute": ValidationError},
+     "exceptions": {"compute": ValueError},
      "to_cover": {"pycoco_converter": False, "box_format_converter": False},
      "ids": "annotations_exception_ypred_no_boxes"
      },
@@ -814,7 +814,7 @@ misc_tests = [
      },
     {
      "compute_settings": {"extended_summary": "yes"},
-     "exceptions": {"compute": ValidationError},
+     "exceptions": {"compute": TypeError},
      "ids": "misc_exception_extended_summary"
      },
     {
