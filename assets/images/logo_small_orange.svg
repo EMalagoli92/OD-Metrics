@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="124.334 102.131 254.411 231.419"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="logo_small_orange.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="3.5260717"
+     inkscape:cx="127.33717"
+     inkscape:cy="115.7095"
+     inkscape:window-width="2490"
+     inkscape:window-height="1016"
+     inkscape:window-x="70"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <rect
+     x="130.328"
+     y="108.348"
+     width="178.508"
+     height="178.508"
+     style="stroke: rgb(0, 0, 0); stroke-width: 12px; fill: none;"
+     transform="matrix(0.9999999999999999, 0, 0, 0.9999999999999999, 0, 1.4210854715202004e-14)"
+     id="rect1" />
+  <rect
+     x="191.164"
+     y="145.205"
+     width="178.508"
+     height="178.508"
+     style="stroke: rgb(0, 0, 0); stroke-width: 12px; fill: none;"
+     transform="matrix(0.9999999999999999, 0, 0, 0.9999999999999999, 0, 1.4210854715202004e-14)"
+     id="rect2" />
+  <path
+     style="fill:#ff6600;stroke-width:0.283602"
+     d="M 60.974371,209.01447 V 190.58036 H 30.487185 0 V 95.43198 0.28360172 H 95.148378 190.29676 V 18.717714 37.151826 h 30.48718 30.48719 V 132.3002 227.44858 H 156.12275 60.974371 Z M 239.35985,132.442 V 49.063098 h -24.53154 -24.53155 v 70.758632 70.75863 H 131.4494 72.602041 v 12.62027 12.62028 h 83.378909 83.3789 z M 60.974371,108.05226 V 37.151826 h 58.847359 58.84736 V 24.67335 12.194874 H 95.290179 11.911272 v 83.378907 83.378909 h 24.531549 24.53155 z m 117.694719,5.95563 V 49.063098 H 125.63556 72.602041 v 64.944792 64.9448 h 53.033519 53.03353 z"
+     id="path2"
+     transform="translate(124.334,102.131)" />
+</svg>
