@@ -319,17 +319,12 @@ class ODMetrics:
         images_ids = list(range(len(y_true)))
 
         # Parse Annotations
-        compute_model = ComputeModel.model_validate(
-            {
-                "y_true": y_true,
-                "y_pred": y_pred,
-                "extended_summary": extended_summary,
-                },
-            context={"box_format": self.box_format}
-            )
-        y_true = [y_true_.dict() for y_true_ in compute_model.y_true]
-        y_pred = [y_pred_.dict() for y_pred_ in compute_model.y_pred]
-        extended_summary = compute_model.extended_summary
+        y_true, y_pred = ComputeModel.model_validate(
+            y_true=y_true,
+            y_pred=y_pred,
+            extended_summary=extended_summary,
+            box_format=self.box_format
+        )
 
         # Get label_ids from y_true + y_pred
         label_ids = np.unique([_annotation["label_id"]
