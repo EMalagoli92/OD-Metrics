@@ -10,12 +10,11 @@ __all__ = [
 
 from functools import reduce
 from collections import Counter
-from typing import Any, Literal, Optional, Union
+from typing import Any, Literal, Optional
 from typing_extensions import Self
 import numpy as np
 
-from pydantic import BaseModel, field_validator, model_validator, \
-    ValidationInfo, ConfigDict
+from pydantic import BaseModel, field_validator, ValidationInfo, ConfigDict
 
 from .utils import to_xywh
 
@@ -410,385 +409,229 @@ class ConstructorModel(BaseModel):
             )
 
 
-class BaseInputAnnotationModel(BaseModel):
-    """Base Annotation Model."""
+def _reformat_y_true(
+        data: list[dict],
+        box_format: Literal["xyxy", "xywh", "cxcywh"],
+        ) -> list[dict]:
+    """
+    Reformat ground truth annotations.
 
-    boxes: list[list[float]]
-    labels: list[int]
-    area: list[Optional[float]]
+    Parameters
+    ----------
+    data : list[dict]
+        List of per-image annotations.
+    box_format : Literal["xyxy", "xywh", "cxcywh"]
+        Format of the input bounding boxes.
 
-    model_config = ConfigDict(
-        arbitrary_types_allowed=True,
-        strict=True
-        )
-
-    @model_validator(mode="after")
-    def check_lenghts(self) -> Self:
-        """
-        Check fields length.
-
-        Raises
-        ------
-        ValueError
-            If model fields don't have the same length.
-
-        Returns
-        -------
-        Self
-        """
-        lenghts = [len(getattr(self, field)) for field in self.model_fields]
-        if len(set(lenghts)) != 1:
-            raise ValueError(
-                f"All {self.model_fields} in a single annotation "
-                "must have the same length, i.e. the number "
-                "of boxes."
+    Returns
+    -------
+    list[dict]
+        Reformatted list of annotations.
+    """
+    annotations = []
+    id_ = 1
+    for image_id, image_anns in enumerate(data):
+        n_annotations = len(image_anns["boxes"])
+        for i in range(n_annotations):
+            # Common
+            annotation_tmp: dict = {
+                "id": id_,
+                "image_id": image_id,
+                "label_id": image_anns["labels"][i],
+                "bbox": to_xywh(
+                    bbox=image_anns["boxes"][i],
+                    box_format=box_format,
+                    )
+                }
+            annotation_tmp["area"] = (
+                image_anns["area"][i] if image_anns["area"][i] is not None
+                else (annotation_tmp["bbox"][2]
+                      * annotation_tmp["bbox"][3])
                 )
-        return self
 
-    @field_validator("boxes", mode="before")
-    @classmethod
-    def validate_boxes(
-            cls: type[Self],
-            value: Union[list[list[float]], np.ndarray],
-            ) -> list:
-        """
-        Validate `boxes` field.
+            annotation_tmp["iscrowd"] = image_anns["iscrowd"][i]
+            annotation_tmp["ignore"] = image_anns["iscrowd"][i]
 
-        Check that each box value has 4 elements and convert it to list.
+            id_ += 1
+            annotations.append(annotation_tmp)
 
-        Parameters
-        ----------
-        value : Union[list[list[float]], np.ndarray]
-            Boxes.
+    return annotations
 
-        Raises
-        ------
-        ValueError
-            If one box does not have 4 elements.
 
-        Returns
-        -------
-        list
-        """
-        if not all(map(lambda x: len(x) == 4, value)):
-            raise ValueError(
-                "Each box must have 4 elements."
+def _reformat_y_pred(
+        data: list[dict],
+        box_format: Literal["xyxy", "xywh", "cxcywh"],
+        ) -> list[dict]:
+    """
+    Reformat predicted annotations.
+
+    Parameters
+    ----------
+    data : list[dict]
+        List of per-image predictions.
+    box_format : Literal["xyxy", "xywh", "cxcywh"]
+        Format of the input bounding boxes.
+
+    Returns
+    -------
+    list[dict]
+        Reformatted list of predictions.
+    """
+    annotations = []
+    id_ = 1
+    for image_id, image_anns in enumerate(data):
+        n_annotations = len(image_anns["boxes"])
+        for i in range(n_annotations):
+            # Common
+            annotation_tmp: dict = {
+                "id": id_,
+                "image_id": image_id,
+                "label_id": image_anns["labels"][i],
+                "bbox": to_xywh(
+                    bbox=image_anns["boxes"][i],
+                    box_format=box_format,
+                    )
+                }
+            annotation_tmp["area"] = (
+                image_anns["area"][i] if image_anns["area"][i] is not None
+                else (annotation_tmp["bbox"][2]
+                      * annotation_tmp["bbox"][3])
                 )
-        if isinstance(value, np.ndarray):
-            return value.tolist()
-        return value
+            annotation_tmp |= {"score": image_anns["scores"][i]}
+            id_ += 1
+            annotations.append(annotation_tmp)
 
-    @field_validator("labels", mode="before")
-    @classmethod
-    def validate_labels(
-            cls: type[Self],
-            value: Union[list, np.ndarray],
-            ) -> list:
-        """
-        Validate `labels` field.
-
-        Parameters
-        ----------
-        value : Union[list, np.ndarray]
-            Input value.
-
-        Returns
-        -------
-        list
-        """
-        if isinstance(value, np.ndarray):
-            return value.tolist()
-        return value
-
-    @model_validator(mode="before")
-    @classmethod
-    def validate_area(
-            cls: type[Self],
-            data: dict,
-            ) -> dict:
-        """
-        Validate `area` field.
-
-        Parameters
-        ----------
-        data : dict
-            Data values.
-
-        Raises
-        ------
-        ValueError
-            If `boxes` key not in `data`.
-
-        Returns
-        -------
-        dict
-            Data with `area` field.
-        """
-        if "boxes" not in data:
-            raise ValueError("`boxes` must be in data.")
-        length = len(data["boxes"])
-        if "area" not in data.keys():
-            data["area"] = [None] * length
-        elif isinstance(data["area"], np.ndarray):
-            data["area"] = data["area"].tolist()
-        return data
+    return annotations
 
 
-class YTrueInputModel(BaseInputAnnotationModel):
-    """Ground truth input annotations Model."""
+def _preprocess(  # pylint: disable=R0912
+        data: dict,
+        mode: Literal["y_true", "y_pred"],
+        ) -> dict:
+    """
+    Preprocess a single annotation dictionary.
 
-    iscrowd: list[bool]
-    ignore: list[bool]
+    Parameters
+    ----------
+    data : dict
+        Dictionary containing a single annotation.
+    mode : Literal["y_true", "y_pred"]
+        Type of annotation to preprocess.
 
-    @model_validator(mode="before")
-    @classmethod
-    def validate_iscrowd_ignore(
-            cls: type[Self],
-            data: dict,
-            ) -> dict:
-        """
-        Validate `iscrowd` and `ignore` fields.
+    Returns
+    -------
+    dict
+        Preprocessed annotation dictionary.
+    """
+    # Check base keys: `boxes`, `labels`
+    _base_keys = ["boxes", "labels"]
+    diff = set(_base_keys) - set(data.keys())
+    if diff:
+        msg = f"Missing base keys in annotation: {diff}"
+        raise ValueError(msg)
 
-        Parameters
-        ----------
-        data : dict
-            Data values.
+    # Preprocess `boxes`
+    if not all(map(lambda x: len(x) == 4, data["boxes"])):
+        raise ValueError("Each box must have 4 elements.")
+    if isinstance(data["boxes"], np.ndarray):
+        data["boxes"] = data["boxes"].tolist()
 
-        Raises
-        ------
-        ValueError
-            If `boxes` not in `data`.
+    # Preprocess `labels`
+    if isinstance(data["labels"], np.ndarray):
+        data["labels"] = data["labels"].tolist()
 
-        Returns
-        -------
-        dict
-            Data with `iscrowd` and `ignore` fields.
-        """
-        if "boxes" not in data:
-            raise ValueError("`boxes` must be in data.")
-        length = len(data["boxes"])
+    # Number of objects
+    length = len(data["boxes"])
 
+    if mode == "y_true":
+        # Add `iscrowd` and `ignore` fields
         for field in ["iscrowd", "ignore"]:
             if field not in data.keys():
                 data[field] = [False] * length
             elif isinstance(data[field], np.ndarray):
                 data[field] = data[field].tolist()
+            _base_keys += [field]
 
+        # Preprocess `iscrowd` and `ignore`
+        for field in ["iscrowd", "ignore"]:
             data[field] = list(map(bool, data[field]))
 
-        return data
+    elif mode == "y_pred":
+        # Preprocess `scores`
+        if isinstance(data["scores"], np.ndarray):
+            data["scores"] = data["scores"].tolist()
+
+    # Add `area` field
+    if "area" not in data.keys():
+        data["area"] = [None] * length
+    _base_keys += ["area"]
+    # Preprocess `area`
+    if isinstance(data["area"], np.ndarray):
+        data["area"] = data["area"].tolist()
+
+    # Check fields length
+    lengths = [len(data[field]) for field in _base_keys]
+    if len(set(lengths)) != 1:
+        msg = (f"All fields {_base_keys} in a single annotation "
+               "must have the same length, matching the number of boxes.")
+        raise ValueError(msg)
+
+    return data
 
 
-class YPredInputModel(BaseInputAnnotationModel):
-    """Prediction input annotations Model."""
-
-    scores: list[float]
-
-    @field_validator("scores", mode="before")
-    @classmethod
-    def validate_scores(
-            cls: type[Self],
-            value: Union[list, np.ndarray],
-            ) -> list:
-        """
-        Validate `scores` field.
-
-        Parameters
-        ----------
-        value : Union[list, np.ndarray]
-            Input value.
-
-        Returns
-        -------
-        list
-        """
-        if isinstance(value, np.ndarray):
-            return value.tolist()
-        return value
-
-
-class YTrueOutputModel(BaseModel):
-    """Groundtruth output annotations Model."""
-
-    id: int  # pylint: disable=C0103
-    image_id: int
-    label_id: int
-    bbox: list[float]
-    area: float
-    ignore: bool
-    iscrowd: bool
-
-    model_config = ConfigDict(strict=True)
-
-
-class YPredOutputModel(BaseModel):
-    """Prediction output annotations Model."""
-
-    id: int  # pylint: disable=C0103
-    image_id: int
-    label_id: int
-    bbox: list[float]
-    area: float
-    score: float
-
-    model_config = ConfigDict(strict=True)
-
-
-def _convert_y_true(
-        data: list[YTrueInputModel],
-        box_format: Literal["xyxy", "xywh", "cxcywh"],
-        ) -> list[YTrueOutputModel]:
-    """
-    Convert a list of `YTrueInputModel` to a list of `YTrueOutputModel`.
-
-    Parameters
-    ----------
-    data : list[YTrueInputModel]
-        List of `YTrueInputModel`.
-    box_format : Literal["xyxy", "xywh", "cxcywh"]
-        Input format of given boxes.
-
-    Returns
-    -------
-    list[YTrueOutputModel]
-        List of `YTrueOutputModel`.
-    """
-    annotations = []
-    id_ = 1
-    for image_id, image_anns in enumerate(data):
-        n_annotations = len(image_anns.boxes)
-        for i in range(n_annotations):
-            # Common
-            annotation_tmp: dict = {
-                "id": id_,
-                "image_id": image_id,
-                "label_id": image_anns.labels[i],
-                "bbox": to_xywh(
-                    bbox=image_anns.boxes[i],
-                    box_format=box_format,
-                    )
-                }
-            annotation_tmp["area"] = (
-                image_anns.area[i] if image_anns.area[i] is not None
-                else (annotation_tmp["bbox"][2]
-                      * annotation_tmp["bbox"][3])
-                )
-
-            annotation_tmp["iscrowd"] = image_anns.iscrowd[i]
-            annotation_tmp["ignore"] = image_anns.iscrowd[i]
-
-            id_ += 1
-            annotations.append(YTrueOutputModel(**annotation_tmp))
-
-    return annotations
-
-
-def _convert_y_pred(
-        data: list[YPredInputModel],
-        box_format: Literal["xyxy", "xywh", "cxcywh"],
-        ) -> list[YPredOutputModel]:
-    """
-    Convert a list of `YPredInputModel` to a list of `YPredOutputModel`.
-
-    Parameters
-    ----------
-    data : list[YPredInputModel]
-        List of `YPredInputModel`.
-    box_format : Literal["xyxy", "xywh", "cxcywh"]
-        Input format of given boxes.
-
-    Returns
-    -------
-    list[YPredOutputModel]
-        List of `YPredOutputModel`.
-    """
-    annotations = []
-    id_ = 1
-    for image_id, image_anns in enumerate(data):
-        n_annotations = len(image_anns.boxes)
-        for i in range(n_annotations):
-            # Common
-            annotation_tmp: dict = {
-                "id": id_,
-                "image_id": image_id,
-                "label_id": image_anns.labels[i],
-                "bbox": to_xywh(
-                    bbox=image_anns.boxes[i],
-                    box_format=box_format,
-                    )
-                }
-            annotation_tmp["area"] = (
-                image_anns.area[i] if image_anns.area[i] is not None
-                else (annotation_tmp["bbox"][2]
-                      * annotation_tmp["bbox"][3])
-                )
-            annotation_tmp |= {"score": image_anns.scores[i]}
-            id_ += 1
-            annotations.append(YPredOutputModel(**annotation_tmp))
-
-    return annotations
-
-
-class ComputeModel(BaseModel):
+class ComputeModel:
     """`compute` method Model."""
 
-    y_true: list[YTrueOutputModel]
-    y_pred: list[YPredOutputModel]
-    extended_summary: bool
-
-    model_config = ConfigDict(
-        arbitrary_types_allowed=True,
-        strict=True
-        )
-
-    @model_validator(mode="before")
-    @classmethod
-    def annotation_parser(
-            cls: type[Self],
-            data: dict,
-            info: ValidationInfo,
-            ) -> dict:
+    @staticmethod
+    def model_validate(
+        y_true: list[dict],
+        y_pred: list[dict],
+        extended_summary: bool,
+        box_format: Literal["xyxy", "xywh", "cxcywh"]
+        ) -> tuple[list[dict], list[dict]]:
         """
-        Parse annotations.
+        Validate and preprocess ground truth and predictions.
 
         Parameters
         ----------
-        data : dict
-            Input annotations.
-        info : ValidationInfo
-            Pydantic `ValidationInfo`.
+        y_true : list[dict]
+            Ground truth annotations.
+        y_pred : list[dict]
+            Predicted annotations.
+        extended_summary : bool
+            Whether to return an extended summary.
+        box_format : Literal["xyxy", "xywh", "cxcywh"]
+            Format of the input bounding boxes.
 
         Returns
         -------
-        dict
-            Ground truth or predictions annotations.
+        tuple[list[dict], list[dict]]
+            Preprocessed ground truth and predictions.
         """
-        if info.context is None or "box_format" not in info.context:
-            raise ValueError(  # pragma: no cover
-                "Missing required context or `box_format` information.")
-        box_format = info.context["box_format"]
+        if not isinstance(extended_summary, bool):
+            msg = "`extended_summary` should be `bool`."
+            raise TypeError(msg)
+
+        # Check lengths
+        if len(y_true) != len(y_pred):
+            msg = "`y_true` and `y_pred` must have the same length."
+            raise ValueError(msg)
 
         # y_true
-        y_true_input = [YTrueInputModel(**v) for v in data["y_true"]]
-        y_pred_input = [YPredInputModel(**v) for v in data["y_pred"]]
-
-        if len(y_true_input) != len(y_pred_input):
-            raise ValueError(
-                    "Expected argument `y_true` and `y_pred` "
-                    "to have the same length, i.e. same number "
-                    "of images."
-                    )
-
-        data["y_true"] = _convert_y_true(
-            y_true_input,
-            box_format=box_format
-            )
-        data["y_pred"] = _convert_y_pred(
-            y_pred_input,
-            box_format=box_format
+        y_true = [_preprocess(data=data, mode="y_true") for data in y_true]
+        y_true = _reformat_y_true(
+            data=y_true,
+            box_format=box_format,
             )
 
-        return data
+        # y_pred
+        y_pred = [_preprocess(data=data, mode="y_pred") for data in y_pred]
+        y_pred = _reformat_y_pred(
+            data=y_pred,
+            box_format=box_format,
+        )
+
+        return y_true, y_pred
 
 
 class MeanModel(BaseModel):
