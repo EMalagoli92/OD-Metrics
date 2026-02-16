@@ -1,0 +1,1031 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../iou/">
+      
+      
+        <link rel="next" href="../usage/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/logo_small_orange.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>mAP and mAR - Od-Metrics</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../assets/stylesheets/custom.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="amber" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mean-average-precision-map-and-recall-mar" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Od-Metrics" class="md-header__button md-logo" aria-label="Od-Metrics" data-md-component="logo">
+      
+  <img src="../assets/images/logo_small.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Od-Metrics
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mAP and mAR
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/EMalagoli92/OD-metrics" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    OD-Metrics
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Get Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../iou/" class="md-tabs__link">
+          
+  
+  
+  Metrics
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../usage/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Usage
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../api_reference/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Od-Metrics" class="md-nav__button md-logo" aria-label="Od-Metrics" data-md-component="logo">
+      
+  <img src="../assets/images/logo_small.svg" alt="logo">
+
+    </a>
+    Od-Metrics
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/EMalagoli92/OD-metrics" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    OD-Metrics
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metrics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metrics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../iou/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IoU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mAP and mAR
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mAP and mAR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is mAP?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-calculate-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to calculate mAP?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to calculate mAP?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#predictions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Predictions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ground-truth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ground-truth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#precision-and-recall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Precision and Recall
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#average-precision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Average Precision
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#n-point-interpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        N-Point Interpolation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all-point-interpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All-Point Interpolation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mean-average-precision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mean Average Precision
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#average-recall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Average Recall
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is mAP?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-calculate-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to calculate mAP?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to calculate mAP?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#predictions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Predictions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ground-truth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ground-truth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#precision-and-recall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Precision and Recall
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#average-precision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Average Precision
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#n-point-interpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        N-Point Interpolation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#all-point-interpolation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All-Point Interpolation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mean-average-precision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mean Average Precision
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#average-recall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Average Recall
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="mean-average-precision-map-and-recall-mar">Mean Average Precision (mAP) and Recall (mAR)</h1>
+<p align="center">
+<img src="../assets/images/map_1.png" alt="drawing" width="500"/></p>
+
+<h2 id="what-is-map">What is mAP?</h2>
+<p><strong>Mean Average Precision (mAP)</strong> is the de facto standard accuracy metric in object detection, providing a comprehensive measure of a model's ability to correctly detect and localize objects within an image.<br>
+This description and methodology follow the approach detailed in R. Padilla <em>et al.</em> <sup id="fnref:electronics10030279"><a class="footnote-ref" href="#fn:electronics10030279">1</a></sup>.</p>
+<h2 id="how-to-calculate-map">How to calculate mAP?</h2>
+<p>The calculation of <strong>mAP</strong> involves the <strong>Predictions</strong> generated by the object detector and the corresponding <strong>Ground-truth</strong> annotations.</p>
+<h3 id="predictions">Predictions</h3>
+<p>Each prediction of an object detector consists of the following components:</p>
+<ul>
+<li><strong>Class</strong> <span class="arithmatex">\(\hat{c} \in \mathbb{N}_{\leq C}^+\)</span>, where <span class="arithmatex">\(C \in \mathbb{N}^+\)</span> is the total number of classes;</li>
+<li><strong>Bounding Box</strong> <span class="arithmatex">\(\hat{\textbf{B}} \in \mathbb{R}^4\)</span>, specifying the location of the detected object;</li>
+<li><strong>Confidence Score</strong> <span class="arithmatex">\(\hat{s} \in [0, 1]\)</span>, indicating the model's confidence in the prediction.</li>
+</ul>
+<p>Each detection can be represented as:</p>
+<div class="arithmatex">\[ \hat{\textbf{y}} = ( \hat{c}, \hat{\textbf{B}}, \hat{s} ) \]</div>
+<h3 id="ground-truth">Ground-truth</h3>
+<p>Ground-truth annotations provide the reference data against which predictions are evaluated. Each ground-truth annotation consists of the following components:</p>
+<ul>
+<li><strong>Class</strong> <span class="arithmatex">\(c \in \mathbb{N}_{\leq C}^+\)</span>, the true class label of the object;</li>
+<li><strong>Bounding Box</strong> <span class="arithmatex">\(\textbf{B} \in \mathbb{R}^4\)</span>, the true location of the object.</li>
+</ul>
+<p>Each ground-truth object can be represented as:</p>
+<div class="arithmatex">\[\textbf{y} = ( c, \textbf{B} ). \]</div>
+<p>To compute <strong>mAP</strong>, the following sets are used:</p>
+<ul>
+<li>a set of <span class="arithmatex">\(G\)</span> ground-truth objects:</li>
+</ul>
+<div class="arithmatex">\[Y = \{\textbf{y}_i=(c_i, \textbf{B}_i) \}_{i=1,\ldots,G} \]</div>
+<ul>
+<li>a set of <span class="arithmatex">\(D\)</span> predictions:</li>
+</ul>
+<div class="arithmatex">\[\hat{Y} = \{\hat{\textbf{y}}_j = (\hat{c}_j, \hat{\textbf{B}}_j, \hat{s}_j) \}_{j=1,\ldots,D} \]</div>
+<h3 id="precision-and-recall">Precision and Recall</h3>
+<p>To compute <strong>Precision (<span class="arithmatex">\(\text{P}_\bar{c}\)</span>)</strong> and <strong>Recall (<span class="arithmatex">\(\text{R}_\bar{c}\)</span>)</strong> for a fixed class <span class="arithmatex">\(\bar{c} \in \mathbb{N}_{\leq C}^+\)</span>, let's define <strong>True Positives (<span class="arithmatex">\(\text{TP}_\bar{c}\)</span>)</strong>, that are predictions <span class="arithmatex">\(\hat{\textbf{y}} = ( \hat{c}, \hat{\textbf{B}}, \hat{s} )\)</span> that meet the following criteria:</p>
+<ul>
+<li>the predicted class matches the ground-truth class (<span class="arithmatex">\(\hat{c} = \bar{c}\)</span>);</li>
+<li>the <strong>IoU</strong> between the predicted and ground-truth bounding boxes is greater than or equal to a IoU threshold <span class="arithmatex">\(\tau_{\text{IoU}}\)</span> (<span class="arithmatex">\(\text{IoU}( \textbf{B}, \hat{\textbf{B}} ) \geq \tau_{\text{IoU}}\)</span>);</li>
+<li>the confidence score <span class="arithmatex">\(\hat{s}\)</span> is greater than or equal to a confidence threshold <span class="arithmatex">\(\tau_{s} (\hat{s} \geq \tau_{s})\)</span>. </li>
+</ul>
+<p>Formally, the definition of <span class="arithmatex">\(\text{TP}_\bar{c}\)</span> (depending on <span class="arithmatex">\(\tau_{\text{IoU}}\)</span> and <span class="arithmatex">\(\tau_{s}\)</span>):</p>
+<div class="arithmatex">\[\text{TP}_{\bar{c}}(\tau_{s}; \tau_{\text{IoU}}) = \{ ( \hat{c}, \hat{\textbf{B}}, \hat{s} ) \in \hat{Y} \mid \exists \; ( \bar{c}, \textbf{B} ) \in Y: \hat{c} = \bar{c} \wedge \text{IoU}( \textbf{B}, \hat{\textbf{B}} ) \geq \tau_{\text{IoU}} \wedge \hat{s} \geq \tau_{s} \}. \]</div>
+<p>Thus, we can define <strong>Precision (<span class="arithmatex">\(\text{P}_\bar{c}\)</span>)</strong> as:</p>
+<div class="arithmatex">\[ \text{P}_{\bar{c}}(\tau_{s}; \tau_{\text{IoU}}) = \frac{\text{TP}_{\bar{c}}(\tau_{s}; \tau_{\text{IoU}})}{\text{TP}_{\bar{c}}(\tau_{s}; \tau_{\text{IoU}}) + \text{FP}_{\bar{c}}(\tau_{s}; \tau_{\text{IoU}})} = \frac{|\text{TP}_{\bar{c}}(\tau_{s}; \tau_{\text{IoU}})|}{|\hat{Y}_{\bar{c}, \tau_{s}}|}\]</div>
+<p>where <span class="arithmatex">\(\hat{Y}_{\bar{c}, \tau_{s}} = \{\hat{y} = ( \hat{c}, \hat{\textbf{B}}, \hat{s} ) \in \hat{Y} \mid \hat{c} = \bar{c} \wedge \hat{s} \geq \tau_{s}\}\)</span>.</p>
+<p>Similarly for the <strong>Recall (<span class="arithmatex">\(\text{R}_\bar{c}\)</span>)</strong>:</p>
+<div class="arithmatex">\[ \text{R}_{\bar{c}}(\tau_{s}; \tau_{\text{IoU}}) = \frac{\text{TP}_{\bar{c}}(\tau_{s}; \tau_{\text{IoU}})}{\text{TP}_{\bar{c}}(\tau_{s}; \tau_{\text{IoU}}) + \text{FN}_{\bar{c}}(\tau_{s}; \tau_{\text{IoU}})} = \frac{|\text{TP}_{\bar{c}}(\tau_{s}; \tau_{\text{IoU}})|}{|Y_{\bar{c}}|}\]</div>
+<p>where <span class="arithmatex">\(Y_{\bar{c}} = \{ y = (c, \textbf{B}) \in Y \mid c = \bar{c} \}\)</span>.</p>
+<h3 id="average-precision">Average Precision</h3>
+<p>For a specific class <span class="arithmatex">\(\bar{c}\)</span> and a fixed IoU threhsold <span class="arithmatex">\(\bar{\tau}_{IoU}\)</span>, the <strong>Average Precision</strong> <span class="arithmatex">\(\text{AP}_{\bar{c}}@[\bar{\tau}_{IoU}]\)</span> is a metric based on the area under a <span class="arithmatex">\(\text{P}_{\bar{c}}(\tau_{s}; \bar{\tau}_{\text{IoU}})\times \text{R}_{\bar{c}}(\tau_{s}; \bar{\tau}_{\text{IoU}})\)</span> curve:</p>
+<div class="arithmatex">\[\text{AP}_{\bar{c}}@[\bar{\tau}_{\text{IoU}}] = \int_0^1 \text{P}_{\bar{c}}(\text{R}_{\bar{c}}; \bar{\tau}_{\text{IoU}}) d\text{R}_{\bar{c}} \]</div>
+<p>This area is in practice replaced with a finite sum using certain recall values and different interpolation methods.
+One starts by ordering the <span class="arithmatex">\(K\)</span> different confidence scores output by the detector, for the specific class <span class="arithmatex">\(\bar{c}\)</span>:</p>
+<div class="arithmatex">\[\{ \tau_{s_k}, k \in \mathbb{N}_{\leq K}^+ \mid \tau_{s_i} &gt; \tau_{s_j} \; \forall i &gt; j\}\]</div>
+<p>Since the <span class="arithmatex">\(\text{R}_{\bar{c}}\)</span> values have a one-to-one, monotonic correspondence with <span class="arithmatex">\(\tau_{s_k}\)</span>, which has a one-to-one, monotonic, correspondence with the index <span class="arithmatex">\(k\)</span>, then the Precision-Recall curve is not continuous but sampled at the discrete points <span class="arithmatex">\(\text{R}_{\bar{c}}(\tau_{s_k};\bar{\tau}_{\text{IoU}})\)</span>, leading to the set of pairs <span class="arithmatex">\((\text{P}_{\bar{c}}(\tau_{s_k};\bar{\tau}_{\text{IoU}}),\text{R}_{\bar{c}}(\tau_{s_k};\bar{\tau}_{\text{IoU}}))\)</span> indexed by <span class="arithmatex">\(k\)</span>.
+Now one defines an ordered set of reference recall values <span class="arithmatex">\(\text{R}_r\)</span>:</p>
+<div class="arithmatex">\[\{ \text{R}_{r_n}, n \in \mathbb{N}_{\leq N}^+ \mid \text{R}_{r_m} &lt; \text{R}_{r_n} \; \forall m &gt; n \}\]</div>
+<p>The <strong>Average Precision</strong> <span class="arithmatex">\(\text{AP}_{\bar{c}}\)</span> is computed using the two ordered sets <span class="arithmatex">\(\{ \tau_{s_k} \}_{k \in \mathbb{N}_{\leq K}^+}\)</span> and <span class="arithmatex">\(\{ \text{R}_{r_n} \}_{n \in \mathbb{N}_{\leq N}^+}\)</span>. But before computing <span class="arithmatex">\(\text{AP}_{\bar{c}}\)</span>, the Precision-Recall pairs have to be interpolated such that the resulting Precision-Recall curve is monotonic. The resulting interpolated curve is defined by a continuous function <span class="arithmatex">\(\tilde{\text{P}}_{\bar{c}}(x; \bar{\tau}_{\text{IoU}})\)</span>, where <span class="arithmatex">\(x\)</span> is a real value contained in the interval <span class="arithmatex">\([0, 1]\)</span>, defined as:</p>
+<div class="arithmatex">\[\tilde{\text{P}}_{\bar{c}}(x; \bar{\tau}_{\text{IoU}}) = \max_{k \in \mathbb{N}_{\leq K}^+ \mid \text{R}_{\bar{c}}(\tau_{s_k}, \bar{\tau}_{\text{IoU}}) \geq x} \text{P}_{\bar{c}}(\tau_{s_k}; \bar{\tau}_{\text{IoU}})\]</div>
+<p>The precision value interpolated at recall <span class="arithmatex">\(x\)</span> corresponds to the maximum precision <span class="arithmatex">\(\text{P}_{\bar{c}}(\tau_{s_k}; \bar{\tau}_{\text{IoU}})\)</span> whose corresponding recall value is greater than or equal to <span class="arithmatex">\(x\)</span>.</p>
+<h3 id="n-point-interpolation">N-Point Interpolation</h3>
+<p>In the <strong><span class="arithmatex">\(N\)</span>-point interpolation</strong>, the set of reference recall values <span class="arithmatex">\(\{ \text{R}_{r_n} \}_{n \in \mathbb{N}_{\leq N}^+}\)</span> are equally spaced in the interval <span class="arithmatex">\([0, 1]\)</span> that is:</p>
+<div class="arithmatex">\[\text{R}_{r_n} = \frac{N - n}{N -1}, \; \; n \in \mathbb{N}^+_{\leq N}\]</div>
+<p>and:</p>
+<div class="arithmatex">\[ \text{AP}_{\bar{c}}@[\bar{\tau}_{\text{IoU}}] = \frac{1}{N} \sum_{n=1}^N  \tilde{\text{P}}_{\bar{c}}(\frac{N - n}{N -1}; \bar{\tau}_{\text{IoU}}) \]</div>
+<p>Popular choices include <span class="arithmatex">\(N=101\)</span> as in <a href="https://cocodataset.org/#home">MS-COCO</a> <sup id="fnref:lin2014microsoft"><a class="footnote-ref" href="#fn:lin2014microsoft">2</a></sup> detection competition, and <span class="arithmatex">\(N=11\)</span>, initially adopted by the <a href="http://host.robots.ox.ac.uk/pascal/VOC/index.html">PASCAL-VOC</a> <sup id="fnref:everingham2015pascal"><a class="footnote-ref" href="#fn:everingham2015pascal">3</a></sup>, which later transitioned to the all-point interpolation method.</p>
+<div class="admonition hint">
+<p class="admonition-title"><code>OD-Metrics</code></p>
+<p>Since <code>OD-Metrics</code> adopts the <a href="https://cocodataset.org/#home">MS-COCO</a> <sup id="fnref5:lin2014microsoft"><a class="footnote-ref" href="#fn:lin2014microsoft">2</a></sup> standard, it uses the <strong><span class="arithmatex">\(N\)</span>-point interpolation</strong>.</p>
+</div>
+<h3 id="all-point-interpolation">All-Point Interpolation</h3>
+<p>In the so-called <strong>all-point interpolation</strong>, the set values <span class="arithmatex">\(\{ \text{R}_{r_n} \}_{n \in \mathbb{N}_{\leq N}^+}\)</span> corresponds exactly to the set of recall values computed considering all <span class="arithmatex">\(K\)</span> confidence levels <span class="arithmatex">\(\{ \tau_{s_k} \}_{k \in \mathbb{N}_{\leq K}^+}\)</span>:</p>
+<div class="arithmatex">\[ \text{AP}_{\bar{c}}@[\bar{\tau}_{\text{IoU}}] = \sum_{k=0}^{K} (\text{R}_\bar{c}(\tau_{s_k}; \bar{\tau}_{\text{IoU}}) - \text{R}_\bar{c}(\tau_{s_{k+1}}; \bar{\tau}_{\text{IoU}})) \tilde{\text{P}}_{\bar{c}}(\text{R}_\bar{c}(\tau_{s_k}; \bar{\tau}_{\text{IoU}}); \bar{\tau}_{\text{IoU}}) \]</div>
+<p>with <span class="arithmatex">\(\tau_{s_0} = 0\)</span>, <span class="arithmatex">\(\text{R}_\bar{c}(\tau_{s_0}; \bar{\tau}_{\text{IoU}}) = 1\)</span>, <span class="arithmatex">\(\tau_{s_{K+1}} = 1\)</span>, <span class="arithmatex">\(\text{R}_\bar{c}(\tau_{s_{K+1}}; \bar{\tau}_{\text{IoU}}) = 0\)</span>.</p>
+<h3 id="mean-average-precision">Mean Average Precision</h3>
+<p>Regardless of the interpolation method, the <strong>Average Precision</strong> <span class="arithmatex">\(\text{AP}_{\bar{c}}@[\bar{\tau}_{IoU}]\)</span> is obtained individually for each class <span class="arithmatex">\(\bar{c}\)</span>. In large datasets, it is useful to have a unique metric value that is able to represent the accuracy of the detections among all <span class="arithmatex">\(C\)</span> classes. For such cases, the <strong>Mean Average Precision</strong> <span class="arithmatex">\(\text{mAP}@[\bar{\tau}_{\text{IoU}}]\)</span> is computed, which is simply:</p>
+<div class="arithmatex">\[\text{mAP}@[\bar{\tau}_{\text{IoU}}] = \frac{1}{C}\sum_{c=1}^C \text{AP}_{c}@[\bar{\tau}_{\text{IoU}}] \]</div>
+<p>In certain competitions, the final metric <span class="arithmatex">\(\text{mAP}@[T]\)</span> is computed as the average over a predefined set <span class="arithmatex">\(T\)</span> of IoU thresholds <span class="arithmatex">\(\tau_{\text{IoU}}\)</span>. For instance, in <a href="https://cocodataset.org/#home">MS-COCO</a> <sup id="fnref2:lin2014microsoft"><a class="footnote-ref" href="#fn:lin2014microsoft">2</a></sup>, <span class="arithmatex">\(T\)</span> is defined as <span class="arithmatex">\(\{0.5, 0.55, \ldots, 0.95\}\)</span> (increments of 0.05) and it is commonly denoted as <span class="arithmatex">\(\text{mAP}@[0.5:0.95]\)</span>.</p>
+<h2 id="average-recall">Average Recall</h2>
+<p>Following the definition used in <a href="https://cocodataset.org/#home">MS-COCO</a> <sup id="fnref3:lin2014microsoft"><a class="footnote-ref" href="#fn:lin2014microsoft">2</a></sup>, given a set <span class="arithmatex">\(T\)</span> of IoU thresholds <span class="arithmatex">\(\tau_{\text{IoU}}\)</span> and a specific class <span class="arithmatex">\(\bar{c}\)</span>, the <strong>Average Recall</strong> <span class="arithmatex">\(\text{AR}_{\bar{c}}@[T]\)</span> is defined as:</p>
+<div class="arithmatex">\[ \text{AR}_{\bar{c}}@[T] = \frac{1}{|T|} \sum_{\tau_{\text{IoU}} \in T} \max_{k \in \mathbb{N}_{\leq K}^+} \text{R}_\bar{c}(\tau_{s_k}; \tau_{\text{IoU}})\]</div>
+<p>The <strong>Mean Average Recall</strong> <span class="arithmatex">\(\text{mAR}@[T]\)</span> is then calculated as the average of <span class="arithmatex">\(\text{AR}_{\bar{c}}@[T]\)</span> across all <span class="arithmatex">\(C\)</span> classes:</p>
+<div class="arithmatex">\[ \text{mAR}@[T] = \frac{1}{C}\sum_{c=1}^C \text{AR}_{c}@[T] \]</div>
+<p>In <a href="https://cocodataset.org/#home">MS-COCO</a> <sup id="fnref4:lin2014microsoft"><a class="footnote-ref" href="#fn:lin2014microsoft">2</a></sup>, <span class="arithmatex">\(T = \{0.5, 0.55, \ldots, 0.95\}\)</span> and the corresponding <strong>Mean Average Recall</strong> is denoted as <span class="arithmatex">\(\text{mAR}@[0.5:0.95]\)</span>.</p>
+<h2 id="references">References</h2>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:electronics10030279">
+<p>Rafael Padilla, Wesley L. Passos, Thadeu L. B. Dias, Sergio L. Netto, and Eduardo A. B. da Silva. A comparative analysis of object detection metrics with a companion open-source toolkit. <em>Electronics</em>, 2021. URL: <a href="https://www.mdpi.com/2079-9292/10/3/279">https://www.mdpi.com/2079-9292/10/3/279</a>, <a href="https://doi.org/10.3390/electronics10030279">doi:10.3390/electronics10030279</a>.&#160;<a class="footnote-backref" href="#fnref:electronics10030279" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:lin2014microsoft">
+<p>Tsung-Yi Lin, Michael Maire, Serge Belongie, James Hays, Pietro Perona, Deva Ramanan, Piotr Dollár, and C Lawrence Zitnick. Microsoft coco: common objects in context. In <em>Computer Vision–ECCV 2014: 13th European Conference, Zurich, Switzerland, September 6-12, 2014, Proceedings, Part V 13</em>, 740–755. Springer, 2014.&#160;<a class="footnote-backref" href="#fnref:lin2014microsoft" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:lin2014microsoft" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:lin2014microsoft" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref4:lin2014microsoft" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref5:lin2014microsoft" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:everingham2015pascal">
+<p>Mark Everingham, SM Ali Eslami, Luc Van Gool, Christopher KI Williams, John Winn, and Andrew Zisserman. The pascal visual object classes challenge: a retrospective. <em>International journal of computer vision</em>, 111:98–136, 2015.&#160;<a class="footnote-backref" href="#fnref:everingham2015pascal" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.code.select", "navigation.sections", "navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
