@@ -24,10 +24,9 @@ try:
     from pycocotools.cocoeval import COCOeval
 except ImportError:  # pragma: no cover
     print(  # pragma: no cover
-        "This unittest needs `pycocotools`. Please intall by "
-        "running `pip install pycocotools`"
-        )
-
+        "This unittest requires the optional test dependencies. "
+        "Install them with: `pip install .[test]`"
+    )
 
 @parameterized_class(TESTS)
 class TestBaseODMetrics(unittest.TestCase):
