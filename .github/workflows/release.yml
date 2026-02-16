@@ -27,8 +27,7 @@ jobs:
           python -m venv venv
       - name: Unit test
         run: |
-          sudo venv/bin/python -m pip install -r requirements.txt
-          sudo venv/bin/python -m pip install pycocotools==2.0.7
+          sudo venv/bin/python -m pip install .[test]
           sudo venv/bin/python -m unittest discover tests
       - name: Mypy
         run: |
