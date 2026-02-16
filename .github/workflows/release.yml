@@ -9,6 +9,18 @@ jobs:
   test:
     name: "Test"
     runs-on: "ubuntu-latest"
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        numpy-version: [
+          "1.24.*",
+          "1.25.*",
+          "1.26.*",
+          "2.0.*",
+          "2.1.*",
+          "2.2.*",
+        ]
     permissions: write-all
     steps:
       - name: Checkout
@@ -16,7 +28,7 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: ${{ matrix.python-version }}
       - name: Check Python version
         run: python --version
       - name: Check Python location
@@ -27,6 +39,8 @@ jobs:
           python -m venv venv
       - name: Unit test
         run: |
+          sudo venv/bin/python -m pip install -U pip
+          sudo venv/bin/python -m pip install "numpy==${{ matrix.numpy-version }}"
           sudo venv/bin/python -m pip install .[test]
           sudo venv/bin/python -m unittest discover tests
       - name: Mypy
@@ -155,7 +169,6 @@ jobs:
         run: |
           sudo apt install python3-venv
           sudo python -m venv venv
-          sudo venv/bin/python -m venv venv
           sudo venv/bin/python -m pip install build
       - name: Build
         run: |
